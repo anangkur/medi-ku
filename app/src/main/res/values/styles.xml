@@ -228,4 +228,19 @@
         <item name="android:layout_width">match_parent</item>
     </style>
     <!--end of style for swipe refresh-->
+
+    <!--style for frame-->
+    <style name="FrameDefault">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <!--end of style for frame-->
+
+    <!--style for bottom navigation-->
+    <style name="BottomNavigationDefault">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+    <!--end of style for bottom navigation-->
 </resources>

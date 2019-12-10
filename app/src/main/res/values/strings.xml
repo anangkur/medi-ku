@@ -11,4 +11,9 @@
     <string name="btn_sign_up">Sign Up</string>
     <string name="hint_full_name">Full Name</string>
     <string name="hint_password_confirm">Password Confirm</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_history">History</string>
+    <string name="menu_topup">Topup</string>
+    <string name="menu_pocket">Pocket</string>
+    <string name="menu_profile">Profile</string>
 </resources>

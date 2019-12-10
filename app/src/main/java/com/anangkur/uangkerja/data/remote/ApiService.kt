@@ -28,7 +28,7 @@ interface ApiService {
         @Field("name") name: String,
         @Field("email") email: String,
         @Field("password") password: String,
-        @Field("password_confirmation") password_confirmation: String
+        @Field("password_confirmation") passwordConfirm: String
     ): Response<BaseResponse<Register>>
 
     @GET("profile")
