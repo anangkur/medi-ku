@@ -16,4 +16,7 @@
     <string name="menu_topup">Topup</string>
     <string name="menu_pocket">Pocket</string>
     <string name="menu_profile">Profile</string>
+    <string name="error_password">password must be 6 character or more</string>
+    <string name="error_email">email address is not valid</string>
+    <string name="error_default">an error occured</string>
 </resources>
