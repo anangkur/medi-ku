@@ -7,6 +7,7 @@ import android.preference.PreferenceManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.anangkur.uangkerja.feature.login.LoginViewModel
+import com.anangkur.uangkerja.feature.register.RegisterViewModel
 import com.anangkur.uangkerja.feature.splash.SplashViewModel
 import com.anangkur.uangkerja.util.Const
 
@@ -17,6 +18,7 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
             when {
                 isAssignableFrom(SplashViewModel::class.java) -> SplashViewModel(repository)
                 isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(repository)
+                isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T

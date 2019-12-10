@@ -10,7 +10,7 @@ abstract class BaseActivity<T: ViewModel>: AppCompatActivity(){
 
     @get:LayoutRes
     abstract val mLayout: Int
-    abstract val mViewModel: T?
+    abstract val mViewModel: T
     abstract val mToolbar: Toolbar?
     abstract val mTitleToolbar: String?
 

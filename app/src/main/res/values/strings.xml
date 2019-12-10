@@ -19,4 +19,8 @@
     <string name="error_password">password must be 6 character or more</string>
     <string name="error_email">email address is not valid</string>
     <string name="error_default">an error occured</string>
+    <string name="toolbar_register">Register</string>
+    <string name="message_success_register">New Account Registered Successfully</string>
+    <string name="error_name">Name Cannot be null</string>
+    <string name="error_password_confirm">Password confirm must same with password</string>
 </resources>

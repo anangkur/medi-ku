@@ -13,7 +13,7 @@ import com.anangkur.uangkerja.util.obtainViewModel
 class SplashActivity: BaseActivity<SplashViewModel>() {
     override val mLayout: Int
         get() = R.layout.activity_splash
-    override val mViewModel: SplashViewModel?
+    override val mViewModel: SplashViewModel
         get() = obtainViewModel(SplashViewModel::class.java)
     override val mToolbar: Toolbar?
         get() = null
@@ -29,12 +29,10 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
     private fun openActivity(){
         val handler = Handler()
         handler.postDelayed({
-            if (mViewModel != null){
-                if (mViewModel!!.isLoggedIn()){
-                    MainActivity.startActivity(this)
-                }else{
-                    LoginActivity.startActivity(this)
-                }
+            if (mViewModel.isLoggedIn()){
+                MainActivity.startActivity(this)
+            }else{
+                LoginActivity.startActivity(this)
             }
             finish()
         }, 3000)

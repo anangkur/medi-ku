@@ -11,14 +11,15 @@ import com.anangkur.uangkerja.R
 import com.anangkur.uangkerja.base.BaseActivity
 import com.anangkur.uangkerja.data.model.Result
 import com.anangkur.uangkerja.feature.main.MainActivity
+import com.anangkur.uangkerja.feature.register.RegisterActivity
 import com.anangkur.uangkerja.util.*
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity: BaseActivity<LoginViewModel>() {
+class LoginActivity: BaseActivity<LoginViewModel>(), LoginActionListener {
 
     override val mLayout: Int
         get() = R.layout.activity_login
-    override val mViewModel: LoginViewModel?
+    override val mViewModel: LoginViewModel
         get() = obtainViewModel(LoginViewModel::class.java)
     override val mToolbar: Toolbar?
         get() = null
@@ -30,32 +31,27 @@ class LoginActivity: BaseActivity<LoginViewModel>() {
 
         setupTextWatcher()
         observeViewModel()
-        btn_login.setOnClickListener {
-            mViewModel?.login(et_email.text.toString(), et_password.text.toString())
-        }
+        btn_login.setOnClickListener { this.onClickLogin() }
+        btn_signup.setOnClickListener { this.onClickRegister() }
     }
 
     private fun observeViewModel(){
-        if (mViewModel != null){
-            mViewModel!!.apply {
-                loginLiveData.observe(this@LoginActivity, Observer {
-                    when(it.status){
-                        Result.Status.LOADING -> {
-                            showLoading()
-                        }
-                        Result.Status.SUCCESS -> {
-                            hideLoading()
-                            saveApiToken(it.data?.token?:"")
-                            finish()
-                            MainActivity.startActivity(this@LoginActivity)
-                        }
-                        Result.Status.ERROR -> {
-                            hideLoading()
-                            this@LoginActivity.showSnackbarShort(it.message?:getString(R.string.error_default))
-                        }
+        mViewModel.apply {
+            loginLiveData.observe(this@LoginActivity, Observer {
+                when(it.status){
+                    Result.Status.LOADING -> { showLoading() }
+                    Result.Status.SUCCESS -> {
+                        hideLoading()
+                        saveApiToken(it.data?.token?:"")
+                        finish()
+                        MainActivity.startActivity(this@LoginActivity)
                     }
-                })
-            }
+                    Result.Status.ERROR -> {
+                        hideLoading()
+                        this@LoginActivity.showSnackbarShort(it.message?:getString(R.string.error_default))
+                    }
+                }
+            })
         }
     }
 
@@ -91,7 +87,7 @@ class LoginActivity: BaseActivity<LoginViewModel>() {
         pb_btn_login.visible()
         et_email.disable()
         et_password.disable()
-        mViewModel?.isLoading = true
+        mViewModel.isLoading = true
     }
 
     private fun hideLoading(){
@@ -99,12 +95,24 @@ class LoginActivity: BaseActivity<LoginViewModel>() {
         pb_btn_login.gone()
         et_email.enable()
         et_password.enable()
-        mViewModel?.isLoading = false
+        mViewModel.isLoading = false
     }
 
     companion object{
         fun startActivity(context: Context){
             context.startActivity(Intent(context, LoginActivity::class.java))
         }
+    }
+
+    override fun onClickLogin() {
+        mViewModel.login(et_email.text.toString(), et_password.text.toString())
+    }
+
+    override fun onClickRegister() {
+        RegisterActivity.startActivity(this)
+    }
+
+    override fun onClickForgotPassword() {
+        // todo implement forgot password
     }
 }
