@@ -1,12 +1,38 @@
 package com.anangkur.uangkerja.data.remote
 
+import com.anangkur.uangkerja.BuildConfig.baseUrl
+import com.anangkur.uangkerja.data.model.BaseResponse
+import com.anangkur.uangkerja.data.model.auth.Register
+import com.anangkur.uangkerja.data.model.auth.ResponseLogin
+import com.anangkur.uangkerja.data.model.profile.ResponseUser
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Field
+import retrofit2.http.GET
+import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
 
 interface ApiService {
+
+    @POST("login")
+    suspend fun postLogin(
+        @Field("email") email: String,
+        @Field("password") password: String
+    ): Response<ResponseLogin>
+
+    @POST("register")
+    suspend fun postRegister(
+        @Field("name") name: String,
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("password_confirmation") password_confirmation: String
+    ): Response<BaseResponse<Register>>
+
+    @GET("profile")
+    suspend fun getUserProfile(): Response<ResponseUser>
 
     companion object Factory{
         val getApiService: ApiService by lazy {
@@ -19,7 +45,7 @@ interface ApiService {
                     .build()
 
             val mRetrofit = Retrofit.Builder()
-                .baseUrl("")
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(mClient)
                 .build()

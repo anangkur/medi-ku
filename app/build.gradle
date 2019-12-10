@@ -15,7 +15,13 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            buildConfigField "String", "baseUrl", '"http://117.53.44.182/dev/ecommerce-uangkerja-api/public/api/"'
+        }
         release {
+            buildConfigField "String", "baseUrl", '"http://117.53.44.182/dev/ecommerce-uangkerja-api/public/api/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
