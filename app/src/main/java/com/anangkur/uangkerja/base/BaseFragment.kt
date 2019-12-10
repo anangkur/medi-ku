@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModel
 abstract class BaseFragment<T: ViewModel>: Fragment(){
     @get:LayoutRes
     abstract val mLayout: Int
-    abstract val mViewModel: T
+    abstract val mViewModel: T?
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(mLayout, container, false)

@@ -34,6 +34,10 @@
         <item name="android:background">@drawable/rect_solid_coloraccent_rounded_100dp</item>
         <item name="android:foreground">@drawable/ripple_button_background_dark</item>
     </style>
+    <style name="RelativeButtonTransparent" parent="RelativeDefault">
+        <item name="android:layout_height">@dimen/dimens_48dp</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+    </style>
     <!--end of style for relative-->
 
     <!--style for constraint-->
@@ -131,9 +135,17 @@
     <!--end of style for image view-->
 
     <!--style for text input layout-->
+    <style name="TextInputLayoutDefault">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
     <!--end of style for text input layout-->
 
     <!--style for edit text-->
+    <style name="EditTextDefault">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
     <!--end of style for edit text-->
 
     <!--style for view-->
@@ -170,7 +182,6 @@
         <item name="android:layout_height">?actionBarSize</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@color/colorPrimary</item>
-        <item name="android:navigationIcon">@drawable/ic_arrow_back_black_24dp</item>
     </style>
     <!--end of style for toolbar-->
 
@@ -216,4 +227,19 @@
         <item name="android:layout_width">match_parent</item>
     </style>
     <!--end of style for swipe refresh-->
+
+    <!--style for frame-->
+    <style name="FrameDefault">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <!--end of style for frame-->
+
+    <!--style for bottom navigation-->
+    <style name="BottomNavigationDefault">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+    <!--end of style for bottom navigation-->
 </resources>
