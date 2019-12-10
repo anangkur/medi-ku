@@ -1,0 +1,219 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <!-- end of Base application theme. -->
+
+    <!--style for linear-->
+    <style name="LinearDefault">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="LinearVerticalDefault" parent="LinearDefault">
+        <item name="android:orientation">vertical</item>>
+    </style>
+
+    <style name="LinearVerticalWrap" parent="LinearVerticalDefault">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <!--end of style for linear-->
+
+    <!--style for relative-->
+    <style name="RelativeDefault">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="RelativeButton" parent="RelativeDefault">
+        <item name="android:layout_height">@dimen/dimens_48dp</item>
+        <item name="android:background">@drawable/rect_solid_coloraccent_rounded_100dp</item>
+        <item name="android:foreground">@drawable/ripple_button_background_dark</item>
+    </style>
+    <!--end of style for relative-->
+
+    <!--style for constraint-->
+    <style name="ConstraintDefault">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <style name="ConstraintWrapHeight" parent="ConstraintDefault">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <!--end of style for constraint-->
+
+    <!--style for coordinator-->
+    <style name="CoordinatorDefault">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <!--end of style for coordinator-->
+
+    <!--style for appbar-->
+    <style name="AppBarCollapsing">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <!--end of style for appbar-->
+
+    <!--style for collapsing toolbar-->
+    <style name="CollapsingDefault">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <!--end of style for collapsing toolbar-->
+
+    <!--style for recycler view-->
+    <style name="RecyclerDefault">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <!--end of style for recycler view-->
+
+    <!--style for base text-->
+    <style name="TextNormal">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/size_14sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="TextSmall">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/size_12sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="TextBig">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/size_16sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="TextExtraBig">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/size_18sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="TextSuperExtraBig">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/dimens_24dp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="TextSuperSuperExtraBig">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <!--end of style for base text-->
+
+    <!--style for image view-->
+    <style name="ImageViewDefault">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="ImageViewError" parent="ImageViewDefault">
+        <item name="android:layout_width">@dimen/dimens_120dp</item>
+        <item name="android:layout_height">@dimen/dimens_120dp</item>
+    </style>
+
+    <style name="ImageViewHeightRatio" parent="ImageViewDefault">
+        <item name="android:layout_height">@dimen/dimens_0dp</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <!--end of style for image view-->
+
+    <!--style for text input layout-->
+    <!--end of style for text input layout-->
+
+    <!--style for edit text-->
+    <!--end of style for edit text-->
+
+    <!--style for view-->
+    <style name="ViewLine">
+        <item name="android:layout_width">@dimen/dimens_0dp</item>
+        <item name="android:layout_height">@dimen/dimens_1dp</item>
+        <item name="android:background">@color/gray</item>
+    </style>
+    <!--end of style for view-->
+
+    <!--style for frame-->
+    <!--end of style for frame-->
+
+    <!--style for nested scroll-->
+    <style name="NestedScrollDefault">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <!--end of style for nested scroll-->
+
+    <!--style for card-->
+    <style name="CardDefault">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="CardWrapHeight" parent="CardDefault">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <!--end of style for nested scroll-->
+
+    <!--style for toolbar-->
+    <style name="ToolbarDefault">
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:navigationIcon">@drawable/ic_arrow_back_black_24dp</item>
+    </style>
+    <!--end of style for toolbar-->
+
+    <!--style for fab-->
+    <style name="FABDefault">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+    <!--end of style for fab-->
+
+    <!--style for search-->
+    <!--end of style for search-->
+
+    <!--style for view pager-->
+    <style name="ViewPagerDefault">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <!--end of style for view pager-->
+
+    <!--style for tab layout-->
+    <style name="TabLayoutDefault">
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <style name="TabLayoutSlider" parent="TabLayoutDefault">
+        <item name="android:layout_width">@dimen/dimens_120dp</item>
+        <item name="android:layout_height">@dimen/dimens_24dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabBackground">@drawable/tab_selector</item>
+        <item name="tabIndicatorHeight">@dimen/dimens_0dp</item>
+        <item name="tabMaxWidth">@dimen/dimens_0dp</item>
+        <item name="tabMinWidth">@dimen/dimens_0dp</item>
+        <item name="tabPadding">@dimen/dimens_0dp</item>
+    </style>
+    <!--end of style for tab layout-->
+
+    <!--style for swipe refresh-->
+    <style name="SwipeRefreshDefault">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <!--end of style for swipe refresh-->
+</resources>

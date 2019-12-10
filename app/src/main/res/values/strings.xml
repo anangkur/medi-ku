@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Uang Kerja</string>
+
+    <string name="text_todo">TODO</string>
+
+    <string name="btn_muat_ulang">Muat Ulang</string>
+</resources>

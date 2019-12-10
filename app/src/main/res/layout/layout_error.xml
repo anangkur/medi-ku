@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/RelativeDefault">
+    <LinearLayout
+        style="@style/LinearVerticalWrap"
+        android:gravity="center"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/iv_error"
+            style="@style/ImageViewError"
+            android:src="@drawable/ic_problem"
+            android:contentDescription="@string/text_todo" />
+        <TextView
+            android:id="@+id/tv_error"
+            style="@style/TextBig"
+            android:text="@string/app_name"
+            android:textColor="@color/black_40"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:layout_marginStart="@dimen/dimens_40dp"
+            android:layout_marginEnd="@dimen/dimens_40dp"/>
+        <RelativeLayout
+            android:id="@+id/btn_error"
+            style="@style/RelativeButton"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:layout_marginStart="@dimen/dimens_40dp"
+            android:layout_marginEnd="@dimen/dimens_40dp">
+            <TextView
+                android:id="@+id/tv_btn_error"
+                style="@style/TextBig"
+                android:text="@string/btn_muat_ulang"
+                android:layout_centerInParent="true"
+                android:textColor="@color/colorWhite"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>
