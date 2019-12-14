@@ -17,12 +17,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.anangkur.uangkerja.data.ViewModelFactory
 import com.anangkur.uangkerja.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.util.prefs.Preferences
 import java.util.regex.Pattern
 
@@ -141,4 +144,24 @@ fun String.validateName(): Boolean{
 
 fun String.validatePasswordConfirm(password: String): Boolean{
     return this == password
+}
+
+fun Double.currencyFormatToRupiah(): String {
+    val kursIndonesia = DecimalFormat.getCurrencyInstance() as DecimalFormat
+    val formatRp = DecimalFormatSymbols()
+
+    formatRp.currencySymbol = "Rp. "
+    formatRp.monetaryDecimalSeparator = '.'
+    formatRp.groupingSeparator = ','
+
+    kursIndonesia.decimalFormatSymbols = formatRp
+    return kursIndonesia.format(this)
+}
+
+fun SwipeRefreshLayout.startLoading(){
+    this.isRefreshing = true
+}
+
+fun SwipeRefreshLayout.stopLoading(){
+    this.isRefreshing = false
 }

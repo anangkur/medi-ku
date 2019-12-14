@@ -19,6 +19,7 @@
     <string name="error_password">password must be 6 character or more</string>
     <string name="error_email">email address is not valid</string>
     <string name="error_default">an error occured</string>
+    <string name="error_empty">data is empty</string>
     <string name="toolbar_register">Register</string>
     <string name="message_success_register">New Account Registered Successfully</string>
     <string name="error_name">Name Cannot be null</string>
@@ -35,4 +36,5 @@
     <string name="label_list_produk">List \nProduk</string>
     <string name="hint_input_member">Input Member</string>
     <string name="btn_input_member">Input Member</string>
+    <string name="toolbar_list_product">List Product</string>
 </resources>

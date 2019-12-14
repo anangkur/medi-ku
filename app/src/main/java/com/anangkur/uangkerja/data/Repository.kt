@@ -4,12 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.anangkur.uangkerja.data.local.LocalRepository
+import com.anangkur.uangkerja.data.model.BasePagination
 import com.anangkur.uangkerja.data.model.BaseResponse
 import com.anangkur.uangkerja.data.remote.RemoteRepository
 import kotlinx.coroutines.Dispatchers
 import com.anangkur.uangkerja.data.model.Result
 import com.anangkur.uangkerja.data.model.auth.Register
 import com.anangkur.uangkerja.data.model.auth.ResponseLogin
+import com.anangkur.uangkerja.data.model.product.Category
+import com.anangkur.uangkerja.data.model.product.DetailProduct
+import com.anangkur.uangkerja.data.model.product.Product
 import com.anangkur.uangkerja.data.model.profile.ResponseUser
 import kotlinx.coroutines.withContext
 
@@ -66,7 +70,7 @@ class Repository(private val remoteRepository: RemoteRepository, private val loc
     fun getProfile(): LiveData<Result<ResponseUser>> =
         liveData(Dispatchers.IO){
             emit(Result.loading())
-            val response = remoteRepository.getProfile()
+            val response = remoteRepository.getProfile("Bearer ${loadApiToken()}")
             val responseLive = MutableLiveData<Result<ResponseUser>>()
             if (response.status == Result.Status.SUCCESS) {
                 withContext(Dispatchers.Main){
@@ -74,6 +78,60 @@ class Repository(private val remoteRepository: RemoteRepository, private val loc
                     emitSource(responseLive)
                 }
             } else if (response.status == Result.Status.ERROR) {
+                withContext(Dispatchers.Main){
+                    emit(Result.error(response.message?:""))
+                    emitSource(responseLive)
+                }
+            }
+        }
+
+    fun getListProduct(): LiveData<Result<BaseResponse<BasePagination<Product>>>> =
+        liveData {
+            emit(Result.loading())
+            val response = remoteRepository.getListProduct("Bearer ${loadApiToken()}")
+            val responseLive = MutableLiveData<Result<BaseResponse<BasePagination<Product>>>>()
+            if (response.status == Result.Status.SUCCESS){
+                withContext(Dispatchers.Main){
+                    responseLive.value = response
+                    emitSource(responseLive)
+                }
+            }else if (response.status == Result.Status.ERROR){
+                withContext(Dispatchers.Main){
+                    emit(Result.error(response.message?:""))
+                    emitSource(responseLive)
+                }
+            }
+        }
+
+    fun getListCategory(): LiveData<Result<BaseResponse<List<Category>>>> =
+        liveData {
+            emit(Result.loading())
+            val response = remoteRepository.getListCategory("Bearer ${loadApiToken()}")
+            val responseLive = MutableLiveData<Result<BaseResponse<List<Category>>>>()
+            if (response.status == Result.Status.SUCCESS){
+                withContext(Dispatchers.Main){
+                    responseLive.value = response
+                    emitSource(responseLive)
+                }
+            }else if (response.status == Result.Status.ERROR){
+                withContext(Dispatchers.Main){
+                    emit(Result.error(response.message?:""))
+                    emitSource(responseLive)
+                }
+            }
+        }
+
+    fun getDetailProduct(productId: String): LiveData<Result<BaseResponse<DetailProduct>>> =
+        liveData {
+            emit(Result.loading())
+            val response = remoteRepository.getDetailProduct("Bearer ${loadApiToken()}", productId)
+            val responseLive = MutableLiveData<Result<BaseResponse<DetailProduct>>>()
+            if (response.status == Result.Status.SUCCESS){
+                withContext(Dispatchers.Main){
+                    responseLive.value = response
+                    emitSource(responseLive)
+                }
+            }else if (response.status == Result.Status.ERROR){
                 withContext(Dispatchers.Main){
                     emit(Result.error(response.message?:""))
                     emitSource(responseLive)

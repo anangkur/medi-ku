@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.anangkur.uangkerja">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".feature.main.MainActivity"></activity>
+        <activity android:name=".feature.listProduct.ListProductActivity"></activity>
+        <activity android:name=".feature.main.MainActivity" />
         <activity android:name=".feature.register.RegisterActivity" />
         <activity android:name=".feature.login.LoginActivity" />
         <activity android:name=".feature.splash.SplashActivity">

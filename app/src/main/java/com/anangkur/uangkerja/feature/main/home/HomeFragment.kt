@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.anangkur.uangkerja.R
 import com.anangkur.uangkerja.base.BaseFragment
 import com.anangkur.uangkerja.base.BaseSliderAdapter
+import com.anangkur.uangkerja.feature.listProduct.ListProductActivity
 import com.anangkur.uangkerja.util.disableClickTablayout
 import com.anangkur.uangkerja.util.obtainViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment: BaseFragment<ViewModel>(){
+class HomeFragment: BaseFragment<ViewModel>(), HomeActionListener{
+
     override val mLayout: Int
         get() = R.layout.fragment_home
     override val mViewModel: ViewModel?
@@ -26,6 +28,8 @@ class HomeFragment: BaseFragment<ViewModel>(){
         super.onViewCreated(view, savedInstanceState)
         setupViewPagerSlider()
         setupSliderFragment()
+
+        btn_list_product.setOnClickListener { this.onCLickListProduct() }
     }
 
     private fun setupViewPagerSlider(){
@@ -43,5 +47,9 @@ class HomeFragment: BaseFragment<ViewModel>(){
             pagerAdapter.addFragment(HomeSliderFragment.getInstance("https://picsum.photos/200/400"))
         }
         setupSliderPage(pagerAdapter)
+    }
+
+    override fun onCLickListProduct() {
+        ListProductActivity.startActivity(requireContext())
     }
 }

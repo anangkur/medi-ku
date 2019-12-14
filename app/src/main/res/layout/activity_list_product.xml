@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearVerticalDefault">
+    <include layout="@layout/layout_toolbar"/>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_list_product"
+        style="@style/SwipeRefreshDefault">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_product"
+            style="@style/RecyclerDefault"
+            android:paddingBottom="@dimen/dimens_20dp"
+            android:clipToPadding="false"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>
