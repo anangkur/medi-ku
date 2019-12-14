@@ -22,7 +22,9 @@ interface ApiService {
 
     @GET("product")
     suspend fun getListProduct(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Query("category_id") category: Int?,
+        @Query("page") page: Int?
     ): Response<BaseResponse<BasePagination<Product>>>
 
     @GET("category")

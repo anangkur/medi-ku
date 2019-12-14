@@ -85,10 +85,11 @@ class Repository(private val remoteRepository: RemoteRepository, private val loc
             }
         }
 
-    fun getListProduct(): LiveData<Result<BaseResponse<BasePagination<Product>>>> =
+    fun getListProduct(category: Int?, page: Int?): LiveData<Result<BaseResponse<BasePagination<Product>>>> =
         liveData {
             emit(Result.loading())
-            val response = remoteRepository.getListProduct("Bearer ${loadApiToken()}")
+            val response =
+                remoteRepository.getListProduct("Bearer ${loadApiToken()}", category, page)
             val responseLive = MutableLiveData<Result<BaseResponse<BasePagination<Product>>>>()
             if (response.status == Result.Status.SUCCESS){
                 withContext(Dispatchers.Main){

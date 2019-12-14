@@ -79,10 +79,10 @@ fun RecyclerView.setupRecyclerViewGrid(context: Context, spanCount: Int){
     }
 }
 
-fun RecyclerView.setupRecyclerViewLinear(context: Context){
+fun RecyclerView.setupRecyclerViewLinear(context: Context, orientation: Int){
     this.apply {
         itemAnimator = DefaultItemAnimator()
-        layoutManager = LinearLayoutManager(context)
+        layoutManager = LinearLayoutManager(context, orientation, false)
     }
 }
 

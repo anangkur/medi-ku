@@ -14,8 +14,8 @@ import com.anangkur.uangkerja.data.model.profile.ResponseUser
 
 class RemoteRepository: DataSource, BaseDataSource() {
 
-    override suspend fun getListProduct(token: String): Result<BaseResponse<BasePagination<Product>>> {
-        return getResult { ApiService.getApiService.getListProduct(token) }
+    override suspend fun getListProduct(token: String, category: Int?, page: Int?): Result<BaseResponse<BasePagination<Product>>> {
+        return getResult { ApiService.getApiService.getListProduct(token, category, page) }
     }
 
     override suspend fun getListCategory(token: String): Result<BaseResponse<List<Category>>> {

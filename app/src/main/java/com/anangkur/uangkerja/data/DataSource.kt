@@ -14,7 +14,7 @@ interface DataSource {
     suspend fun postLogin(email: String, password: String): Result<ResponseLogin>{throw Exception()}
     suspend fun postSignup(name: String, email: String, password: String, passwordConfirm: String): Result<BaseResponse<Register>>{throw Exception()}
     suspend fun getProfile(token: String): Result<ResponseUser>{throw Exception()}
-    suspend fun getListProduct(token: String): Result<BaseResponse<BasePagination<Product>>>{throw Exception()}
+    suspend fun getListProduct(token: String, category: Int?, page: Int?): Result<BaseResponse<BasePagination<Product>>>{throw Exception()}
     suspend fun getListCategory(token: String): Result<BaseResponse<List<Category>>>{throw Exception()}
     suspend fun getDetailProduct(token: String, productId: String): Result<BaseResponse<DetailProduct>>{throw Exception()}
 
