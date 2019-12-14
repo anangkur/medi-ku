@@ -9,7 +9,7 @@ import com.anangkur.uangkerja.util.currencyFormatToRupiah
 import com.anangkur.uangkerja.util.setImageUrl
 import kotlinx.android.synthetic.main.item_product.view.*
 
-class ListProductAdapter: BaseAdapter<Product>(){
+class ListProductAdapter(private val listener: ListProductActionListener): BaseAdapter<Product>(){
     override val layout: Int
         get() = R.layout.item_product
 
@@ -17,5 +17,6 @@ class ListProductAdapter: BaseAdapter<Product>(){
         itemView.iv_product.setImageUrl("${BuildConfig.baseImageUrl}${data.image}")
         itemView.tv_product.text = data.productName
         itemView.tv_price.text = data.price.toDouble().currencyFormatToRupiah()
+        itemView.setOnClickListener { listener.onClickItem(data.id.toString()) }
     }
 }

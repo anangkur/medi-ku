@@ -37,4 +37,8 @@
     <string name="hint_input_member">Input Member</string>
     <string name="btn_input_member">Input Member</string>
     <string name="toolbar_list_product">List Product</string>
+    <string name="toolbar_detail_product">Detail Product</string>
+    <string name="btn_add_to_cart">Tambahkan ke keranjang</string>
+    <string name="label_instock">Stok Tersedia</string>
+    <string name="label_outstok">Stok Kosong</string>
 </resources>

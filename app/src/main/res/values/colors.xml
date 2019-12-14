@@ -10,4 +10,7 @@
     <color name="black_60">#99000000</color>
     <color name="gray">#E0E0E0</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="roman">#EB5757</color>
+    <color name="atlantis">#9EDB2C</color>
 </resources>

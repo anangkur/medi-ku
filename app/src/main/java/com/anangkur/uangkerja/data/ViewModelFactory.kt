@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.anangkur.uangkerja.feature.detailProduct.DetailProductViewModel
 import com.anangkur.uangkerja.feature.listProduct.ListProductViewModel
 import com.anangkur.uangkerja.feature.login.LoginViewModel
 import com.anangkur.uangkerja.feature.main.home.HomeViewModel
@@ -23,6 +24,7 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
                 isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(repository)
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(repository)
                 isAssignableFrom(ListProductViewModel::class.java) -> ListProductViewModel(repository)
+                isAssignableFrom(DetailProductViewModel::class.java) -> DetailProductViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T

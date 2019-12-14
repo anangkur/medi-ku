@@ -9,12 +9,13 @@ import androidx.lifecycle.Observer
 import com.anangkur.uangkerja.R
 import com.anangkur.uangkerja.base.BaseActivity
 import com.anangkur.uangkerja.data.model.Result
+import com.anangkur.uangkerja.feature.detailProduct.DetailProductActivity
 import com.anangkur.uangkerja.feature.main.MainActivity
 import com.anangkur.uangkerja.util.*
 import kotlinx.android.synthetic.main.activity_list_product.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
-class ListProductActivity: BaseActivity<ListProductViewModel>() {
+class ListProductActivity: BaseActivity<ListProductViewModel>(), ListProductActionListener {
 
     override val mLayout: Int
         get() = R.layout.activity_list_product
@@ -67,10 +68,14 @@ class ListProductActivity: BaseActivity<ListProductViewModel>() {
     }
 
     private fun setupAdapter(){
-        mAdapter = ListProductAdapter()
+        mAdapter = ListProductAdapter(this)
         recycler_product.apply {
             adapter = mAdapter
             setupRecyclerViewGrid(this@ListProductActivity, 2)
         }
+    }
+
+    override fun onClickItem(productId: String) {
+        DetailProductActivity.startctivity(this, productId)
     }
 }
