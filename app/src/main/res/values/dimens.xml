@@ -20,4 +20,6 @@
     <dimen name="size_16sp">16sp</dimen>
     <dimen name="size_18sp">18sp</dimen>
     <dimen name="dimens_20dp">20dp</dimen>
+    <dimen name="dimens_14dp">14dp</dimen>
+    <dimen name="dimens_18dp">18dp</dimen>
 </resources>

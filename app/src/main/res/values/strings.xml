@@ -23,4 +23,16 @@
     <string name="message_success_register">New Account Registered Successfully</string>
     <string name="error_name">Name Cannot be null</string>
     <string name="error_password_confirm">Password confirm must same with password</string>
+    <string name="dummy_saldo">Rp. 10.000</string>
+    <string name="label_family_tree">Family Tree</string>
+    <string name="label_tambah_family">Tambah Family</string>
+    <string name="label_cek_saldo_bonus"><![CDATA[Cek Saldo \n& Bonus]]></string>
+    <string name="btn_isi_saldo">Isi \nSaldo</string>
+    <string name="label_beli_produk">Beli \nProduk</string>
+    <string name="label_paket_diamond">Paket \nDiamond</string>
+    <string name="label_tarik_saldo">Tarik \nSaldo</string>
+    <string name="label_paket_basic">Paket \nBasic</string>
+    <string name="label_list_produk">List \nProduk</string>
+    <string name="hint_input_member">Input Member</string>
+    <string name="btn_input_member">Input Member</string>
 </resources>
