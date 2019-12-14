@@ -18,7 +18,19 @@
         <item name="android:orientation">vertical</item>>
     </style>
 
+    <style name="LinearVerticalWrapAll" parent="LinearVerticalDefault">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
     <style name="LinearVerticalWrap" parent="LinearVerticalDefault">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <style name="LinearHorizontalDefault" parent="LinearDefault">
+        <item name="android:orientation">horizontal</item>>
+    </style>
+
+    <style name="LinearHorizontalWrap" parent="LinearHorizontalDefault">
         <item name="android:layout_height">wrap_content</item>
     </style>
     <!--end of style for linear-->
@@ -28,7 +40,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
-
+    <style name="RelativeWrapAll" parent="RelativeDefault">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
     <style name="RelativeButton" parent="RelativeDefault">
         <item name="android:layout_height">@dimen/dimens_48dp</item>
         <item name="android:background">@drawable/rect_solid_coloraccent_rounded_100dp</item>
@@ -75,6 +90,9 @@
     <style name="RecyclerDefault">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="RecyclerWrapHeight" parent="RecyclerDefault">
+        <item name="android:layout_height">wrap_content</item>
     </style>
     <!--end of style for recycler view-->
 
@@ -132,6 +150,10 @@
         <item name="android:layout_height">@dimen/dimens_0dp</item>
         <item name="android:scaleType">centerCrop</item>
     </style>
+    <style name="ImageViewWrapAll" parent="ImageViewDefault">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
     <!--end of style for image view-->
 
     <!--style for text input layout-->
@@ -154,6 +176,11 @@
         <item name="android:layout_height">@dimen/dimens_1dp</item>
         <item name="android:background">@color/gray</item>
     </style>
+    <style name="ViewCover">
+        <item name="android:layout_width">@dimen/dimens_0dp</item>
+        <item name="android:layout_height">@dimen/dimens_0dp</item>
+        <item name="android:background">@drawable/rect_gradient_black60_black00</item>
+    </style>
     <!--end of style for view-->
 
     <!--style for frame-->
@@ -170,6 +197,8 @@
     <style name="CardDefault">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="cardElevation">@dimen/dimens_4dp</item>
+        <item name="cardCornerRadius">@dimen/dimens_10dp</item>
     </style>
 
     <style name="CardWrapHeight" parent="CardDefault">
@@ -199,6 +228,10 @@
     <style name="ViewPagerDefault">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
+    </style>
+    <style name="ViewPagerRatio" parent="ViewPagerDefault">
+        <item name="android:layout_height">@dimen/dimens_0dp</item>
+        <item name="android:layout_width">@dimen/dimens_0dp</item>
     </style>
     <!--end of style for view pager-->
 
