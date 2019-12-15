@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -71,6 +72,23 @@ fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) 
 
 fun <T : ViewModel> Fragment.obtainViewModel(viewModelClass: Class<T>) =
     ViewModelProviders.of(this, ViewModelFactory.getInstance(this.requireContext())).get(viewModelClass)
+
+fun RecyclerView.setupRecyclerViewGridEndlessScroll(context: Context, spanCount: Int, adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>, progressView: Int, itemView: Int){
+    val mLayoutManager = GridLayoutManager(context, spanCount, GridLayoutManager.VERTICAL, false)
+    mLayoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            return when (adapter.getItemViewType(position)){
+                progressView -> 1
+                itemView -> spanCount
+                else -> -1
+            }
+        }
+    }
+    this.apply {
+        itemAnimator = DefaultItemAnimator()
+        layoutManager = mLayoutManager
+    }
+}
 
 fun RecyclerView.setupRecyclerViewGrid(context: Context, spanCount: Int){
     this.apply {
