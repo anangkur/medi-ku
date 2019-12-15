@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anangkur.uangkerja.R
 import com.anangkur.uangkerja.base.BaseActivity
-import com.anangkur.uangkerja.base.EndlessOnScrollListener
+import com.anangkur.uangkerja.util.EndlessOnScrollListener
 import com.anangkur.uangkerja.data.model.Result
 import com.anangkur.uangkerja.feature.detailProduct.DetailProductActivity
 import com.anangkur.uangkerja.util.*

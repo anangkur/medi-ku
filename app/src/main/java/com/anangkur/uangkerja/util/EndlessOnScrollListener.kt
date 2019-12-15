@@ -1,4 +1,4 @@
-package com.anangkur.uangkerja.base
+package com.anangkur.uangkerja.util
 
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager

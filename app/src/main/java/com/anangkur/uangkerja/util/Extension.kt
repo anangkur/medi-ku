@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +26,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.prefs.Preferences
 import java.util.regex.Pattern
 
 fun Activity.showSnackbarLong(message: String){
