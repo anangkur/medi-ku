@@ -3,15 +3,14 @@ package com.anangkur.uangkerja.feature.listProduct
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anangkur.uangkerja.R
 import com.anangkur.uangkerja.base.BaseActivity
+import com.anangkur.uangkerja.util.EndlessOnScrollListener
 import com.anangkur.uangkerja.data.model.Result
 import com.anangkur.uangkerja.feature.detailProduct.DetailProductActivity
-import com.anangkur.uangkerja.feature.main.MainActivity
 import com.anangkur.uangkerja.util.*
 import kotlinx.android.synthetic.main.activity_list_product.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -29,6 +28,7 @@ class ListProductActivity: BaseActivity<ListProductViewModel>(), ListProductActi
 
     private lateinit var mAdapter: ListProductAdapter
     private lateinit var mCategoryAdapter: ListCategoryAdapter
+    private lateinit var endlessOnScrollListener: EndlessOnScrollListener
 
     companion object{
         fun startActivity(context: Context){
@@ -38,14 +38,17 @@ class ListProductActivity: BaseActivity<ListProductViewModel>(), ListProductActi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createScrollListener()
         setupAdapter()
         setupCategoryAdapter()
         observeViewModel()
         mViewModel.getListProduct(1)
+        endlessOnScrollListener.mLoading = true
         mViewModel.getListCategory()
         setupCategoryActive()
         swipe_list_product.setOnRefreshListener {
             mViewModel.getListProduct(1)
+            endlessOnScrollListener.mLoading = true
             mViewModel.getListCategory()
             setupCategoryActive()
         }
@@ -54,17 +57,15 @@ class ListProductActivity: BaseActivity<ListProductViewModel>(), ListProductActi
 
     private fun observeViewModel(){
         mViewModel.apply {
-            listProductLiveData.observe(this@ListProductActivity, Observer {
+            resultListProductLiveData.observe(this@ListProductActivity, Observer {
                 when(it.status){
                     Result.Status.LOADING -> {
                         swipe_list_product.startLoading()
                     }
                     Result.Status.SUCCESS -> {
                         swipe_list_product.stopLoading()
-                        if (it.data?.data?.data != null){
-                            mAdapter.setRecyclerData(it.data.data.data)
-                        }else{
-                            this@ListProductActivity.showSnackbarShort(getString(R.string.error_empty))
+                        if (it.data?.data != null){
+                            paginateData(it.data.data)
                         }
                     }
                     Result.Status.ERROR -> {
@@ -92,6 +93,13 @@ class ListProductActivity: BaseActivity<ListProductViewModel>(), ListProductActi
                     }
                 }
             })
+            loadMoreLive.observe(this@ListProductActivity, Observer {
+                mAdapter.showProgress(it, positionStart, differentCount)
+                endlessOnScrollListener.mLoading = it
+            })
+            listProductLiveData.observe(this@ListProductActivity, Observer {
+                mAdapter.setRecyclerData(it, positionStart, differentCount)
+            })
         }
     }
 
@@ -99,7 +107,12 @@ class ListProductActivity: BaseActivity<ListProductViewModel>(), ListProductActi
         mAdapter = ListProductAdapter(this)
         recycler_product.apply {
             adapter = mAdapter
-            setupRecyclerViewGrid(this@ListProductActivity, 2)
+            setupRecyclerViewGridEndlessScroll(this@ListProductActivity,
+                2,
+                mAdapter,
+                R.layout.item_product,
+                R.layout.item_progress)
+            addOnScrollListener(endlessOnScrollListener)
         }
     }
 
@@ -120,6 +133,14 @@ class ListProductActivity: BaseActivity<ListProductViewModel>(), ListProductActi
         }
     }
 
+    private fun createScrollListener(){
+        endlessOnScrollListener =  object: EndlessOnScrollListener(true){
+            override fun onLoadMore() {
+                mViewModel.getListProduct(mViewModel.nextPage.plus(1))
+            }
+        }
+    }
+
     override fun onClickItem(productId: String) {
         DetailProductActivity.startctivity(this, productId)
     }
@@ -128,6 +149,7 @@ class ListProductActivity: BaseActivity<ListProductViewModel>(), ListProductActi
         mViewModel.category = categoryId
         mViewModel.categoryActive = "${getString(R.string.text_category)}: $categoryName"
         mViewModel.getListProduct(1)
+        endlessOnScrollListener.mLoading = true
         setupCategoryActive()
     }
 
@@ -136,5 +158,6 @@ class ListProductActivity: BaseActivity<ListProductViewModel>(), ListProductActi
         mViewModel.category = null
         setupCategoryActive()
         mViewModel.getListProduct(1)
+        endlessOnScrollListener.mLoading = true
     }
 }

@@ -42,4 +42,5 @@
     <string name="label_instock">Stok Tersedia</string>
     <string name="label_outstok">Stok Kosong</string>
     <string name="text_category">Kategori</string>
+    <string name="message_delay_before_exit">Tekan kembali untuk keluar</string>
 </resources>

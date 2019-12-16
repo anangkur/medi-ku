@@ -26,7 +26,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.prefs.Preferences
 import java.util.regex.Pattern
 
 fun Activity.showSnackbarLong(message: String){
@@ -71,6 +70,23 @@ fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) 
 
 fun <T : ViewModel> Fragment.obtainViewModel(viewModelClass: Class<T>) =
     ViewModelProviders.of(this, ViewModelFactory.getInstance(this.requireContext())).get(viewModelClass)
+
+fun RecyclerView.setupRecyclerViewGridEndlessScroll(context: Context, spanCount: Int, adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>, progressView: Int, itemView: Int){
+    val mLayoutManager = GridLayoutManager(context, spanCount, GridLayoutManager.VERTICAL, false)
+    mLayoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            return when (adapter.getItemViewType(position)){
+                progressView -> 1
+                itemView -> spanCount
+                else -> -1
+            }
+        }
+    }
+    this.apply {
+        itemAnimator = DefaultItemAnimator()
+        layoutManager = mLayoutManager
+    }
+}
 
 fun RecyclerView.setupRecyclerViewGrid(context: Context, spanCount: Int){
     this.apply {
