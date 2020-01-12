@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/iv_splash"
-        style="@style/ImageViewSplash"
+        style="@style/ImageView180"
         android:src="@drawable/ic_mediku_512"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintBottom_toTopOf="@id/tv_splash"

@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Medi Ku</string>
     <string name="desc_splash">Personal health record application</string>
+    <string name="label_sign_in">Sign In</string>
+    <string name="label_desc_login">Unlock your personal \nmedical records</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_signin">Sign In</string>
+    <string name="btn_forgot_password">Forgot Password?</string>
+    <string name="btn_signup">Don’t have account? Sign Up</string>
+    <string name="btn_signin_google">Sign In With Google</string>
 </resources>
