@@ -44,11 +44,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-    <style name="RelativeButton" parent="RelativeDefault">
-        <item name="android:layout_height">@dimen/dimens_48dp</item>
-        <item name="android:background">@drawable/rect_solid_coloraccent_rounded_100dp</item>
-        <item name="android:foreground">@drawable/ripple_button_background_dark</item>
-    </style>
     <style name="RelativeButtonTransparent" parent="RelativeDefault">
         <item name="android:layout_height">@dimen/dimens_48dp</item>
         <item name="android:foreground">?selectableItemBackground</item>
@@ -176,11 +171,6 @@
         <item name="android:layout_height">@dimen/dimens_1dp</item>
         <item name="android:background">@color/gray</item>
     </style>
-    <style name="ViewCover">
-        <item name="android:layout_width">@dimen/dimens_0dp</item>
-        <item name="android:layout_height">@dimen/dimens_0dp</item>
-        <item name="android:background">@drawable/rect_gradient_black60_black00</item>
-    </style>
     <!--end of style for view-->
 
     <!--style for frame-->
@@ -239,18 +229,6 @@
     <style name="TabLayoutDefault">
         <item name="android:layout_height">?actionBarSize</item>
         <item name="android:layout_width">match_parent</item>
-    </style>
-    <style name="TabLayoutSlider" parent="TabLayoutDefault">
-        <item name="android:layout_width">@dimen/dimens_120dp</item>
-        <item name="android:layout_height">@dimen/dimens_24dp</item>
-        <item name="android:clickable">false</item>
-        <item name="android:layout_centerInParent">true</item>
-        <item name="tabMode">scrollable</item>
-        <item name="tabBackground">@drawable/tab_selector</item>
-        <item name="tabIndicatorHeight">@dimen/dimens_0dp</item>
-        <item name="tabMaxWidth">@dimen/dimens_0dp</item>
-        <item name="tabMinWidth">@dimen/dimens_0dp</item>
-        <item name="tabPadding">@dimen/dimens_0dp</item>
     </style>
     <!--end of style for tab layout-->
 
