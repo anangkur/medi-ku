@@ -5,6 +5,7 @@ import android.os.Handler
 import androidx.appcompat.widget.Toolbar
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.feature.signIn.LoginActivity
 import com.anangkur.mediku.util.obtainViewModel
 
 class SplashActivity: BaseActivity<SplashViewModel>() {
@@ -26,6 +27,7 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
     private fun openActivity(){
         val handler = Handler()
         handler.postDelayed({
+            LoginActivity.startActivity(this)
             finish()
         }, 3000)
     }
