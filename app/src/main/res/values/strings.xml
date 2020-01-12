@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Medi Ku</string>
+    <string name="desc_splash">Personal health record application</string>
 </resources>

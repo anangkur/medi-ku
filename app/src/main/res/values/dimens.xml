@@ -5,13 +5,17 @@
     <dimen name="dimens_1dp">1dp</dimen>
     <dimen name="dimens_4dp">4dp</dimen>
     <dimen name="dimens_10dp">10dp</dimen>
+    <dimen name="dimens_14dp">14dp</dimen>
     <dimen name="dimens_16dp">16dp</dimen>
+    <dimen name="dimens_18dp">18dp</dimen>
+    <dimen name="dimens_20dp">20dp</dimen>
     <dimen name="dimens_24dp">24dp</dimen>
     <dimen name="dimens_40dp">40dp</dimen>
     <dimen name="dimens_48dp">48dp</dimen>
     <dimen name="dimens_60dp">60dp</dimen>
     <dimen name="dimens_100dp">100dp</dimen>
     <dimen name="dimens_120dp">120dp</dimen>
+    <dimen name="dimens_180dp">180dp</dimen>
     <dimen name="dimens_280dp">280dp</dimen>
 
     <!-- Dimens for text size -->
@@ -19,7 +23,6 @@
     <dimen name="size_14sp">14sp</dimen>
     <dimen name="size_16sp">16sp</dimen>
     <dimen name="size_18sp">18sp</dimen>
-    <dimen name="dimens_20dp">20dp</dimen>
-    <dimen name="dimens_14dp">14dp</dimen>
-    <dimen name="dimens_18dp">18dp</dimen>
+    <dimen name="size_24sp">24sp</dimen>
+    <dimen name="size_36sp">36sp</dimen>
 </resources>

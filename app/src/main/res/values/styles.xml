@@ -96,39 +96,76 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/size_14sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="TextSmall">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/size_12sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="TextBig">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/size_16sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="TextExtraBig">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/size_18sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="TextSuperExtraBig">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/dimens_24dp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/size_24sp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="TextSuperSuperExtraBig">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">48sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/size_36sp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <!--end of style for base text-->
+
+    <!--style for regular text-->
+    <style name="TextRegularSmall" parent="TextSmall">
+        <item name="android:fontFamily">@font/comfortaa_regular</item>
+    </style>
+    <!--end of style for regular text-->
+
+    <!--style for light text-->
+    <!--end of style for regular text-->
+
+    <!--style for bold text-->
+    <style name="TextBoldNormal" parent="TextNormal">
+        <item name="android:fontFamily">@font/comfortaa_bold</item>
+    </style>
+    <style name="TextBoldSmall" parent="TextSmall">
+        <item name="android:fontFamily">@font/comfortaa_bold</item>
+    </style>
+    <style name="TextBoldBig" parent="TextBig">
+        <item name="android:fontFamily">@font/comfortaa_bold</item>
+    </style>
+    <style name="TextBoldBigWhite" parent="TextBoldBig">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="TextBoldExtraBig" parent="TextExtraBig">
+        <item name="android:fontFamily">@font/comfortaa_bold</item>
+    </style>
+    <style name="TextBoldSuperExtraBig" parent="TextSuperExtraBig">
+        <item name="android:fontFamily">@font/comfortaa_bold</item>
+    </style>
+    <style name="TextBoldSuperSuperExtraBig" parent="TextSuperSuperExtraBig">
+        <item name="android:fontFamily">@font/comfortaa_bold</item>
+    </style>
+    <style name="TextBoldSuperExtraBigWhite" parent="TextBoldSuperExtraBig">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">32sp</item>
+    </style>
+    <!--end of style for regular text-->
 
     <!--style for image view-->
     <style name="ImageViewDefault">
@@ -141,10 +178,16 @@
         <item name="android:layout_height">@dimen/dimens_120dp</item>
     </style>
 
+    <style name="ImageViewSplash" parent="ImageViewDefault">
+        <item name="android:layout_width">@dimen/dimens_180dp</item>
+        <item name="android:layout_height">@dimen/dimens_180dp</item>
+    </style>
+
     <style name="ImageViewHeightRatio" parent="ImageViewDefault">
         <item name="android:layout_height">@dimen/dimens_0dp</item>
         <item name="android:scaleType">centerCrop</item>
     </style>
+
     <style name="ImageViewWrapAll" parent="ImageViewDefault">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
