@@ -4,13 +4,16 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.anangkur.mediku.feature.signIn.SignInViewModel
 import com.anangkur.mediku.util.Const
+import com.google.firebase.auth.FirebaseAuth
 
 class ViewModelFactory(private val repository: Repository): ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T  =
         with(modelClass) {
             when {
+                isAssignableFrom(SignInViewModel::class.java) -> SignInViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T
@@ -18,7 +21,10 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
     companion object{
         @Volatile private var INSTANCE: ViewModelFactory? = null
         fun getInstance(context: Context) = INSTANCE ?: synchronized(ViewModelFactory::class.java){
-            INSTANCE ?: ViewModelFactory(Injection.provideRepository(context, context.getSharedPreferences(Const.PREF_NAME, MODE_PRIVATE))).also { INSTANCE = it }
+            INSTANCE ?: ViewModelFactory(Injection.provideRepository(
+                context,
+                context.getSharedPreferences(Const.PREF_NAME, MODE_PRIVATE)
+            )).also { INSTANCE = it }
         }
     }
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ConstraintDefault"
-    tools:context="com.anangkur.mediku.feature.signIn.LoginActivity">
+    tools:context="com.anangkur.mediku.feature.signIn.SignInActivity">
 
     <ScrollView
         style="@style/NestedScrollDefault"
@@ -73,6 +73,7 @@
                     android:id="@+id/til_password"
                     style="@style/TextInputLayoutDefault"
                     android:layout_marginTop="@dimen/dimens_20dp"
+                    app:passwordToggleEnabled="true"
                     app:layout_constraintTop_toBottomOf="@id/til_email"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent">
