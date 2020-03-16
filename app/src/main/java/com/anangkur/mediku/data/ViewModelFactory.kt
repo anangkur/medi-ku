@@ -5,6 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.anangkur.mediku.feature.signIn.SignInViewModel
+import com.anangkur.mediku.feature.signUp.SignUpViewModel
 import com.anangkur.mediku.util.Const
 import com.google.firebase.auth.FirebaseAuth
 
@@ -14,6 +15,7 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
         with(modelClass) {
             when {
                 isAssignableFrom(SignInViewModel::class.java) -> SignInViewModel(repository)
+                isAssignableFrom(SignUpViewModel::class.java) -> SignUpViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T

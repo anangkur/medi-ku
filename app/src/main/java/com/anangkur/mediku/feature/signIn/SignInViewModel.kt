@@ -11,20 +11,20 @@ import kotlinx.coroutines.launch
 
 class SignInViewModel(private val repository: Repository): ViewModel() {
 
-    val progressSignUpLive = MutableLiveData<Boolean>()
-    val resultSignUpLive = MutableLiveData<FirebaseUser>()
-    val errorSignUpLive = MutableLiveData<String>()
+    val progressSignInLive = MutableLiveData<Boolean>()
+    val resultSignInLive = MutableLiveData<FirebaseUser>()
+    val errorSignInLive = MutableLiveData<String>()
     fun firebaseSignIn(email: String, password: String){
         CoroutineScope(Dispatchers.IO).launch{
-            progressSignUpLive.postValue(true)
+            progressSignInLive.postValue(true)
             FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
-                    progressSignUpLive.postValue(false)
+                    progressSignInLive.postValue(false)
                     if (it.isSuccessful){
-                        resultSignUpLive.postValue(it.result?.user)
+                        resultSignInLive.postValue(it.result?.user)
                     }else{
-                        errorSignUpLive.postValue(it.exception?.message)
+                        errorSignInLive.postValue(it.exception?.message)
                     }
                 }
         }

@@ -2,6 +2,7 @@
     <string name="app_name">Medi Ku</string>
     <string name="desc_splash">Personal health record application</string>
     <string name="label_sign_in">Sign In</string>
+    <string name="label_sign_up">Sign Up</string>
     <string name="label_desc_login">Unlock your personal \nmedical records</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
@@ -13,4 +14,12 @@
     <string name="error_email_not_valid">Email is not valid!</string>
     <string name="error_password_empty">Password is mandatory!</string>
     <string name="error_password_not_valid">Password not valid!</string>
+    <string name="hint_full_name">Full Name</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="btn_sign_up">Sign Up</string>
+    <string name="btn_sign_in">Have an account? Sign In</string>
+    <string name="btn_sign_up_google">Sign Up with Google</string>
+    <string name="error_name_empty">Name is mandatory!</string>
+    <string name="error_confirm_password_empty">Confirm Password is mandatory!</string>
+    <string name="error_password_confirm_not_valid">Password Confirm not valid!</string>
 </resources>

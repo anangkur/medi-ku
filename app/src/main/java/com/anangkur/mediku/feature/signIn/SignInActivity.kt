@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.feature.signUp.SignUpActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
@@ -39,17 +40,17 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
 
     private fun observeViewModel(){
         mViewModel.apply {
-            progressSignUpLive.observe(this@SignInActivity, Observer {
+            progressSignInLive.observe(this@SignInActivity, Observer {
                 if (it){
                     btn_signin.showProgress()
                 }else{
                     btn_signin.hideProgress()
                 }
             })
-            resultSignUpLive.observe(this@SignInActivity, Observer {
+            resultSignInLive.observe(this@SignInActivity, Observer {
                 showToastShort("SignIn Success: ${it.email}")
             })
-            errorSignUpLive.observe(this@SignInActivity, Observer {
+            errorSignInLive.observe(this@SignInActivity, Observer {
                 showSnackbarShort(it)
             })
         }
@@ -71,7 +72,7 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
     }
 
     override fun onClickSignUp() {
-
+        SignUpActivity.startActivity(this)
     }
 
     override fun onClickGoogle() {
