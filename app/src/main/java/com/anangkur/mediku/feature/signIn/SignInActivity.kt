@@ -11,9 +11,24 @@ import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.feature.signUp.SignUpActivity
 import com.anangkur.mediku.util.*
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
+
 class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
+
+    companion object{
+        const val RC_SIGN_IN = 9001
+        fun startActivity(context: Context){
+            context.startActivity(Intent(context, SignInActivity::class.java))
+        }
+    }
 
     override val mLayout: Int
         get() = R.layout.activity_sign_in
@@ -24,18 +39,29 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
     override val mTitleToolbar: String?
         get() = null
 
-    companion object{
-        fun startActivity(context: Context){
-            context.startActivity(Intent(context, SignInActivity::class.java))
-        }
-    }
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupGoogleSignIn()
         setupView()
         setupTextWatcher()
         observeViewModel()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                mViewModel.firebaseSignInWithGoogle(account)
+            } catch (e: ApiException) {
+                showSnackbarShort(e.message?:"")
+            }
+        }
     }
 
     private fun observeViewModel(){
@@ -52,6 +78,15 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
             })
             errorSignInLive.observe(this@SignInActivity, Observer {
                 showSnackbarShort(it)
+            })
+            progressSignInGoogleLive.observe(this@SignInActivity, Observer {
+                if (it){
+                    pb_btn_signin_google.visible()
+                    btn_signin_google.gone()
+                }else{
+                    pb_btn_signin_google.gone()
+                    btn_signin_google.visible()
+                }
             })
         }
     }
@@ -76,7 +111,8 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
     }
 
     override fun onClickGoogle() {
-
+        val signInIntent: Intent = mGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     private fun validateInput(email: String?, password: String?){
@@ -128,5 +164,14 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+    }
+
+    private fun setupGoogleSignIn(){
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 }
