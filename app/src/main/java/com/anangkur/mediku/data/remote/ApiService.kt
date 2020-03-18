@@ -1,6 +1,5 @@
 package com.anangkur.mediku.data.remote
 
-import com.anangkur.mediku.BuildConfig.baseUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -28,7 +27,7 @@ interface ApiService {
                     .build()
 
             val mRetrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl("")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(mClient)
                 .build()

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "233431250987",
+    "firebase_url": "https://mediku-2d537.firebaseio.com",
+    "project_id": "mediku-2d537",
+    "storage_bucket": "mediku-2d537.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233431250987:android:bff375f25f5b7eaf13526e",
+        "android_client_info": {
+          "package_name": "com.anangkur.mediku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233431250987-va4c9emmjanq1ilegnpgi5ok6llrt35m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anangkur.mediku",
+            "certificate_hash": "3df4e874087fcaf9d1ad263d21915fd14ffecd1f"
+          }
+        },
+        {
+          "client_id": "233431250987-42k1h0rh61sju6pmp2btsu6aa0m4t08q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSucL5WzEfCvjOEwTqrlpiVTFiPNZPZLc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233431250987-42k1h0rh61sju6pmp2btsu6aa0m4t08q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

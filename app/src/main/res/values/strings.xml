@@ -2,6 +2,7 @@
     <string name="app_name">Medi Ku</string>
     <string name="desc_splash">Personal health record application</string>
     <string name="label_sign_in">Sign In</string>
+    <string name="label_sign_up">Sign Up</string>
     <string name="label_desc_login">Unlock your personal \nmedical records</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
@@ -9,4 +10,26 @@
     <string name="btn_forgot_password">Forgot Password?</string>
     <string name="btn_signup">Don’t have account? Sign Up</string>
     <string name="btn_signin_google">Sign In With Google</string>
+    <string name="error_email_empty">Email is mandatory!</string>
+    <string name="error_email_not_valid">Email is not valid!</string>
+    <string name="error_password_empty">Password is mandatory!</string>
+    <string name="error_password_not_valid">Password not valid!</string>
+    <string name="hint_full_name">Full Name</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="btn_sign_up">Sign Up</string>
+    <string name="btn_sign_in">Have an account? Sign In</string>
+    <string name="btn_sign_up_google">Sign Up with Google</string>
+    <string name="error_name_empty">Name is mandatory!</string>
+    <string name="error_confirm_password_empty">Confirm Password is mandatory!</string>
+    <string name="error_password_confirm_not_valid">Password Confirm not valid!</string>
+    <string name="label_edit_profile">Edit Profile</string>
+    <string name="label_edit_password">Edit Password</string>
+    <string name="label_logout">Logout</string>
+    <string name="toolbar_profile">Profile</string>
+    <string name="btn_retry">Retry</string>
+    <string name="hint_height">Height</string>
+    <string name="hint_weight">Weight</string>
+    <string name="btn_save">Save</string>
+    <string name="toolbar_edit_profile">Edit Profile</string>
+    <string name="message_success_edit_profile">Success Edit Profile!</string>
 </resources>

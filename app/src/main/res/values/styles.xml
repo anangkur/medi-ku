@@ -179,6 +179,11 @@
         <item name="android:layout_height">@dimen/dimens_80dp</item>
     </style>
 
+    <style name="ImageView100" parent="ImageViewDefault">
+        <item name="android:layout_width">@dimen/dimens_100dp</item>
+        <item name="android:layout_height">@dimen/dimens_100dp</item>
+    </style>
+
     <style name="ImageView120" parent="ImageViewDefault">
         <item name="android:layout_width">@dimen/dimens_120dp</item>
         <item name="android:layout_height">@dimen/dimens_120dp</item>
@@ -246,7 +251,7 @@
     <style name="ToolbarDefault">
         <item name="android:layout_height">?actionBarSize</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/white</item>
     </style>
     <!--end of style for toolbar-->
 
@@ -298,6 +303,10 @@
     <!--end of style for bottom navigation-->
 
     <!--button-->
+    <style name="ButtonDefault">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
     <style name="ButtonWidth280">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">@dimen/dimens_280dp</item>
