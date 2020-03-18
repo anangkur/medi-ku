@@ -1,6 +1,5 @@
 package com.anangkur.mediku.feature.signIn
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.data.Repository
@@ -19,32 +18,42 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
     val errorSignInLive = MutableLiveData<String>()
     fun firebaseSignIn(email: String, password: String){
         CoroutineScope(Dispatchers.IO).launch{
-            progressSignInLive.postValue(true)
-            FirebaseAuth.getInstance()
-                .signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener {
-                    progressSignInLive.postValue(false)
-                    if (it.isSuccessful){
-                        resultSignInLive.postValue(it.result?.user)
-                    }else{
-                        errorSignInLive.postValue(it.exception?.message)
+            try {
+                progressSignInLive.postValue(true)
+                FirebaseAuth.getInstance()
+                    .signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful){
+                            resultSignInLive.postValue(it.result?.user)
+                        }else{
+                            errorSignInLive.postValue(it.exception?.message)
+                        }
                     }
-                }
+            }catch (e: Exception){
+                errorSignInLive.postValue(e.message)
+            }finally {
+                progressSignInLive.postValue(false)
+            }
         }
     }
 
     val progressSignInGoogleLive = MutableLiveData<Boolean>()
     fun firebaseSignInWithGoogle(acct: GoogleSignInAccount?) {
         CoroutineScope(Dispatchers.IO).launch {
-            progressSignInGoogleLive.postValue(true)
-            val credential = GoogleAuthProvider.getCredential(acct?.idToken, null)
-            FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener{ task ->
-                progressSignInGoogleLive.postValue(false)
-                if (task.isSuccessful) {
-                    resultSignInLive.postValue(task.result?.user)
-                } else {
-                    errorSignInLive.postValue(task.exception?.message)
+            try {
+                progressSignInGoogleLive.postValue(true)
+                val credential = GoogleAuthProvider.getCredential(acct?.idToken, null)
+                FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener{ task ->
+                    if (task.isSuccessful) {
+                        resultSignInLive.postValue(task.result?.user)
+                    } else {
+                        errorSignInLive.postValue(task.exception?.message)
+                    }
                 }
+            }catch (e: Exception){
+                errorSignInLive.postValue(e.message)
+            }finally {
+                progressSignInGoogleLive.postValue(false)
             }
         }
     }

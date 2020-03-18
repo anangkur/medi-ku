@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.feature.profile.ProfileActivity
 import com.anangkur.mediku.feature.signIn.SignInActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -48,7 +49,8 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
                 }
             })
             resultSignUpLive.observe(this@SignUpActivity, Observer {
-                showToastShort("Register Success: ${it.email}")
+                ProfileActivity.startActivity(this@SignUpActivity)
+                finish()
             })
             errorSignUpLive.observe(this@SignUpActivity, Observer {
                 showSnackbarLong(it)

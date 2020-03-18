@@ -16,26 +16,31 @@ class SignUpViewModel(private val repository: Repository): ViewModel() {
     val errorSignUpLive = MutableLiveData<String>()
     fun firebaseSignUp(name: String, email: String, password: String){
         CoroutineScope(Dispatchers.IO).launch{
-            progressSignUpLive.postValue(true)
-            FirebaseAuth.getInstance()
-                .createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener {
-                    progressSignUpLive.postValue(false)
-                    if (it.isSuccessful){
-                        val profileUpdate = UserProfileChangeRequest.Builder()
-                            .setDisplayName(name)
-                            .build()
-                        it.result?.user?.updateProfile(profileUpdate)?.addOnCompleteListener {updateProfile ->
-                            if (updateProfile.isSuccessful){
-                                resultSignUpLive.postValue(it.result?.user)
-                            }else{
-                                errorSignUpLive.postValue(updateProfile.exception?.message)
+            try {
+                progressSignUpLive.postValue(true)
+                FirebaseAuth.getInstance()
+                    .createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful){
+                            val profileUpdate = UserProfileChangeRequest.Builder()
+                                .setDisplayName(name)
+                                .build()
+                            it.result?.user?.updateProfile(profileUpdate)?.addOnCompleteListener {updateProfile ->
+                                if (updateProfile.isSuccessful){
+                                    resultSignUpLive.postValue(it.result?.user)
+                                }else{
+                                    errorSignUpLive.postValue(updateProfile.exception?.message)
+                                }
                             }
+                        }else{
+                            errorSignUpLive.postValue(it.exception?.message)
                         }
-                    }else{
-                        errorSignUpLive.postValue(it.exception?.message)
                     }
-                }
+            }catch (e: Exception){
+                errorSignUpLive.postValue(e.message)
+            }finally {
+                progressSignUpLive.postValue(false)
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.feature.profile.ProfileActivity
 import com.anangkur.mediku.feature.signUp.SignUpActivity
 import com.anangkur.mediku.util.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -74,7 +75,8 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
                 }
             })
             resultSignInLive.observe(this@SignInActivity, Observer {
-                showToastShort("SignIn Success: ${it.email}")
+                ProfileActivity.startActivity(this@SignInActivity)
+                finish()
             })
             errorSignInLive.observe(this@SignInActivity, Observer {
                 showSnackbarShort(it)

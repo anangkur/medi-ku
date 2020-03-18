@@ -22,4 +22,9 @@
     <string name="error_name_empty">Name is mandatory!</string>
     <string name="error_confirm_password_empty">Confirm Password is mandatory!</string>
     <string name="error_password_confirm_not_valid">Password Confirm not valid!</string>
+    <string name="label_edit_profile">Edit Profile</string>
+    <string name="label_edit_password">Edit Password</string>
+    <string name="label_logout">Logout</string>
+    <string name="toolbar_profile">Profile</string>
+    <string name="btn_retry">Retry</string>
 </resources>
