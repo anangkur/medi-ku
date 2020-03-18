@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.base.BaseErrorView
+import com.anangkur.mediku.feature.editProfile.EditProfileActivity
 import com.anangkur.mediku.feature.signIn.SignInActivity
 import com.anangkur.mediku.util.gone
 import com.anangkur.mediku.util.obtainViewModel
@@ -38,8 +39,13 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
         super.onCreate(savedInstanceState)
 
         observeViewModel()
-        mViewModel.getUserProfile()
         btn_logout.setOnClickListener { this.onClickLogout() }
+        btn_edit_profile.setOnClickListener { this.onClickEditProfile() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel.getUserProfile()
     }
 
     private fun observeViewModel(){
@@ -89,10 +95,11 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
     private fun setupView(data: FirebaseUser){
         tv_name.text = data.displayName
         tv_email.text = data.email
+        iv_profile.setImageURI(data.photoUrl)
     }
 
     override fun onClickEditProfile() {
-
+        EditProfileActivity.startActivity(this)
     }
 
     override fun onClickEditPassword() {

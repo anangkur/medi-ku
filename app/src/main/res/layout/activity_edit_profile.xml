@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LinearVerticalDefault">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <LinearLayout
+        android:id="@+id/layout_profile"
+        style="@style/LinearVerticalDefault"
+        android:padding="@dimen/dimens_20dp">
+        <RelativeLayout
+            android:id="@+id/btn_edit_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:foreground="?selectableItemBackground">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_profile"
+                style="@style/ImageView100"
+                android:src="@color/gray"
+                android:layout_centerInParent="true"/>
+            <ImageView
+                style="@style/ImageViewWrapAll"
+                android:src="@drawable/ic_edit"/>
+        </RelativeLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_name"
+            style="@style/TextInputLayoutDefault"
+            android:layout_marginTop="@dimen/dimens_20dp">
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/EditTextDefault"
+                android:hint="@string/hint_full_name"
+                android:inputType="textPersonName"
+                android:imeOptions="actionDone"
+                android:maxLines="1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.anangkur.materialloadingbutton.MaterialLoadingButton
+                android:id="@+id/btn_save"
+                style="@style/ButtonDefault"
+                app:mlb_cornerRadius="@dimen/dimens_100dp"
+                app:mlb_defaultColor="@color/colorPrimary"
+                app:mlb_textColor="@color/white"
+                app:mlb_textButton="@string/btn_save"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.anangkur.mediku.base.BaseErrorView
+        android:id="@+id/ev_profile"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:visibility="gone"/>
+</LinearLayout>
