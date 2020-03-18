@@ -3,8 +3,10 @@ package com.anangkur.mediku.feature.signUp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.data.Repository
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +42,27 @@ class SignUpViewModel(private val repository: Repository): ViewModel() {
                 errorSignUpLive.postValue(e.message)
             }finally {
                 progressSignUpLive.postValue(false)
+            }
+        }
+    }
+
+    val progressSignUpGoogleLive = MutableLiveData<Boolean>()
+    fun firebaseSignUpWithGoogle(acct: GoogleSignInAccount?) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                progressSignUpGoogleLive.postValue(true)
+                val credential = GoogleAuthProvider.getCredential(acct?.idToken, null)
+                FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener{ task ->
+                    if (task.isSuccessful) {
+                        resultSignUpLive.postValue(task.result?.user)
+                    } else {
+                        errorSignUpLive.postValue(task.exception?.message)
+                    }
+                }
+            }catch (e: Exception){
+                errorSignUpLive.postValue(e.message)
+            }finally {
+                progressSignUpGoogleLive.postValue(false)
             }
         }
     }
