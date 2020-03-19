@@ -10,10 +10,7 @@ import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.base.BaseErrorView
 import com.anangkur.mediku.feature.editProfile.EditProfileActivity
 import com.anangkur.mediku.feature.signIn.SignInActivity
-import com.anangkur.mediku.util.gone
-import com.anangkur.mediku.util.obtainViewModel
-import com.anangkur.mediku.util.showSnackbarLong
-import com.anangkur.mediku.util.visible
+import com.anangkur.mediku.util.*
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -95,7 +92,7 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
     private fun setupView(data: FirebaseUser){
         tv_name.text = data.displayName
         tv_email.text = data.email
-        iv_profile.setImageURI(data.photoUrl)
+        iv_profile.setImageUrl(data.photoUrl?.toString()?:"")
     }
 
     override fun onClickEditProfile() {

@@ -90,7 +90,7 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
 
     private fun setupView(data: FirebaseUser){
         et_name.setText(data.displayName)
-        iv_profile.setImageURI(data.photoUrl)
+        iv_profile.setImageUrl(data.photoUrl?.toString()?:"")
     }
 
     private fun setupTextWatcher(){
