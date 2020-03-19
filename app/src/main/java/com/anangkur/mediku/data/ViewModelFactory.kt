@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.anangkur.mediku.feature.editPassword.EditPasswordViewModel
 import com.anangkur.mediku.feature.editProfile.EditProfileViewModel
 import com.anangkur.mediku.feature.profile.ProfileViewModel
 import com.anangkur.mediku.feature.signIn.SignInViewModel
@@ -22,6 +23,7 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
                 isAssignableFrom(SignUpViewModel::class.java) -> SignUpViewModel(repository)
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(repository)
                 isAssignableFrom(EditProfileViewModel::class.java) -> EditProfileViewModel(repository)
+                isAssignableFrom(EditPasswordViewModel::class.java) -> EditPasswordViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T

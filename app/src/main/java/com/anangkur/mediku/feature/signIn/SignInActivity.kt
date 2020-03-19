@@ -29,6 +29,11 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
         fun startActivity(context: Context){
             context.startActivity(Intent(context, SignInActivity::class.java))
         }
+        fun startActivityClearStack(context: Context){
+            context.startActivity(Intent(context, SignInActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+        }
     }
 
     override val mLayout: Int
@@ -60,7 +65,7 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
                 val account = task.getResult(ApiException::class.java)
                 mViewModel.firebaseSignInWithGoogle(account)
             } catch (e: ApiException) {
-                showSnackbarShort(e.message?:"")
+                showSnackbarLong(e.message?:"")
             }
         }
     }
@@ -79,7 +84,7 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
                 finish()
             })
             errorSignInLive.observe(this@SignInActivity, Observer {
-                showSnackbarShort(it)
+                showSnackbarLong(it)
             })
             progressSignInGoogleLive.observe(this@SignInActivity, Observer {
                 if (it){

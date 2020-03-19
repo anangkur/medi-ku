@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.base.BaseErrorView
+import com.anangkur.mediku.feature.editPassword.EditPasswordActivity
 import com.anangkur.mediku.feature.editProfile.EditProfileActivity
 import com.anangkur.mediku.feature.signIn.SignInActivity
 import com.anangkur.mediku.util.*
@@ -38,6 +39,7 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
         observeViewModel()
         btn_logout.setOnClickListener { this.onClickLogout() }
         btn_edit_profile.setOnClickListener { this.onClickEditProfile() }
+        btn_edit_password.setOnClickListener { this.onClickEditPassword() }
     }
 
     override fun onResume() {
@@ -62,8 +64,7 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
                     layout_profile.visible()
                     setupView(it.second!!)
                 }else{
-                    SignInActivity.startActivity(this@ProfileActivity)
-                    finish()
+                    SignInActivity.startActivityClearStack(this@ProfileActivity)
                 }
             })
             errorGetProfile.observe(this@ProfileActivity, Observer {
@@ -80,8 +81,7 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
                 }
             })
             successLogout.observe(this@ProfileActivity, Observer {
-                SignInActivity.startActivity(this@ProfileActivity)
-                finish()
+                SignInActivity.startActivityClearStack(this@ProfileActivity)
             })
             errorLogout.observe(this@ProfileActivity, Observer {
                 showSnackbarLong(it)
@@ -93,6 +93,18 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
         tv_name.text = data.displayName
         tv_email.text = data.email
         iv_profile.setImageUrl(data.photoUrl?.toString()?:"")
+        setupEditPassword(data)
+    }
+
+    private fun setupEditPassword(user: FirebaseUser){
+        val provider = user.providerData
+        for (userInfo in provider){
+            when (userInfo.providerId){
+                Const.PROVIDER_FIREBASE -> { }
+                Const.PROVIDER_GOOGLE -> { btn_edit_password.gone() }
+                Const.PROVIDER_PASSWORD -> { btn_edit_password.visible() }
+            }
+        }
     }
 
     override fun onClickEditProfile() {
@@ -100,7 +112,7 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
     }
 
     override fun onClickEditPassword() {
-
+        EditPasswordActivity.startActivity(this)
     }
 
     override fun onClickLogout() {

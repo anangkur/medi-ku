@@ -63,8 +63,7 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
                     layout_profile.visible()
                     setupView(it.second!!)
                 }else{
-                    SignInActivity.startActivity(this@EditProfileActivity)
-                    finish()
+                    SignInActivity.startActivityClearStack(this@EditProfileActivity)
                 }
             })
             errorGetProfile.observe(this@EditProfileActivity, Observer {
@@ -83,7 +82,7 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
                 finish()
             })
             errorEditProfile.observe(this@EditProfileActivity, Observer {
-                showSnackbarShort(it)
+                showSnackbarLong(it)
             })
         }
     }

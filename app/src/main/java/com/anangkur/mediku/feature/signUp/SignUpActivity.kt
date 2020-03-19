@@ -55,7 +55,7 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
                 val account = task.getResult(ApiException::class.java)
                 mViewModel.firebaseSignUpWithGoogle(account)
             } catch (e: ApiException) {
-                showSnackbarShort(e.message?:"")
+                showSnackbarLong(e.message?:"")
             }
         }
     }

@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".feature.editProfile.EditProfileActivity"></activity>
+        <activity android:name=".feature.editPassword.EditPasswordActivity"></activity>
+        <activity android:name=".feature.editProfile.EditProfileActivity" />
         <activity android:name=".feature.profile.ProfileActivity" />
         <activity android:name=".feature.signUp.SignUpActivity" />
         <activity android:name=".feature.signIn.SignInActivity" />

@@ -32,4 +32,9 @@
     <string name="btn_save">Save</string>
     <string name="toolbar_edit_profile">Edit Profile</string>
     <string name="message_success_edit_profile">Success Edit Profile!</string>
+    <string name="hint_old_password">Old Password</string>
+    <string name="hint_new_password">New Password</string>
+    <string name="error_old_password_empty">Old password is mandatory!</string>
+    <string name="error_new_password_empty">New password is mandatory</string>
+    <string name="message_success_edit_password">Password has been successfully changed!</string>
 </resources>

@@ -3,6 +3,7 @@ package com.anangkur.mediku.util
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -41,6 +42,7 @@ fun Context.showToastShort(message: String){
 }
 
 fun ImageView.setImageUrl(url: String){
+    Log.d("SET_IMAGE_URL", url)
     Glide.with(this)
         .load(url)
         .apply(RequestOptions().error(R.color.gray))
@@ -50,6 +52,7 @@ fun ImageView.setImageUrl(url: String){
 }
 
 fun ImageView.setImageUrlDarkBg(url: String){
+    Log.d("SET_IMAGE_URL", url)
     Glide.with(this)
         .load(url)
         .apply(RequestOptions().error(R.color.gray))
