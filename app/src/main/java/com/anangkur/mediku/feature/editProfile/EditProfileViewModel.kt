@@ -1,5 +1,6 @@
 package com.anangkur.mediku.feature.editProfile
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.data.Repository
@@ -22,7 +23,8 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
                 val userUpdateRequest = UserProfileChangeRequest.Builder()
                     .setDisplayName(name)
                     .build()
-                FirebaseAuth.getInstance().currentUser?.updateProfile(userUpdateRequest)
+                val user = FirebaseAuth.getInstance().currentUser
+                user?.updateProfile(userUpdateRequest)
                     ?.addOnCompleteListener {
                         if (it.isSuccessful){
                             successEditProfile.postValue(it.result)
@@ -55,6 +57,33 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
                 errorGetProfile.postValue(e.message)
             }finally {
                 progressGetProfile.postValue(false)
+            }
+        }
+    }
+
+    val progressUploadImage = MutableLiveData<Boolean>()
+    val successUploadImage = MutableLiveData<Uri>()
+    val errorUploadImage = MutableLiveData<String>()
+    fun uploadImage(image: Uri){
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                progressUploadImage.postValue(true)
+                val userUpdateRequest = UserProfileChangeRequest.Builder()
+                    .setPhotoUri(image)
+                    .build()
+                val user = FirebaseAuth.getInstance().currentUser
+                user?.updateProfile(userUpdateRequest)
+                    ?.addOnCompleteListener {
+                        if (it.isSuccessful){
+                            successUploadImage.postValue(user.photoUrl)
+                        }else{
+                            errorUploadImage.postValue(it.exception?.message)
+                        }
+                    }
+            }catch (e: Exception){
+                errorUploadImage.postValue(e.message)
+            }finally {
+                progressUploadImage.postValue(false)
             }
         }
     }

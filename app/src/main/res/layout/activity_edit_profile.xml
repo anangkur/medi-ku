@@ -28,6 +28,16 @@
                 android:src="@drawable/ic_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
+            <ProgressBar
+                android:id="@+id/pb_image_profile"
+                style="?android:progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_name"

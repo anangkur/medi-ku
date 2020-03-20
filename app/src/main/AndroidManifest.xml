@@ -3,6 +3,8 @@
     package="com.anangkur.mediku">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,8 +13,11 @@
         android:roundIcon="@drawable/ic_mediku_512"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".feature.editPassword.EditPasswordActivity"></activity>
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true">
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity android:name=".feature.editPassword.EditPasswordActivity"/>
         <activity android:name=".feature.editProfile.EditProfileActivity" />
         <activity android:name=".feature.profile.ProfileActivity" />
         <activity android:name=".feature.signUp.SignUpActivity" />
@@ -20,7 +25,6 @@
         <activity android:name=".feature.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

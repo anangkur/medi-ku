@@ -24,6 +24,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 androidExtensions {
@@ -65,7 +69,7 @@ dependencies {
     testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "org.mockito:mockito-inline:$mockitoVersion"
-    testImplementation "androidx.arch.core:core-testing:$archLifecycleVersion"
+    testImplementation "androidx.arch.core:core-testing:$archLifecycleTestingVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineTestVersion"
 
@@ -80,7 +84,7 @@ dependencies {
     androidTestImplementation "androidx.test:rules:$androidXTestVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
-    androidTestImplementation "androidx.arch.core:core-testing:$archLifecycleVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$archLifecycleTestingVersion"
 
     // Dependencies for Idle Resource
     implementation "androidx.test.espresso:espresso-idling-resource:$idleResourceVersion"
@@ -93,10 +97,12 @@ dependencies {
 
     // layout
     implementation "com.github.anangkur:Material-Loading-Button:$materialLoadingButton"
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation "de.hdodenhof:circleimageview:$circleImageViewVersion"
+    implementation "com.github.esafirm.android-image-picker:imagepicker:$imagePickerVersion"
+    api "com.theartofdev.edmodo:android-image-cropper:$imageCropperVersion"
 
     // firebase
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
-    implementation 'com.google.firebase:firebase-auth:19.3.0'
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"
+    implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
+    implementation "com.google.android.gms:play-services-auth:$googleAuthVersion"
 }

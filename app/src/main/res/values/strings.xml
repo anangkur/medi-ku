@@ -37,4 +37,10 @@
     <string name="error_old_password_empty">Old password is mandatory!</string>
     <string name="error_new_password_empty">New password is mandatory</string>
     <string name="message_success_edit_password">Password has been successfully changed!</string>
+
+    <!--image picker dialog-->
+    <string name="label_select_image_from">Select Image from</string>
+    <string name="btn_camera">Camera</string>
+    <string name="btn_gallery">Gallery</string>
+    <!--end of image picker dialog-->
 </resources>

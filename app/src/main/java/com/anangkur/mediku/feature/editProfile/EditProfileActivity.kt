@@ -2,6 +2,7 @@ package com.anangkur.mediku.feature.editProfile
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,9 +13,12 @@ import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.base.BaseErrorView
 import com.anangkur.mediku.feature.signIn.SignInActivity
 import com.anangkur.mediku.util.*
+import com.esafirm.imagepicker.features.ImagePicker
 import com.google.firebase.auth.FirebaseUser
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import java.io.File
 
 class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActionListener {
 
@@ -39,6 +43,7 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
         setupTextWatcher()
         observeViewModel()
         btn_save.setOnClickListener { this.onClickSave(et_name.text.toString()) }
+        btn_edit_photo.setOnClickListener { this.onCLickImage() }
     }
 
     override fun onResume() {
@@ -46,8 +51,32 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
         mViewModel.getUserProfile()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            cropImage(data)
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            handleImageCropperResult(data, resultCode, object: CompressImageListener{
+                override fun progress(isLoading: Boolean) {
+                    if (isLoading){
+                        pb_image_profile.visible()
+                    }else{
+                        pb_image_profile.gone()
+                    }
+                }
+                override fun success(data: File) {
+                    mViewModel.uploadImage(Uri.fromFile(data))
+                }
+                override fun error(errorMessage: String) {
+                    showSnackbarLong(errorMessage)
+                }
+            })
+        }
+    }
+
     private fun observeViewModel(){
         mViewModel.apply {
+            // get profile
             progressGetProfile.observe(this@EditProfileActivity, Observer {
                 if (it){
                     ev_profile.visible()
@@ -70,6 +99,8 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
                 ev_profile.showError(it, getString(R.string.btn_retry), BaseErrorView.ERROR_GENERAL)
                 ev_profile.setRetryClickListener { getUserProfile() }
             })
+
+            // edit profile
             progressEditProfile.observe(this@EditProfileActivity, Observer {
                 if (it){
                     btn_save.showProgress()
@@ -80,6 +111,21 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
             successEditProfile.observe(this@EditProfileActivity, Observer {
                 showToastShort(getString(R.string.message_success_edit_profile))
                 finish()
+            })
+            errorEditProfile.observe(this@EditProfileActivity, Observer {
+                showSnackbarLong(it)
+            })
+
+            // upload image
+            progressUploadImage.observe(this@EditProfileActivity, Observer {
+                if (it){
+                    pb_image_profile.visible()
+                }else{
+                    pb_image_profile.gone()
+                }
+            })
+            successUploadImage.observe(this@EditProfileActivity, Observer {
+                iv_profile.setImageUrl(it.toString())
             })
             errorEditProfile.observe(this@EditProfileActivity, Observer {
                 showSnackbarLong(it)
@@ -116,5 +162,19 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
                 mViewModel.editProfile(name)
             }
         }
+    }
+
+    override fun onCLickImage() {
+        showDialogImagePicker(object: DialogImagePickerActionListener{
+            override fun onClickCamera() {
+                ImagePicker.cameraOnly().start(this@EditProfileActivity)
+            }
+            override fun onClickGallery() {
+                ImagePicker.create(this@EditProfileActivity)
+                    .single()
+                    .showCamera(false)
+                    .start()
+            }
+        })
     }
 }

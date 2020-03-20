@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CardWrapHeight"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true">
+    <LinearLayout
+        style="@style/LinearVerticalWrap"
+        android:padding="@dimen/dimens_20dp">
+        <TextView
+            style="@style/TextExtraBig"
+            android:text="@string/label_select_image_from"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+        <!--button camera-->
+        <LinearLayout
+            android:id="@+id/btn_camera"
+            style="@style/LinearHorizontalWrap"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:gravity="center"
+            android:padding="@dimen/dimens_10dp"
+            android:foreground="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                style="@style/ImageView28"
+                app:srcCompat="@drawable/ic_photo_camera_black_24dp"/>
+            <TextView
+                style="@style/TextBig"
+                android:layout_width="match_parent"
+                android:text="@string/btn_camera"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/dimens_20dp"/>
+        </LinearLayout>
+
+        <!--button gallery-->
+        <LinearLayout
+            android:id="@+id/btn_gallery"
+            style="@style/LinearHorizontalWrap"
+            android:gravity="center"
+            android:padding="@dimen/dimens_10dp"
+            android:foreground="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                style="@style/ImageView28"
+                app:srcCompat="@drawable/ic_photo_black_24dp"/>
+            <TextView
+                style="@style/TextBig"
+                android:layout_width="match_parent"
+                android:text="@string/btn_gallery"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/dimens_20dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
