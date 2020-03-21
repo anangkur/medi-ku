@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.feature.forgotPassword.ForgotPasswordActivity
 import com.anangkur.mediku.feature.profile.ProfileActivity
 import com.anangkur.mediku.feature.signUp.SignUpActivity
 import com.anangkur.mediku.util.*
@@ -110,7 +111,7 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
     }
 
     override fun onClickForgot() {
-
+        ForgotPasswordActivity.startActivity(this)
     }
 
     override fun onClickSignUp() {

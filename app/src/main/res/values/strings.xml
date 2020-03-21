@@ -42,5 +42,8 @@
     <string name="label_select_image_from">Select Image from</string>
     <string name="btn_camera">Camera</string>
     <string name="btn_gallery">Gallery</string>
+    <string name="label_forgot_password">Forgot Password</string>
+    <string name="desc_forgot_password">We will send an email to change \nyour password</string>
+    <string name="btn_send_email">Send Email</string>
     <!--end of image picker dialog-->
 </resources>
