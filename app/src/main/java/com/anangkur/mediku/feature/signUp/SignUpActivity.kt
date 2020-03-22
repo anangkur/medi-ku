@@ -55,7 +55,7 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
                 val account = task.getResult(ApiException::class.java)
                 mViewModel.firebaseSignUpWithGoogle(account)
             } catch (e: ApiException) {
-                showSnackbarShort(e.message?:"")
+                showSnackbarLong(e.message?:"")
             }
         }
     }
@@ -69,7 +69,7 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
                     btn_signup.hideProgress()
                 }
             })
-            resultSignUpLive.observe(this@SignUpActivity, Observer {
+            successCreateUser.observe(this@SignUpActivity, Observer {
                 ProfileActivity.startActivity(this@SignUpActivity)
                 finish()
             })

@@ -17,7 +17,7 @@ class SplashViewModel(private val repository: Repository): ViewModel(){
         CoroutineScope(Dispatchers.IO).launch {
             progressGetProfile.postValue(true)
             try {
-                val user = FirebaseAuth.getInstance().currentUser
+                val user = repository.remoteRepository.firebaseAuth.currentUser
                 if (user != null){
                     successGetProfile.postValue(true)
                 }else{

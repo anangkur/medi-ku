@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.feature.forgotPassword.ForgotPasswordActivity
 import com.anangkur.mediku.feature.profile.ProfileActivity
 import com.anangkur.mediku.feature.signUp.SignUpActivity
 import com.anangkur.mediku.util.*
@@ -28,6 +29,11 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
         const val RC_SIGN_IN = 9001
         fun startActivity(context: Context){
             context.startActivity(Intent(context, SignInActivity::class.java))
+        }
+        fun startActivityClearStack(context: Context){
+            context.startActivity(Intent(context, SignInActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
         }
     }
 
@@ -60,7 +66,7 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
                 val account = task.getResult(ApiException::class.java)
                 mViewModel.firebaseSignInWithGoogle(account)
             } catch (e: ApiException) {
-                showSnackbarShort(e.message?:"")
+                showSnackbarLong(e.message?:"")
             }
         }
     }
@@ -78,8 +84,12 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
                 ProfileActivity.startActivity(this@SignInActivity)
                 finish()
             })
+            successCreateUser.observe(this@SignInActivity, Observer {
+                ProfileActivity.startActivity(this@SignInActivity)
+                finish()
+            })
             errorSignInLive.observe(this@SignInActivity, Observer {
-                showSnackbarShort(it)
+                showSnackbarLong(it)
             })
             progressSignInGoogleLive.observe(this@SignInActivity, Observer {
                 if (it){
@@ -105,7 +115,7 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
     }
 
     override fun onClickForgot() {
-
+        ForgotPasswordActivity.startActivity(this)
     }
 
     override fun onClickSignUp() {

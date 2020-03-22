@@ -9,23 +9,36 @@
 
     <LinearLayout
         android:id="@+id/layout_profile"
-        style="@style/LinearVerticalDefault"
+        style="@style/LinearVerticalWrap"
         android:padding="@dimen/dimens_20dp">
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btn_edit_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:foreground="?selectableItemBackground">
+            style="@style/ConstraintWrapAll"
+            android:foreground="?selectableItemBackground"
+            android:layout_gravity="center">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_profile"
                 style="@style/ImageView100"
                 android:src="@color/gray"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
             <ImageView
                 style="@style/ImageViewWrapAll"
-                android:src="@drawable/ic_edit"/>
-        </RelativeLayout>
+                android:src="@drawable/ic_edit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+            <ProgressBar
+                android:id="@+id/pb_image_profile"
+                style="?android:progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_name"
             style="@style/TextInputLayoutDefault"
@@ -35,8 +48,36 @@
                 style="@style/EditTextDefault"
                 android:hint="@string/hint_full_name"
                 android:inputType="textPersonName"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionNext"
                 android:maxLines="1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_height"
+            style="@style/TextInputLayoutDefault"
+            android:layout_marginTop="@dimen/dimens_20dp">
+            <EditText
+                android:id="@+id/et_height"
+                style="@style/EditTextDefault"
+                android:hint="@string/hint_height"
+                android:inputType="numberDecimal"
+                android:digits="0987654321"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:maxLength="3"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_weight"
+            style="@style/TextInputLayoutDefault"
+            android:layout_marginTop="@dimen/dimens_20dp">
+            <EditText
+                android:id="@+id/et_weight"
+                style="@style/EditTextDefault"
+                android:hint="@string/hint_weight"
+                android:inputType="numberDecimal"
+                android:digits="0987654321"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:maxLength="3"/>
         </com.google.android.material.textfield.TextInputLayout>
         <RelativeLayout
             android:layout_width="match_parent"

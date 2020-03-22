@@ -3,8 +3,9 @@ package com.anangkur.mediku.feature.profile
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.data.Repository
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.util.Const
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,18 +13,23 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(private val repository: Repository): ViewModel() {
 
     val progressGetProfile = MutableLiveData<Boolean>()
-    val successGetProfile = MutableLiveData<Pair<Boolean, FirebaseUser?>>()
+    val successGetProfile = MutableLiveData<User>()
     val errorGetProfile = MutableLiveData<String>()
     fun getUserProfile(){
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                val user = repository.remoteRepository.firebaseAuth.currentUser
                 progressGetProfile.postValue(true)
-                val currentUser = FirebaseAuth.getInstance().currentUser
-                if (currentUser != null){
-                    successGetProfile.postValue(Pair(true, currentUser))
-                }else{
-                    successGetProfile.postValue(Pair(false, null))
-                }
+                repository.remoteRepository.firestore
+                    .collection(Const.collectionUser)
+                    .document(user?.uid?:"")
+                    .get()
+                    .addOnSuccessListener { result ->
+                        successGetProfile.postValue(result.toObject<User>())
+                    }
+                    .addOnFailureListener { exception ->
+                        errorGetProfile.postValue(exception.message)
+                    }
             }catch (e: Exception){
                 errorGetProfile.postValue(e.message)
             }finally {
@@ -39,7 +45,7 @@ class ProfileViewModel(private val repository: Repository): ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 progressLogout.postValue(true)
-                FirebaseAuth.getInstance().signOut()
+                repository.remoteRepository.firebaseAuth.signOut()
                 successLogout.postValue(true)
             }catch (e: Exception){
                 errorLogout.postValue(e.message)

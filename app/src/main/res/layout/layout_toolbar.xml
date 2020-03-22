@@ -3,4 +3,5 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     style="@style/ToolbarDefault"
-    app:titleTextColor="@color/black"/>
+    app:titleTextColor="@color/black"
+    app:navigationIcon="@drawable/ic_arrow_back_black_24dp"/>
