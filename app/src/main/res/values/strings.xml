@@ -27,8 +27,8 @@
     <string name="label_logout">Logout</string>
     <string name="toolbar_profile">Profile</string>
     <string name="btn_retry">Retry</string>
-    <string name="hint_height">Height</string>
-    <string name="hint_weight">Weight</string>
+    <string name="hint_height">Height (cm)</string>
+    <string name="hint_weight">Weight (kg)</string>
     <string name="btn_save">Save</string>
     <string name="toolbar_edit_profile">Edit Profile</string>
     <string name="message_success_edit_profile">Success Edit Profile!</string>

@@ -17,7 +17,7 @@ class ForgotPasswordViewModel(private val repository: Repository): ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 progressForgotPassword.postValue(true)
-                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                repository.remoteRepository.firebaseAuth.sendPasswordResetEmail(email)
                     .addOnCompleteListener {
                         if (it.isSuccessful){
                             successForgotPassword.postValue("Email sent!")

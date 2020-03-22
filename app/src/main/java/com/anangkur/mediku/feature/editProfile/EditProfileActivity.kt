@@ -11,10 +11,9 @@ import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.base.BaseErrorView
-import com.anangkur.mediku.feature.signIn.SignInActivity
+import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.util.*
 import com.esafirm.imagepicker.features.ImagePicker
-import com.google.firebase.auth.FirebaseUser
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -42,7 +41,11 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
 
         setupTextWatcher()
         observeViewModel()
-        btn_save.setOnClickListener { this.onClickSave(et_name.text.toString()) }
+        btn_save.setOnClickListener { this.onClickSave(
+            et_name.text.toString(),
+            et_height.text.toString(),
+            et_weight.text.toString()
+        ) }
         btn_edit_photo.setOnClickListener { this.onCLickImage() }
     }
 
@@ -88,12 +91,8 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
             })
             successGetProfile.observe(this@EditProfileActivity, Observer {
                 ev_profile.gone()
-                if (it.first){
-                    layout_profile.visible()
-                    setupView(it.second!!)
-                }else{
-                    SignInActivity.startActivityClearStack(this@EditProfileActivity)
-                }
+                layout_profile.visible()
+                setupView(it)
             })
             errorGetProfile.observe(this@EditProfileActivity, Observer {
                 ev_profile.showError(it, getString(R.string.btn_retry), BaseErrorView.ERROR_GENERAL)
@@ -109,8 +108,7 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
                 }
             })
             successEditProfile.observe(this@EditProfileActivity, Observer {
-                showToastShort(getString(R.string.message_success_edit_profile))
-                finish()
+                showSnackbarShort(getString(R.string.message_success_edit_profile))
             })
             errorEditProfile.observe(this@EditProfileActivity, Observer {
                 showSnackbarLong(it)
@@ -125,17 +123,18 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
                 }
             })
             successUploadImage.observe(this@EditProfileActivity, Observer {
+                editProfile(user!!.apply { photo = it.toString() })
                 iv_profile.setImageUrl(it.toString())
-            })
-            errorEditProfile.observe(this@EditProfileActivity, Observer {
-                showSnackbarLong(it)
             })
         }
     }
 
-    private fun setupView(data: FirebaseUser){
-        et_name.setText(data.displayName)
-        iv_profile.setImageUrl(data.photoUrl?.toString()?:"")
+    private fun setupView(data: User){
+        mViewModel.user = data
+        et_name.setText(data.name)
+        et_height.setText(data.height.toString())
+        et_weight.setText(data.weight.toString())
+        iv_profile.setImageUrl(data.photo)
     }
 
     private fun setupTextWatcher(){
@@ -150,16 +149,48 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+        et_height.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(s: Editable) {
+                when {
+                    s.length > 1 && s.startsWith("0") -> {
+                        s.delete(0,1)
+                    }
+                    s.isNullOrEmpty() -> {
+                        et_height.setText("0")
+                    }
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+        et_weight.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(s: Editable) {
+                when {
+                    s.length > 1 && s.startsWith("0") -> {
+                        s.delete(0,1)
+                    }
+                    s.isNullOrEmpty() -> {
+                        et_weight.setText("0")
+                    }
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 
-    override fun onClickSave(name: String) {
+    override fun onClickSave(name: String, height: String, weight: String) {
         when {
             !name.validateName() -> {
                 til_name.isErrorEnabled = true
                 til_name.error = getString(R.string.error_name_empty)
             }
             else -> {
-                mViewModel.editProfile(name)
+                mViewModel.editProfile(mViewModel.user!!.apply {
+                    this.name = name
+                    this.height = height.toInt()
+                    this.weight = weight.toInt()
+                })
             }
         }
     }

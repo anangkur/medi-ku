@@ -4,33 +4,37 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.data.Repository
+import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.util.Const
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class EditProfileViewModel(private val repository: Repository): ViewModel() {
 
+    var user: User? = null
+
     val progressEditProfile = MutableLiveData<Boolean>()
     val successEditProfile = MutableLiveData<Void>()
     val errorEditProfile = MutableLiveData<String>()
-    fun editProfile(name: String){
+    fun editProfile(user: User){
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 progressEditProfile.postValue(true)
-                val userUpdateRequest = UserProfileChangeRequest.Builder()
-                    .setDisplayName(name)
-                    .build()
-                val user = FirebaseAuth.getInstance().currentUser
-                user?.updateProfile(userUpdateRequest)
-                    ?.addOnCompleteListener {
-                        if (it.isSuccessful){
-                            successEditProfile.postValue(it.result)
-                        }else{
-                            errorEditProfile.postValue(it.exception?.message)
-                        }
+                val userFirebase = repository.remoteRepository.firebaseAuth.currentUser
+                repository.remoteRepository.firestore
+                    .collection(Const.collectionUser)
+                    .document(userFirebase?.uid?:"")
+                    .set(user)
+                    .addOnSuccessListener { result ->
+                        successEditProfile.postValue(result)
+                    }
+                    .addOnFailureListener { exeption ->
+                        errorEditProfile.postValue(exeption.message)
                     }
             }catch (e: Exception){
                 errorEditProfile.postValue(e.message)
@@ -41,18 +45,23 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
     }
 
     val progressGetProfile = MutableLiveData<Boolean>()
-    val successGetProfile = MutableLiveData<Pair<Boolean, FirebaseUser?>>()
+    val successGetProfile = MutableLiveData<User>()
     val errorGetProfile = MutableLiveData<String>()
     fun getUserProfile(){
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                val user = repository.remoteRepository.firebaseAuth.currentUser
                 progressGetProfile.postValue(true)
-                val currentUser = FirebaseAuth.getInstance().currentUser
-                if (currentUser != null){
-                    successGetProfile.postValue(Pair(true, currentUser))
-                }else{
-                    successGetProfile.postValue(Pair(false, null))
-                }
+                repository.remoteRepository.firestore
+                    .collection(Const.collectionUser)
+                    .document(user?.uid?:"")
+                    .get()
+                    .addOnSuccessListener { result ->
+                        successGetProfile.postValue(result.toObject<User>())
+                    }
+                    .addOnFailureListener { exception ->
+                        errorGetProfile.postValue(exception.message)
+                    }
             }catch (e: Exception){
                 errorGetProfile.postValue(e.message)
             }finally {
@@ -63,7 +72,6 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
 
     val progressUploadImage = MutableLiveData<Boolean>()
     val successUploadImage = MutableLiveData<Uri>()
-    val errorUploadImage = MutableLiveData<String>()
     fun uploadImage(image: Uri){
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -71,17 +79,17 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
                 val userUpdateRequest = UserProfileChangeRequest.Builder()
                     .setPhotoUri(image)
                     .build()
-                val user = FirebaseAuth.getInstance().currentUser
+                val user = repository.remoteRepository.firebaseAuth.currentUser
                 user?.updateProfile(userUpdateRequest)
                     ?.addOnCompleteListener {
                         if (it.isSuccessful){
                             successUploadImage.postValue(user.photoUrl)
                         }else{
-                            errorUploadImage.postValue(it.exception?.message)
+                            errorEditProfile.postValue(it.exception?.message)
                         }
                     }
             }catch (e: Exception){
-                errorUploadImage.postValue(e.message)
+                errorEditProfile.postValue(e.message)
             }finally {
                 progressUploadImage.postValue(false)
             }

@@ -20,7 +20,7 @@ class EditPasswordViewModel(private val repository: Repository): ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 progressEditPassword.postValue(true)
-                val user = FirebaseAuth.getInstance().currentUser
+                val user = repository.remoteRepository.firebaseAuth.currentUser
                 val credential = EmailAuthProvider.getCredential(user?.email?:"", oldPassword?:"")
                 user?.reauthenticate(credential)?.addOnCompleteListener {
                     if (it.isSuccessful){

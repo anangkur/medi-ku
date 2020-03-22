@@ -48,8 +48,36 @@
                 style="@style/EditTextDefault"
                 android:hint="@string/hint_full_name"
                 android:inputType="textPersonName"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionNext"
                 android:maxLines="1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_height"
+            style="@style/TextInputLayoutDefault"
+            android:layout_marginTop="@dimen/dimens_20dp">
+            <EditText
+                android:id="@+id/et_height"
+                style="@style/EditTextDefault"
+                android:hint="@string/hint_height"
+                android:inputType="numberDecimal"
+                android:digits="0987654321"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:maxLength="3"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_weight"
+            style="@style/TextInputLayoutDefault"
+            android:layout_marginTop="@dimen/dimens_20dp">
+            <EditText
+                android:id="@+id/et_weight"
+                style="@style/EditTextDefault"
+                android:hint="@string/hint_weight"
+                android:inputType="numberDecimal"
+                android:digits="0987654321"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:maxLength="3"/>
         </com.google.android.material.textfield.TextInputLayout>
         <RelativeLayout
             android:layout_width="match_parent"

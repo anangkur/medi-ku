@@ -28,10 +28,17 @@
 
             <TextView
                 android:id="@+id/tv_email"
-                style="@style/TextBoldBig"
+                style="@style/TextBoldNormal"
                 android:text="@string/app_name"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/dimens_10dp"/>
+
+            <TextView
+                android:id="@+id/tv_height_weight"
+                style="@style/TextBoldNormal"
+                android:text="@string/app_name"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dimens_4dp"/>
 
             <LinearLayout
                 android:id="@+id/btn_edit_profile"

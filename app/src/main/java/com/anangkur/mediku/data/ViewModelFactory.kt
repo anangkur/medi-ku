@@ -13,6 +13,8 @@ import com.anangkur.mediku.feature.signUp.SignUpViewModel
 import com.anangkur.mediku.feature.splash.SplashViewModel
 import com.anangkur.mediku.util.Const
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class ViewModelFactory(private val repository: Repository): ViewModelProvider.NewInstanceFactory() {
 
@@ -35,7 +37,9 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
         fun getInstance(context: Context) = INSTANCE ?: synchronized(ViewModelFactory::class.java){
             INSTANCE ?: ViewModelFactory(Injection.provideRepository(
                 context,
-                context.getSharedPreferences(Const.PREF_NAME, MODE_PRIVATE)
+                context.getSharedPreferences(Const.PREF_NAME, MODE_PRIVATE),
+                FirebaseAuth.getInstance(),
+                Firebase.firestore
             )).also { INSTANCE = it }
         }
     }
