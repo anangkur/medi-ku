@@ -45,9 +45,6 @@
                     style="@style/TextBoldBig"
                     android:text="@string/label_edit_profile"
                     android:layout_margin="@dimen/dimens_20dp"/>
-                <View
-                    style="@style/ViewLine"
-                    android:layout_width="match_parent"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/btn_edit_password"
@@ -60,10 +57,10 @@
                     style="@style/TextBoldBig"
                     android:text="@string/label_edit_password"
                     android:layout_margin="@dimen/dimens_20dp"/>
-                <View
-                    style="@style/ViewLine"
-                    android:layout_width="match_parent"/>
             </LinearLayout>
+            <View
+                style="@style/ViewLine"
+                android:layout_width="match_parent"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

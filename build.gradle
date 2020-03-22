@@ -56,6 +56,7 @@ ext {
 
     firebaseAnalyticsVersion='17.2.3'
     firebaseAuthVersion='19.3.0'
+    firebaseFirestoreVersion='21.4.1'
 
     googleAuthVersion='17.0.0'
 }

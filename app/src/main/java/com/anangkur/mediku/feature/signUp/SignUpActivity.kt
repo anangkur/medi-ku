@@ -69,7 +69,7 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
                     btn_signup.hideProgress()
                 }
             })
-            resultSignUpLive.observe(this@SignUpActivity, Observer {
+            successCreateUser.observe(this@SignUpActivity, Observer {
                 ProfileActivity.startActivity(this@SignUpActivity)
                 finish()
             })
