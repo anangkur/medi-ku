@@ -11,4 +11,11 @@
     <color name="gray">#E0E0E0</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="blue1">#7E55BF</color>
+    <color name="blue2">#6C76E0</color>
+    <color name="green1">#26C1B0</color>
+    <color name="green2">#81ED81</color>
+    <color name="purple_1">#E55BAC</color>
+    <color name="purple_2">#D07BE4</color>
+
 </resources>

@@ -30,6 +30,16 @@ abstract class BaseAdapter<DATA>: RecyclerView.Adapter<BaseAdapter<DATA>.BaseVie
         notifyDataSetChanged()
     }
 
+    fun addRecyclerData(data: DATA){
+        listItem.add(data)
+        notifyDataSetChanged()
+    }
+
+    fun resetRecyclerData(){
+        listItem.clear()
+        notifyDataSetChanged()
+    }
+
     abstract fun bind(data: DATA, itemView: View, position: Int)
 
     inner class BaseViewHolder(view: View): RecyclerView.ViewHolder(view){

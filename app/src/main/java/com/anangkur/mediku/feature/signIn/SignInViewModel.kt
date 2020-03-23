@@ -65,21 +65,29 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 progressSignInGoogleLive.postValue(true)
-                val userMap = User(
-                    email = user.email?:"",
-                    name = user.displayName?:"",
-                    height = 0,
-                    weight = 0,
-                    photo = user.photoUrl.toString(),
-                    providerName = user.providerData[user.providerData.size-1].providerId)
                 repository.remoteRepository.firestore.collection(Const.collectionUser)
                     .document(user.uid)
-                    .set(userMap)
-                    .addOnSuccessListener { result ->
-                        successCreateUser.postValue(result)
+                    .get()
+                    .addOnSuccessListener {
+                        resultSignInLive.postValue(user)
                     }
-                    .addOnFailureListener { exception ->
-                        errorSignInLive.postValue(exception.message)
+                    .addOnFailureListener {
+                        val userMap = User(
+                            email = user.email?:"",
+                            name = user.displayName?:"",
+                            height = 0,
+                            weight = 0,
+                            photo = user.photoUrl.toString(),
+                            providerName = user.providerData[user.providerData.size-1].providerId)
+                        repository.remoteRepository.firestore.collection(Const.collectionUser)
+                            .document(user.uid)
+                            .set(userMap)
+                            .addOnSuccessListener { result ->
+                                successCreateUser.postValue(result)
+                            }
+                            .addOnFailureListener { exception ->
+                                errorSignInLive.postValue(exception.message)
+                            }
                     }
             }catch (e: Exception){
                 errorSignInLive.postValue(e.message)

@@ -17,4 +17,9 @@ object Const {
     const val fieldEmail = "email"
     const val fieldPhoto = "photo"
     const val fieldPhoneNumber = "phoneNumber"
+
+    // medical record
+    const val CATEGORY_SICK = "Sick"
+    const val CATEGORY_CHECKUP = "Checkup"
+    const val CATEGORY_HOSPITAL = "Hospital"
 }
