@@ -82,21 +82,16 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
             // get profile
             progressGetProfile.observe(this@EditProfileActivity, Observer {
                 if (it){
-                    ev_profile.visible()
-                    ev_profile.showProgress()
                     layout_profile.gone()
                 }else{
-                    ev_profile.endProgress()
                 }
             })
             successGetProfile.observe(this@EditProfileActivity, Observer {
-                ev_profile.gone()
                 layout_profile.visible()
                 setupView(it)
             })
             errorGetProfile.observe(this@EditProfileActivity, Observer {
-                ev_profile.showError(it, getString(R.string.btn_retry), BaseErrorView.ERROR_GENERAL)
-                ev_profile.setRetryClickListener { getUserProfile() }
+                showSnackbarLong(it)
             })
 
             // edit profile

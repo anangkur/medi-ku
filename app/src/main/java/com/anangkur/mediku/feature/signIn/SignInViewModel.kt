@@ -8,6 +8,7 @@ import com.anangkur.mediku.util.Const
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,25 +70,30 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                     .document(user.uid)
                     .get()
                     .addOnSuccessListener {
-                        resultSignInLive.postValue(user)
+                        val userFirestore = it.toObject<User>()
+                        if (userFirestore != null){
+                            resultSignInLive.postValue(user)
+                        }else{
+                            val userMap = User(
+                                email = user.email?:"",
+                                name = user.displayName?:"",
+                                height = 0,
+                                weight = 0,
+                                photo = user.photoUrl.toString(),
+                                providerName = user.providerData[user.providerData.size-1].providerId)
+                            repository.remoteRepository.firestore.collection(Const.collectionUser)
+                                .document(user.uid)
+                                .set(userMap)
+                                .addOnSuccessListener { result ->
+                                    successCreateUser.postValue(result)
+                                }
+                                .addOnFailureListener { exception ->
+                                    errorSignInLive.postValue(exception.message)
+                                }
+                        }
                     }
                     .addOnFailureListener {
-                        val userMap = User(
-                            email = user.email?:"",
-                            name = user.displayName?:"",
-                            height = 0,
-                            weight = 0,
-                            photo = user.photoUrl.toString(),
-                            providerName = user.providerData[user.providerData.size-1].providerId)
-                        repository.remoteRepository.firestore.collection(Const.collectionUser)
-                            .document(user.uid)
-                            .set(userMap)
-                            .addOnSuccessListener { result ->
-                                successCreateUser.postValue(result)
-                            }
-                            .addOnFailureListener { exception ->
-                                errorSignInLive.postValue(exception.message)
-                            }
+                        errorSignInLive.postValue(it.message)
                     }
             }catch (e: Exception){
                 errorSignInLive.postValue(e.message)
