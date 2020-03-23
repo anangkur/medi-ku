@@ -45,5 +45,6 @@
     <string name="label_forgot_password">Forgot Password</string>
     <string name="desc_forgot_password">We will send an email to change \nyour password</string>
     <string name="btn_send_email">Send Email</string>
+    <string name="btn_add_medical_record">Add Medical Record</string>
     <!--end of image picker dialog-->
 </resources>

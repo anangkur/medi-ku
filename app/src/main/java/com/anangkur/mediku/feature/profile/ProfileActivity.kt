@@ -51,21 +51,17 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
         mViewModel.apply {
             progressGetProfile.observe(this@ProfileActivity, Observer {
                 if (it){
-                    ev_profile.visible()
-                    ev_profile.showProgress()
                     layout_profile.gone()
                 }else{
-                    ev_profile.endProgress()
+
                 }
             })
             successGetProfile.observe(this@ProfileActivity, Observer {
-                ev_profile.gone()
                 layout_profile.visible()
                 setupView(it)
             })
             errorGetProfile.observe(this@ProfileActivity, Observer {
-                ev_profile.showError(it, getString(R.string.btn_retry), BaseErrorView.ERROR_GENERAL)
-                ev_profile.setRetryClickListener { getUserProfile() }
+                showSnackbarLong(it)
             })
             progressLogout.observe(this@ProfileActivity, Observer {
                 if (it){
