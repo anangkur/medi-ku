@@ -12,9 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -26,13 +24,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.anangkur.mediku.data.ViewModelFactory
 import com.anangkur.mediku.R
+import com.anangkur.mediku.base.BaseSpinnerListener
+import com.anangkur.mediku.data.ViewModelFactory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.textfield.TextInputLayout
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +43,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Pattern
 
 fun Activity.showSnackbarLong(message: String){
@@ -296,4 +298,86 @@ fun Context.showDialogImagePicker(listener: DialogImagePickerActionListener) {
     alertDialog.setView(dialogView)
     alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     alertDialog.show()
+}
+
+fun TextInputLayout.setErrorMessage(errorMessage: String){
+    this.isErrorEnabled = true
+    this.error = errorMessage
+}
+
+fun TextInputLayout.setNotError(){
+    this.isErrorEnabled = false
+}
+
+fun getCurrentTimeStamp(): String? {
+    return try {
+        val dateFormat = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US)
+        dateFormat.format(Date())
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+fun Spinner.setupSpinner(data: List<String>, listener: BaseSpinnerListener){
+    val arrayAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, data)
+    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+    this.apply {
+        adapter = arrayAdapter
+        onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                listener.onItemSelected(parent, view, position, id)
+            }
+        }
+    }
+}
+
+fun getTime(): Date {
+    val c = Calendar.getInstance()
+    c.timeZone = TimeZone.getTimeZone("GMT+07:00")
+    return c.time
+}
+
+fun String.formatDate(): String{
+
+    val dateNow = getTime()
+
+    val yearFormat = SimpleDateFormat("yyyy")
+    val monthFormat = SimpleDateFormat("MM")
+    val dayFormat = SimpleDateFormat("dd")
+    val timeFormat = SimpleDateFormat(Const.TIME_GENERAL_HH_MM, Locale.US)
+
+    val generalFormat = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US)
+
+    val year = yearFormat.format(generalFormat.parse(this))
+    val month = monthFormat.format(generalFormat.parse(this))
+    val day = dayFormat.format(generalFormat.parse(this))
+    val time = timeFormat.format(generalFormat.parse(this))
+
+    val yearNow = yearFormat.format(dateNow)
+    val monthNow = monthFormat.format(dateNow)
+    val dayNow = dayFormat.format(dateNow)
+
+    var timeReturn: String
+
+    if (yearNow == year) {
+        timeReturn = if (monthNow == month) {
+            when {
+                dayNow == day -> "Today, $time"
+                Integer.parseInt(dayNow) - Integer.parseInt(day!!) == 1 -> "Yesterday, $time"
+                else -> {
+                    val monthFormatDisplay = SimpleDateFormat(Const.DAY_NAME_DATE_MONTH_NAME, Locale.US)
+                    monthFormatDisplay.format(generalFormat.parse(this)) + " " + time
+                }
+            }
+        } else {
+            val monthFormatDisplay = SimpleDateFormat(Const.DAY_NAME_DATE_MONTH_NAME, Locale.US)
+            monthFormatDisplay.format(generalFormat.parse(this)) + " " + time
+        }
+    } else {
+        val yearFormatDisplay = SimpleDateFormat(Const.DAY_FULL_WITH_DATE_LOCALE, Locale.US)
+        timeReturn = yearFormatDisplay.format(generalFormat.parse(this)) + " " + time
+    }
+    return timeReturn
 }

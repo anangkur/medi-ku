@@ -1,10 +1,12 @@
 package com.anangkur.mediku.feature.home
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseAdapter
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.util.Const
+import com.anangkur.mediku.util.formatDate
 import kotlinx.android.synthetic.main.item_home.view.*
 
 class HomeAdapter(private val listener: HomeActionListener): BaseAdapter<MedicalRecord>(){
@@ -15,21 +17,22 @@ class HomeAdapter(private val listener: HomeActionListener): BaseAdapter<Medical
     override fun bind(data: MedicalRecord, itemView: View, position: Int) {
         val resource = when (data.category){
             Const.CATEGORY_SICK -> {
-                R.drawable.ic_pills
+                Pair(R.drawable.ic_pills, R.drawable.rect_rounded_4dp_gradient_blue)
             }
             Const.CATEGORY_CHECKUP -> {
-                R.drawable.ic_healthy
+                Pair(R.drawable.ic_healthy, R.drawable.rect_rounded_4dp_gradient_green)
             }
             Const.CATEGORY_HOSPITAL -> {
-                R.drawable.ic_first_aid_kit
+                Pair(R.drawable.ic_first_aid_kit, R.drawable.rect_rounded_4dp_gradient_purple)
             }
-            else -> 0
+            else -> Pair(0,0)
         }
-        itemView.iv_item_home.setImageResource(resource)
+        itemView.iv_item_home.setImageResource(resource.first)
+        itemView.background = ContextCompat.getDrawable(itemView.context, resource.second)
         itemView.tv_item_home.text = data.category
         itemView.tv_diagnosis_home.text = data.diagnosis
         itemView.setOnClickListener { listener.onClickItem(data) }
-        itemView.tv_date_home.text = data.updateAt?:data.createdAt
+        itemView.tv_date_home.text = data.createdAt.formatDate()
     }
 
 }

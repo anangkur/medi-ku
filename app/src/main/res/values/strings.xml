@@ -46,5 +46,18 @@
     <string name="desc_forgot_password">We will send an email to change \nyour password</string>
     <string name="btn_send_email">Send Email</string>
     <string name="btn_add_medical_record">Add Medical Record</string>
+    <string name="label_select_category">Select Category</string>
+    <string name="label_diagnose">Diagnose</string>
+    <string name="hint_diagnose">Diagnose</string>
+    <string name="label_general_condition">General Condition</string>
+    <string name="hint_blood_pressure">Blood Pressure (mmHg)</string>
+    <string name="hint_body_temperature">Body Temperature (Celcius)</string>
+    <string name="hint_heart_rate">Heart Rate (Bpm)</string>
+    <string name="toolbar_add_medical_record">Add Medical Record</string>
+    <string name="error_diagnose_empty">Diagnose is mandatory!</string>
+    <string name="error_blood_pressure_empty">Blood pressure is mandatory!</string>
+    <string name="error_body_temperature_empty">Body temperature is mandatory!</string>
+    <string name="error_heart_rate_empty">Heart rate is mandatory!</string>
+    <string name="message_success_add_medical_report">Success add medical report!</string>
     <!--end of image picker dialog-->
 </resources>

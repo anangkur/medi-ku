@@ -11,6 +11,7 @@ import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordActivity
 import com.anangkur.mediku.feature.profile.ProfileActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_home.*
@@ -44,6 +45,7 @@ class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener {
             mViewModel.getMedicalRecord()
         }
         btn_profile.setOnClickListener { this.onClickProfile() }
+        btn_add_medical_report.setOnClickListener { this.onClickAddMedicalRecord() }
     }
 
     override fun onResume() {
@@ -72,7 +74,7 @@ class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener {
                 swipe_home.isRefreshing = it
             })
             successGetMedicalRecord.observe(this@HomeActivity, Observer {
-                mAdapter.addRecyclerData(it)
+                mAdapter.setRecyclerData(it)
             })
             errorGetMedicalRecord.observe(this@HomeActivity, Observer {
                 showSnackbarLong(it)
@@ -102,7 +104,7 @@ class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener {
     }
 
     override fun onClickAddMedicalRecord() {
-
+        AddMedicalRecordActivity.startActivity(this)
     }
 
     override fun onClickItem(data: MedicalRecord) {

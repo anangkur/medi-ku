@@ -21,7 +21,7 @@ class ProfileViewModel(private val repository: Repository): ViewModel() {
                 val user = repository.remoteRepository.firebaseAuth.currentUser
                 progressGetProfile.postValue(true)
                 repository.remoteRepository.firestore
-                    .collection(Const.collectionUser)
+                    .collection(Const.COLLECTION_USER)
                     .document(user?.uid?:"")
                     .get()
                     .addOnSuccessListener { result ->

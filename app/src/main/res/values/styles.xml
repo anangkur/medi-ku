@@ -230,6 +230,7 @@
     <style name="EditTextDefault">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:fontFamily">@font/comfortaa_bold</item>
     </style>
     <!--end of style for edit text-->
 

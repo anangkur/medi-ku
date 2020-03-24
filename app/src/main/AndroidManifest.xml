@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".feature.home.HomeActivity"></activity>
+        <activity android:name=".feature.addMedicalRecord.AddMedicalRecordActivity"></activity>
+        <activity android:name=".feature.home.HomeActivity" />
         <activity android:name=".feature.forgotPassword.ForgotPasswordActivity" />
         <activity android:name=".feature.editPassword.EditPasswordActivity" />
         <activity android:name=".feature.editProfile.EditProfileActivity" />
