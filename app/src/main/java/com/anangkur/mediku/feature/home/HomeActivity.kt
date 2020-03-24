@@ -12,6 +12,7 @@ import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordActivity
+import com.anangkur.mediku.feature.detailMedicalRecord.DetailMedicalRecordActivity
 import com.anangkur.mediku.feature.profile.ProfileActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_home.*
@@ -108,6 +109,6 @@ class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener {
     }
 
     override fun onClickItem(data: MedicalRecord) {
-
+        DetailMedicalRecordActivity.startActivity(this, data)
     }
 }

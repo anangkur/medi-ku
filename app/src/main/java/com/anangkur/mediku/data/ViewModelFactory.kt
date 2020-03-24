@@ -5,6 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordViewModel
+import com.anangkur.mediku.feature.detailMedicalRecord.DetailMedicalRecordViewModel
 import com.anangkur.mediku.feature.editPassword.EditPasswordViewModel
 import com.anangkur.mediku.feature.editProfile.EditProfileViewModel
 import com.anangkur.mediku.feature.forgotPassword.ForgotPasswordViewModel
@@ -32,6 +33,7 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
                 isAssignableFrom(ForgotPasswordViewModel::class.java) -> ForgotPasswordViewModel(repository)
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(repository)
                 isAssignableFrom(AddMedicalRecordViewModel::class.java) -> AddMedicalRecordViewModel(repository)
+                isAssignableFrom(DetailMedicalRecordViewModel::class.java) -> DetailMedicalRecordViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T

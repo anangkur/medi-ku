@@ -59,5 +59,10 @@
     <string name="error_body_temperature_empty">Body temperature is mandatory!</string>
     <string name="error_heart_rate_empty">Heart rate is mandatory!</string>
     <string name="message_success_add_medical_report">Success add medical report!</string>
+    <string name="btn_edit">Edit</string>
+    <string name="label_blood_pressure">Blood Pressure</string>
+    <string name="label_body_temperature">Body Temperature</string>
+    <string name="label_heart_rate">Heart Rate</string>
+    <string name="toolbar_detail_medical_record">Detail Medical Record</string>
     <!--end of image picker dialog-->
 </resources>

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -12,6 +13,7 @@ import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.base.BaseSpinnerListener
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.feature.detailMedicalRecord.DetailMedicalRecordActivity.Companion.EXTRA_DETAIL_MEDICAL_RECORD
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_add_medical_record.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -19,8 +21,14 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMedicalActionListener {
 
     companion object{
+        const val REQ_EDIT = 100
+        const val RES_EDIT = 200
         fun startActivity(context: Context){
             context.startActivity(Intent(context, AddMedicalRecordActivity::class.java))
+        }
+        fun startActivity(activity: AppCompatActivity, context: Context, data: MedicalRecord){
+            activity.startActivityForResult(Intent(context, AddMedicalRecordActivity::class.java)
+                .putExtra(EXTRA_DETAIL_MEDICAL_RECORD, data), REQ_EDIT)
         }
     }
 
@@ -38,6 +46,8 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
 
         observeViewModel()
         setupSpinner(mViewModel.createCategoryList())
+        getDataFromIntent()
+        setupDataToView(mViewModel.medicalRecord)
         btn_save.setOnClickListener {
             this.onClickSave(
                 category = mViewModel.selectedCategory?:"",
@@ -61,11 +71,30 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
             })
             successAddMedicalRecord.observe(this@AddMedicalRecordActivity, Observer {
                 showToastShort(getString(R.string.message_success_add_medical_report))
+                if (medicalRecord != null){
+                    setResult(RES_EDIT, Intent().putExtra(EXTRA_DETAIL_MEDICAL_RECORD, it))
+                }
                 finish()
             })
             errorAddMedicalRecord.observe(this@AddMedicalRecordActivity, Observer {
                 showSnackbarLong(it)
             })
+        }
+    }
+
+    private fun getDataFromIntent(){
+        if (intent.hasExtra(EXTRA_DETAIL_MEDICAL_RECORD)){
+            mViewModel.medicalRecord = intent.getParcelableExtra(EXTRA_DETAIL_MEDICAL_RECORD)
+        }
+    }
+
+    private fun setupDataToView(data: MedicalRecord?){
+        if (data != null){
+            spinner_category.setSelection(mViewModel.createCategoryList().indexOf(data.category))
+            et_diagnose.setText(data.diagnosis)
+            et_blood_pressure.setText(data.bloodPressure.toString())
+            et_temperature.setText(data.bodyTemperature.toString())
+            et_heart_rate.setText(data.heartRate.toString())
         }
     }
 
@@ -108,7 +137,8 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
                     category = category,
                     bloodPressure = bloodPressure.toInt(),
                     bodyTemperature = bodyTemperature.toInt(),
-                    createdAt = getCurrentTimeStamp()?:"1990-01-01 00:00:00",
+                    createdAt = if (mViewModel.medicalRecord == null) getCurrentTimeStamp()?:"1990-01-01 00:00:00"
+                                else mViewModel.medicalRecord?.createdAt?:"",
                     diagnosis = diagnose,
                     heartRate = heartRate.toInt(),
                     updateAt = getCurrentTimeStamp()?:"1990-01-01 00:00:00"

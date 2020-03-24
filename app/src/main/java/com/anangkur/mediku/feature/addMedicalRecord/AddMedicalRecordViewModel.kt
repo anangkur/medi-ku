@@ -12,9 +12,10 @@ import kotlinx.coroutines.launch
 class AddMedicalRecordViewModel(private val repository: Repository): ViewModel() {
 
     var selectedCategory: String? = null
+    var medicalRecord: MedicalRecord? = null
 
     val progressAddMedicalRecord = MutableLiveData<Boolean>()
-    val successAddMedicalRecord = MutableLiveData<Boolean>()
+    val successAddMedicalRecord = MutableLiveData<MedicalRecord>()
     val errorAddMedicalRecord = MutableLiveData<String>()
     fun addMedicalRecord(medicalRecord: MedicalRecord){
         CoroutineScope(Dispatchers.IO).launch {
@@ -24,9 +25,10 @@ class AddMedicalRecordViewModel(private val repository: Repository): ViewModel()
                 repository.remoteRepository.firestore.collection(Const.COLLECTION_MEDICAL_RECORD)
                     .document(user?.uid?:"")
                     .collection(Const.COLLECTION_MEDICAL_RECORD)
-                    .add(medicalRecord)
+                    .document(medicalRecord.createdAt)
+                    .set(medicalRecord)
                     .addOnSuccessListener {
-                        successAddMedicalRecord.postValue(true)
+                        successAddMedicalRecord.postValue(medicalRecord)
                     }
                     .addOnFailureListener { exception ->
                         errorAddMedicalRecord.postValue(exception.message)
