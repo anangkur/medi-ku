@@ -66,7 +66,7 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 progressSignInGoogleLive.postValue(true)
-                repository.remoteRepository.firestore.collection(Const.collectionUser)
+                repository.remoteRepository.firestore.collection(Const.COLLECTION_USER)
                     .document(user.uid)
                     .get()
                     .addOnSuccessListener {
@@ -75,13 +75,14 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                             resultSignInLive.postValue(user)
                         }else{
                             val userMap = User(
+                                userId = user.uid,
                                 email = user.email?:"",
                                 name = user.displayName?:"",
                                 height = 0,
                                 weight = 0,
                                 photo = user.photoUrl.toString(),
                                 providerName = user.providerData[user.providerData.size-1].providerId)
-                            repository.remoteRepository.firestore.collection(Const.collectionUser)
+                            repository.remoteRepository.firestore.collection(Const.COLLECTION_USER)
                                 .document(user.uid)
                                 .set(userMap)
                                 .addOnSuccessListener { result ->

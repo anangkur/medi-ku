@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.util.Const
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
@@ -27,7 +25,7 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
                 progressEditProfile.postValue(true)
                 val userFirebase = repository.remoteRepository.firebaseAuth.currentUser
                 repository.remoteRepository.firestore
-                    .collection(Const.collectionUser)
+                    .collection(Const.COLLECTION_USER)
                     .document(userFirebase?.uid?:"")
                     .set(user)
                     .addOnSuccessListener { result ->
@@ -53,7 +51,7 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
                 val user = repository.remoteRepository.firebaseAuth.currentUser
                 progressGetProfile.postValue(true)
                 repository.remoteRepository.firestore
-                    .collection(Const.collectionUser)
+                    .collection(Const.COLLECTION_USER)
                     .document(user?.uid?:"")
                     .get()
                     .addOnSuccessListener { result ->

@@ -12,14 +12,17 @@ object Const {
     const val SAMPLE_SIZE = 2
 
     // fireStore
-    const val collectionUser = "users"
-    const val fieldName = "name"
-    const val fieldEmail = "email"
-    const val fieldPhoto = "photo"
-    const val fieldPhoneNumber = "phoneNumber"
+    const val COLLECTION_USER = "users"
+    const val COLLECTION_MEDICAL_RECORD = "medical_records"
 
     // medical record
     const val CATEGORY_SICK = "Sick"
     const val CATEGORY_CHECKUP = "Checkup"
     const val CATEGORY_HOSPITAL = "Hospital"
+
+    // date format
+    const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
+    const val TIME_GENERAL_HH_MM = "HH:mm" // 12:12
+    const val DAY_NAME_DATE_MONTH_NAME = "EEEE, dd MMMM"
+    const val DAY_FULL_WITH_DATE_LOCALE = "EEEE, dd MMMM yyyy" // Senin, 12 Agustus 2019
 }

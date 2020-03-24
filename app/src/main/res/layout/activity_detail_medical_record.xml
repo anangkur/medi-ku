@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LinearVerticalDefault">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <androidx.core.widget.NestedScrollView
+        style="@style/NestedScrollDefault"
+        android:layout_above="@id/btn_edit"
+        android:layout_marginTop="?actionBarSize">
+        <LinearLayout
+            style="@style/LinearVerticalWrap">
+            <TextView
+                style="@style/TextBoldNormal"
+                android:text="@string/label_select_category"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+            <RelativeLayout
+                android:id="@+id/btn_select_category"
+                style="@style/RelativeWrapH"
+                android:layout_height="?actionBarSize"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"
+                android:background="@drawable/rect_rounded_4dp_gradient_blue"
+                android:foreground="?selectableItemBackground">
+                <ImageView
+                    android:id="@+id/iv_category"
+                    style="@style/ImageView28"
+                    android:src="@drawable/ic_pills"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dimens_20dp"/>
+                <TextView
+                    android:id="@+id/tv_category"
+                    style="@style/TextBoldBig"
+                    android:textColor="@color/white"
+                    android:text="@string/app_name"
+                    android:layout_marginStart="@dimen/dimens_20dp"
+                    android:layout_toRightOf="@id/iv_category"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <TextView
+                style="@style/TextBoldNormal"
+                android:text="@string/label_diagnose"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+            <TextView
+                android:id="@+id/tv_diagnose"
+                style="@style/TextBoldBig"
+                android:layout_width="match_parent"
+                android:text="@string/app_name"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+            <View
+                style="@style/ViewLine"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dimens_20dp"/>
+
+            <TextView
+                style="@style/TextBoldExtraBig"
+                android:text="@string/label_general_condition"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+
+            <TextView
+                style="@style/TextBoldNormal"
+                android:text="@string/label_blood_pressure"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+            <TextView
+                android:id="@+id/tv_blood_pressure"
+                style="@style/TextBoldBig"
+                android:layout_width="match_parent"
+                android:text="@string/app_name"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+
+            <TextView
+                style="@style/TextBoldNormal"
+                android:text="@string/label_body_temperature"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+            <TextView
+                android:id="@+id/tv_body_temperature"
+                style="@style/TextBoldBig"
+                android:layout_width="match_parent"
+                android:text="@string/app_name"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+
+            <TextView
+                style="@style/TextBoldNormal"
+                android:text="@string/label_heart_rate"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+            <TextView
+                android:id="@+id/tv_heart_rate"
+                style="@style/TextBoldBig"
+                android:layout_width="match_parent"
+                android:text="@string/app_name"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+
+            <View
+                style="@style/ViewLine"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginBottom="@dimen/dimens_20dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <com.anangkur.materialloadingbutton.MaterialLoadingButton
+        android:id="@+id/btn_edit"
+        style="@style/ButtonDefault"
+        app:mlb_cornerRadius="@dimen/dimens_100dp"
+        app:mlb_defaultColor="@color/colorPrimary"
+        app:mlb_textColor="@color/white"
+        app:mlb_textButton="@string/btn_edit"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
