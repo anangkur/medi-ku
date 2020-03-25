@@ -7,7 +7,7 @@ object Const {
     const val PROVIDER_FIREBASE = "firebase"
     const val PROVIDER_PASSWORD = "password"
 
-    const val MAX_IMAGE_SIZE = 2048.0 // 2MB
+    const val MAX_IMAGE_SIZE = 2048.0
     const val COMPRESS_QUALITY = 95
     const val SAMPLE_SIZE = 2
 
@@ -22,7 +22,10 @@ object Const {
 
     // date format
     const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
-    const val TIME_GENERAL_HH_MM = "HH:mm" // 12:12
+    const val TIME_GENERAL_HH_MM = "HH:mm"
     const val DAY_NAME_DATE_MONTH_NAME = "EEEE, dd MMMM"
-    const val DAY_FULL_WITH_DATE_LOCALE = "EEEE, dd MMMM yyyy" // Senin, 12 Agustus 2019
+    const val DAY_FULL_WITH_DATE_LOCALE = "EEEE, dd MMMM yyyy"
+
+    // notification
+    const val NOTIFICATION_CHANNEL_ID = "10001"
 }
