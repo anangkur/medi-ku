@@ -64,5 +64,8 @@
     <string name="label_body_temperature">Body Temperature</string>
     <string name="label_heart_rate">Heart Rate</string>
     <string name="toolbar_detail_medical_record">Detail Medical Record</string>
+    <string name="hint_select_date">Select Date</string>
+    <string name="error_date_empty">Date is mandatory!</string>
+    <string name="label_visit_date">Visit Date</string>
     <!--end of image picker dialog-->
 </resources>

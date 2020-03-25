@@ -11,10 +11,11 @@ import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordActivity
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordActivity.Companion.REQ_EDIT
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordActivity.Companion.RES_EDIT
-import com.anangkur.mediku.util.Const
-import com.anangkur.mediku.util.obtainViewModel
+import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_detail_medical_record.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(), DetailMedicalRecordActionListener {
 
@@ -63,7 +64,11 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
     }
 
     private fun setupDataToView(data: MedicalRecord){
+        val date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).parse(data.createdAt)
+        val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(date)
+        tv_date.text = dateShow
         setupCategoryView(data.category)
+        setupImage(data.document)
         tv_diagnose.text = data.diagnosis
         tv_blood_pressure.text = "${data.bloodPressure} mmHg"
         tv_body_temperature.text = "${data.bodyTemperature} Celcius"
@@ -88,7 +93,21 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
         tv_category.text = category
     }
 
+    private fun setupImage(imageUrl: String?){
+        if (imageUrl != null){
+            btn_upload_document.visible()
+            iv_document.setImageUrl(imageUrl)
+            btn_upload_document.setOnClickListener { this.onCLickImage(imageUrl) }
+        }else{
+            btn_upload_document.gone()
+        }
+    }
+
     override fun onClickEdit(data: MedicalRecord) {
         AddMedicalRecordActivity.startActivity(this,this,  data)
+    }
+
+    override fun onCLickImage(imageUrl: String) {
+        this.showPreviewImage(imageUrl)
     }
 }

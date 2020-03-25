@@ -58,6 +58,21 @@
                 android:layout_marginTop="@dimen/dimens_10dp"
                 android:layout_marginStart="@dimen/dimens_20dp"
                 android:layout_marginEnd="@dimen/dimens_20dp"/>
+
+            <TextView
+                style="@style/TextBoldNormal"
+                android:text="@string/label_visit_date"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+            <TextView
+                android:id="@+id/tv_date"
+                style="@style/TextBoldBig"
+                android:layout_width="match_parent"
+                android:text="@string/app_name"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
             <View
                 style="@style/ViewLine"
                 android:layout_width="match_parent"
@@ -118,8 +133,23 @@
             <View
                 style="@style/ViewLine"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/dimens_20dp"
-                android:layout_marginBottom="@dimen/dimens_20dp"/>
+                android:layout_marginTop="@dimen/dimens_20dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_upload_document"
+                style="@style/ConstraintWrapHeight"
+                android:layout_margin="@dimen/dimens_20dp"
+                android:foreground="?selectableItemBackground"
+                android:background="@color/gray">
+                <ImageView
+                    android:id="@+id/iv_document"
+                    style="@style/ImageViewHeightRatio"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintDimensionRatio="2:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
     <com.anangkur.materialloadingbutton.MaterialLoadingButton

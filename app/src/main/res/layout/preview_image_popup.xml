@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_main"
+    style="@style/RelativeDefault"
+    android:background="@color/black_60">
+    <ImageView
+        android:id="@+id/iv_preview"
+        style="@style/ImageViewDefault"
+        android:scaleType="fitCenter"
+        android:layout_margin="@dimen/dimens_20dp"/>
+</RelativeLayout>

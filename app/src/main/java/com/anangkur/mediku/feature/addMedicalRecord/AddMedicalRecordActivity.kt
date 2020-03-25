@@ -2,6 +2,7 @@ package com.anangkur.mediku.feature.addMedicalRecord
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -15,8 +16,17 @@ import com.anangkur.mediku.base.BaseSpinnerListener
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.feature.detailMedicalRecord.DetailMedicalRecordActivity.Companion.EXTRA_DETAIL_MEDICAL_RECORD
 import com.anangkur.mediku.util.*
+import com.annimon.stream.Stream
+import com.applandeo.materialcalendarview.CalendarView
+import com.applandeo.materialcalendarview.builders.DatePickerBuilder
+import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
+import com.esafirm.imagepicker.features.ImagePicker
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_add_medical_record.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMedicalActionListener {
 
@@ -54,10 +64,32 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
                 heartRate = et_heart_rate.text.toString(),
                 bodyTemperature = et_temperature.text.toString(),
                 bloodPressure = et_blood_pressure.text.toString(),
-                diagnose = et_diagnose.text.toString()
+                diagnose = et_diagnose.text.toString(),
+                date = et_date.text.toString()
             )
         }
         btn_select_category.setOnClickListener { this.onClickCategory() }
+        btn_upload_document.setOnClickListener { this.onClickImage() }
+        et_date.setOnClickListener { this.onClickDate() }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            cropImage(data, false)
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            handleImageCropperResult(data, resultCode, object: CompressImageListener{
+                override fun progress(isLoading: Boolean) {
+                    mViewModel.progressUploadDocument.postValue(isLoading)
+                }
+                override fun success(data: File) {
+                    mViewModel.uploadDocument(Uri.fromFile(data))
+                }
+                override fun error(errorMessage: String) {
+                    showSnackbarLong(errorMessage)
+                }
+            })
+        }
     }
 
     private fun observeViewModel(){
@@ -68,6 +100,20 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
                 }else{
                     btn_save.hideProgress()
                 }
+            })
+            progressUploadDocument.observe(this@AddMedicalRecordActivity, Observer {
+                if (it){
+                    pb_document.visible()
+                    iv_camera.gone()
+                }else{
+                    pb_document.gone()
+                    iv_camera.visible()
+                }
+            })
+            successUploadDocument.observe(this@AddMedicalRecordActivity, Observer {
+                document = it.toString()
+                iv_document.setImageUrl(it.toString())
+                iv_camera.gone()
             })
             successAddMedicalRecord.observe(this@AddMedicalRecordActivity, Observer {
                 showToastShort(getString(R.string.message_success_add_medical_report))
@@ -90,6 +136,10 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
 
     private fun setupDataToView(data: MedicalRecord?){
         if (data != null){
+            val date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).parse(data.createdAt)
+            val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(date)
+            et_date.setText(dateShow)
+            setupImage(data.document)
             spinner_category.setSelection(mViewModel.createCategoryList().indexOf(data.category))
             et_diagnose.setText(data.diagnosis)
             et_blood_pressure.setText(data.bloodPressure.toString())
@@ -103,13 +153,50 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
         diagnose: String?,
         bloodPressure: String?,
         bodyTemperature: String?,
-        heartRate: String?
+        heartRate: String?,
+        date: String?
     ) {
-        validateInput(category, diagnose, bloodPressure, bodyTemperature, heartRate)
+        validateInput(category, diagnose, bloodPressure, bodyTemperature, heartRate, date)
     }
 
     override fun onClickCategory() {
         spinner_category.performClick()
+    }
+
+    override fun onClickImage() {
+        showDialogImagePicker(object: DialogImagePickerActionListener{
+            override fun onClickCamera() {
+                ImagePicker.cameraOnly().start(this@AddMedicalRecordActivity)
+            }
+            override fun onClickGallery() {
+                ImagePicker.create(this@AddMedicalRecordActivity)
+                    .single()
+                    .showCamera(false)
+                    .start()
+            }
+        })
+    }
+
+    override fun onClickDate() {
+        val maximumDate = Calendar.getInstance()
+        val builder = DatePickerBuilder(this, OnSelectDateListener {
+            Stream.of(it).forEach { calendar ->
+                val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(calendar.time)
+                val datePost = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).format(calendar.time)
+                et_date.setText(dateShow)
+                mViewModel.selectedDate = datePost
+            }
+        })
+            .pickerType(CalendarView.ONE_DAY_PICKER)
+            .maximumDate(maximumDate)
+            .headerColor(R.color.white)
+            .headerLabelColor(R.color.colorPrimary)
+            .selectionColor(R.color.colorPrimary)
+            .todayLabelColor(R.color.colorPrimary)
+            .dialogButtonsColor(R.color.colorPrimary)
+
+        val datePicker = builder.build()
+        datePicker.show()
     }
 
     private fun validateInput(
@@ -117,7 +204,8 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
         diagnose: String?,
         bloodPressure: String?,
         bodyTemperature: String?,
-        heartRate: String?
+        heartRate: String?,
+        date: String?
     ){
         when {
             diagnose.isNullOrEmpty() -> {
@@ -132,16 +220,20 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
             heartRate.isNullOrEmpty() -> {
                 til_heart_rate.setErrorMessage(getString(R.string.error_heart_rate_empty))
             }
+            date.isNullOrEmpty() -> {
+                til_date.setErrorMessage(getString(R.string.error_date_empty))
+            }
             else -> {
                 mViewModel.addMedicalRecord(MedicalRecord(
                     category = category,
                     bloodPressure = bloodPressure.toInt(),
                     bodyTemperature = bodyTemperature.toInt(),
-                    createdAt = if (mViewModel.medicalRecord == null) getCurrentTimeStamp()?:"1990-01-01 00:00:00"
+                    createdAt = if (mViewModel.medicalRecord == null) mViewModel.selectedDate?:"1990-01-01 00:00:00"
                                 else mViewModel.medicalRecord?.createdAt?:"",
                     diagnosis = diagnose,
                     heartRate = heartRate.toInt(),
-                    updateAt = getCurrentTimeStamp()?:"1990-01-01 00:00:00"
+                    updateAt = getCurrentTimeStamp()?:"1990-01-01 00:00:00",
+                    document = mViewModel.document
                 ))
             }
         }
@@ -172,6 +264,15 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
         iv_category.setImageResource(resource.first)
         btn_select_category.background = ContextCompat.getDrawable(this, resource.second)
         tv_category.text = category
+    }
+
+    private fun setupImage(imageUrl: String?){
+        if (imageUrl != null){
+            iv_document.setImageUrl(imageUrl)
+            iv_camera.gone()
+        }else{
+            iv_camera.visible()
+        }
     }
 
 }

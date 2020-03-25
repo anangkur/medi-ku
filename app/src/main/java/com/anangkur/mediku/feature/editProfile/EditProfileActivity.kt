@@ -57,7 +57,7 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-            cropImage(data)
+            cropImage(data, true)
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             handleImageCropperResult(data, resultCode, object: CompressImageListener{
                 override fun progress(isLoading: Boolean) {

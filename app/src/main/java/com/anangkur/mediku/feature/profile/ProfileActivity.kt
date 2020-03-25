@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
-import com.anangkur.mediku.base.BaseErrorView
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.feature.editPassword.EditPasswordActivity
 import com.anangkur.mediku.feature.editProfile.EditProfileActivity
@@ -51,9 +50,11 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
         mViewModel.apply {
             progressGetProfile.observe(this@ProfileActivity, Observer {
                 if (it){
-                    layout_profile.gone()
+                    pb_profile.visible()
+                    layout_profile.invisible()
                 }else{
-
+                    pb_profile.gone()
+                    layout_profile.visible()
                 }
             })
             successGetProfile.observe(this@ProfileActivity, Observer {
@@ -86,6 +87,7 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
         tv_email.text = data.email
         tv_height_weight.text = "Height: ${data.height}cm | Weight: ${data.weight}kg"
         iv_profile.setImageUrl(data.photo)
+        iv_profile.setOnClickListener { this.onClickImage(data.photo) }
         setupEditPassword(data.providerName)
     }
 
@@ -107,5 +109,9 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
 
     override fun onClickLogout() {
         mViewModel.logout()
+    }
+
+    override fun onClickImage(imageUrl: String) {
+        this.showPreviewImage(imageUrl)
     }
 }

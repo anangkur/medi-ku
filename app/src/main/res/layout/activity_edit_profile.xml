@@ -18,7 +18,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btn_edit_photo"
                 style="@style/ConstraintWrapAll"
-                android:foreground="?selectableItemBackground"
+                android:foreground="@drawable/ripple_button_background_light"
                 android:layout_gravity="center">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_profile"

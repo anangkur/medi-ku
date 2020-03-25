@@ -11,5 +11,6 @@ data class MedicalRecord(
     val bodyTemperature: Int = 0,
     val heartRate: Int = 0,
     val createdAt: String = "",
-    val updateAt: String = ""
+    val updateAt: String = "",
+    val document: String? = null
 ): Parcelable

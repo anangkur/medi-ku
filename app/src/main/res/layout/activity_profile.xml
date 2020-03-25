@@ -11,70 +11,80 @@
         style="@style/NestedScrollDefault"
         android:layout_marginTop="?actionBarSize"
         android:layout_above="@id/btn_logout">
-        <RelativeLayout
-            style="@style/RelativeDefault">
+        <LinearLayout
+            style="@style/LinearVerticalWrap"
+            android:visibility="visible">
+            <RelativeLayout
+                style="@style/RelativeWrapH">
+                <LinearLayout
+                    android:id="@+id/layout_profile"
+                    style="@style/LinearVerticalWrap">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_profile"
+                        style="@style/ImageView100"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dimens_20dp"
+                        android:src="@color/gray"
+                        android:foreground="@drawable/ripple_button_background_light"/>
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        style="@style/TextBoldExtraBig"
+                        android:text="@string/app_name"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dimens_14dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_email"
+                        style="@style/TextBoldNormal"
+                        android:text="@string/app_name"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dimens_10dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_height_weight"
+                        style="@style/TextBoldNormal"
+                        android:text="@string/app_name"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dimens_4dp"
+                        android:layout_marginBottom="@dimen/dimens_20dp"/>
+                </LinearLayout>
+                <ProgressBar
+                    android:id="@+id/pb_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
             <LinearLayout
-                android:id="@+id/layout_profile"
-                style="@style/LinearVerticalDefault"
-                android:visibility="visible">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_profile"
-                    style="@style/ImageView100"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/dimens_20dp"
-                    android:src="@color/gray"/>
-
-                <TextView
-                    android:id="@+id/tv_name"
-                    style="@style/TextBoldExtraBig"
-                    android:text="@string/app_name"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/dimens_14dp"/>
-
-                <TextView
-                    android:id="@+id/tv_email"
-                    style="@style/TextBoldNormal"
-                    android:text="@string/app_name"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/dimens_10dp"/>
-
-                <TextView
-                    android:id="@+id/tv_height_weight"
-                    style="@style/TextBoldNormal"
-                    android:text="@string/app_name"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/dimens_4dp"/>
-
-                <LinearLayout
-                    android:id="@+id/btn_edit_profile"
-                    style="@style/LinearVerticalWrap"
-                    android:layout_marginTop="@dimen/dimens_20dp"
-                    android:foreground="?selectableItemBackground">
-                    <View
-                        style="@style/ViewLine"
-                        android:layout_width="match_parent"/>
-                    <TextView
-                        style="@style/TextBoldBig"
-                        android:text="@string/label_edit_profile"
-                        android:layout_margin="@dimen/dimens_20dp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/btn_edit_password"
-                    style="@style/LinearVerticalWrap"
-                    android:foreground="?selectableItemBackground">
-                    <View
-                        style="@style/ViewLine"
-                        android:layout_width="match_parent"/>
-                    <TextView
-                        style="@style/TextBoldBig"
-                        android:text="@string/label_edit_password"
-                        android:layout_margin="@dimen/dimens_20dp"/>
-                </LinearLayout>
+                android:id="@+id/btn_edit_profile"
+                style="@style/LinearVerticalWrap"
+                android:foreground="?selectableItemBackground">
                 <View
                     style="@style/ViewLine"
                     android:layout_width="match_parent"/>
+                <TextView
+                    style="@style/TextBoldBig"
+                    android:text="@string/label_edit_profile"
+                    android:layout_margin="@dimen/dimens_20dp"/>
             </LinearLayout>
-        </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/btn_edit_password"
+                style="@style/LinearVerticalWrap"
+                android:foreground="?selectableItemBackground">
+                <View
+                    style="@style/ViewLine"
+                    android:layout_width="match_parent"/>
+                <TextView
+                    style="@style/TextBoldBig"
+                    android:text="@string/label_edit_password"
+                    android:layout_margin="@dimen/dimens_20dp"/>
+            </LinearLayout>
+            <View
+                style="@style/ViewLine"
+                android:layout_width="match_parent"/>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
     <LinearLayout
         android:id="@+id/btn_logout"

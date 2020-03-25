@@ -18,6 +18,7 @@ import com.anangkur.mediku.util.Const
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 class ViewModelFactory(private val repository: Repository): ViewModelProvider.NewInstanceFactory() {
 
@@ -45,7 +46,8 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
                 context,
                 context.getSharedPreferences(Const.PREF_NAME, MODE_PRIVATE),
                 FirebaseAuth.getInstance(),
-                Firebase.firestore
+                Firebase.firestore,
+                FirebaseStorage.getInstance()
             )).also { INSTANCE = it }
         }
     }

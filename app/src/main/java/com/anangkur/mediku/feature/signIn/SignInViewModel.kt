@@ -25,6 +25,7 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                 repository.remoteRepository.firebaseAuth
                     .signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
+                        progressSignInLive.postValue(false)
                         if (it.isSuccessful){
                             resultSignInLive.postValue(it.result?.user)
                         }else{
@@ -32,9 +33,8 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                         }
                     }
             }catch (e: Exception){
-                errorSignInLive.postValue(e.message)
-            }finally {
                 progressSignInLive.postValue(false)
+                errorSignInLive.postValue(e.message)
             }
         }
     }
@@ -47,6 +47,7 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                 val credential = GoogleAuthProvider.getCredential(acct?.idToken, null)
                 repository.remoteRepository.firebaseAuth
                     .signInWithCredential(credential).addOnCompleteListener{ task ->
+                        progressSignInGoogleLive.postValue(false)
                         if (task.isSuccessful) {
                             createUser(task.result?.user!!)
                         } else {
@@ -54,9 +55,8 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                         }
                     }
             }catch (e: Exception){
-                errorSignInLive.postValue(e.message)
-            }finally {
                 progressSignInGoogleLive.postValue(false)
+                errorSignInLive.postValue(e.message)
             }
         }
     }
@@ -86,20 +86,22 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                                 .document(user.uid)
                                 .set(userMap)
                                 .addOnSuccessListener { result ->
+                                    progressSignInGoogleLive.postValue(false)
                                     successCreateUser.postValue(result)
                                 }
                                 .addOnFailureListener { exception ->
+                                    progressSignInGoogleLive.postValue(false)
                                     errorSignInLive.postValue(exception.message)
                                 }
                         }
                     }
                     .addOnFailureListener {
+                        progressSignInGoogleLive.postValue(false)
                         errorSignInLive.postValue(it.message)
                     }
             }catch (e: Exception){
-                errorSignInLive.postValue(e.message)
-            }finally {
                 progressSignInGoogleLive.postValue(false)
+                errorSignInLive.postValue(e.message)
             }
         }
     }
