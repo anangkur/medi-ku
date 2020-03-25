@@ -16,11 +16,17 @@ import com.anangkur.mediku.base.BaseSpinnerListener
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.feature.detailMedicalRecord.DetailMedicalRecordActivity.Companion.EXTRA_DETAIL_MEDICAL_RECORD
 import com.anangkur.mediku.util.*
+import com.annimon.stream.Stream
+import com.applandeo.materialcalendarview.CalendarView
+import com.applandeo.materialcalendarview.builders.DatePickerBuilder
+import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
 import com.esafirm.imagepicker.features.ImagePicker
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_add_medical_record.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMedicalActionListener {
 
@@ -58,11 +64,13 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
                 heartRate = et_heart_rate.text.toString(),
                 bodyTemperature = et_temperature.text.toString(),
                 bloodPressure = et_blood_pressure.text.toString(),
-                diagnose = et_diagnose.text.toString()
+                diagnose = et_diagnose.text.toString(),
+                date = et_date.text.toString()
             )
         }
         btn_select_category.setOnClickListener { this.onClickCategory() }
         btn_upload_document.setOnClickListener { this.onClickImage() }
+        et_date.setOnClickListener { this.onClickDate() }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -128,6 +136,9 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
 
     private fun setupDataToView(data: MedicalRecord?){
         if (data != null){
+            val date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).parse(data.createdAt)
+            val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(date)
+            et_date.setText(dateShow)
             setupImage(data.document)
             spinner_category.setSelection(mViewModel.createCategoryList().indexOf(data.category))
             et_diagnose.setText(data.diagnosis)
@@ -142,9 +153,10 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
         diagnose: String?,
         bloodPressure: String?,
         bodyTemperature: String?,
-        heartRate: String?
+        heartRate: String?,
+        date: String?
     ) {
-        validateInput(category, diagnose, bloodPressure, bodyTemperature, heartRate)
+        validateInput(category, diagnose, bloodPressure, bodyTemperature, heartRate, date)
     }
 
     override fun onClickCategory() {
@@ -165,12 +177,35 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
         })
     }
 
+    override fun onClickDate() {
+        val maximumDate = Calendar.getInstance()
+        val builder = DatePickerBuilder(this, OnSelectDateListener {
+            Stream.of(it).forEach { calendar ->
+                val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(calendar.time)
+                val datePost = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).format(calendar.time)
+                et_date.setText(dateShow)
+                mViewModel.selectedDate = datePost
+            }
+        })
+            .pickerType(CalendarView.ONE_DAY_PICKER)
+            .maximumDate(maximumDate)
+            .headerColor(R.color.white)
+            .headerLabelColor(R.color.colorPrimary)
+            .selectionColor(R.color.colorPrimary)
+            .todayLabelColor(R.color.colorPrimary)
+            .dialogButtonsColor(R.color.colorPrimary)
+
+        val datePicker = builder.build()
+        datePicker.show()
+    }
+
     private fun validateInput(
         category: String,
         diagnose: String?,
         bloodPressure: String?,
         bodyTemperature: String?,
-        heartRate: String?
+        heartRate: String?,
+        date: String?
     ){
         when {
             diagnose.isNullOrEmpty() -> {
@@ -185,12 +220,15 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
             heartRate.isNullOrEmpty() -> {
                 til_heart_rate.setErrorMessage(getString(R.string.error_heart_rate_empty))
             }
+            date.isNullOrEmpty() -> {
+                til_date.setErrorMessage(getString(R.string.error_date_empty))
+            }
             else -> {
                 mViewModel.addMedicalRecord(MedicalRecord(
                     category = category,
                     bloodPressure = bloodPressure.toInt(),
                     bodyTemperature = bodyTemperature.toInt(),
-                    createdAt = if (mViewModel.medicalRecord == null) getCurrentTimeStamp()?:"1990-01-01 00:00:00"
+                    createdAt = if (mViewModel.medicalRecord == null) mViewModel.selectedDate?:"1990-01-01 00:00:00"
                                 else mViewModel.medicalRecord?.createdAt?:"",
                     diagnosis = diagnose,
                     heartRate = heartRate.toInt(),

@@ -6,7 +6,9 @@ interface AddMedicalActionListener {
         diagnose: String?,
         bloodPressure: String?,
         bodyTemperature: String?,
-        heartRate: String?)
+        heartRate: String?,
+        date: String?)
     fun onClickCategory()
     fun onClickImage()
+    fun onClickDate()
 }

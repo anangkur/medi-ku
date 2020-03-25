@@ -72,6 +72,23 @@
                     android:maxLines="3"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_date"
+                style="@style/TextInputLayoutDefault"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp">
+                <EditText
+                    android:id="@+id/et_date"
+                    style="@style/EditTextDefault"
+                    android:hint="@string/hint_select_date"
+                    android:inputType="none"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:clickable="true"
+                    android:focusable="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
             <View
                 style="@style/ViewLine"
                 android:layout_width="match_parent"

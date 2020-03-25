@@ -93,6 +93,7 @@ dependencies {
     implementation "de.hdodenhof:circleimageview:$circleImageViewVersion"
     implementation "com.github.esafirm.android-image-picker:imagepicker:$imagePickerVersion"
     api "com.theartofdev.edmodo:android-image-cropper:$imageCropperVersion"
+    implementation "com.applandeo:material-calendar-view:$materialCalendarVersion"
 
     // firebase
     implementation "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"

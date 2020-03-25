@@ -58,6 +58,21 @@
                 android:layout_marginTop="@dimen/dimens_10dp"
                 android:layout_marginStart="@dimen/dimens_20dp"
                 android:layout_marginEnd="@dimen/dimens_20dp"/>
+
+            <TextView
+                style="@style/TextBoldNormal"
+                android:text="@string/label_visit_date"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
+            <TextView
+                android:id="@+id/tv_date"
+                style="@style/TextBoldBig"
+                android:layout_width="match_parent"
+                android:text="@string/app_name"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:layout_marginStart="@dimen/dimens_20dp"
+                android:layout_marginEnd="@dimen/dimens_20dp"/>
             <View
                 style="@style/ViewLine"
                 android:layout_width="match_parent"

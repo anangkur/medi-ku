@@ -365,8 +365,8 @@ fun String.formatDate(): String{
     if (yearNow == year) {
         timeReturn = if (monthNow == month) {
             when {
-                dayNow == day -> "Today, $time"
-                Integer.parseInt(dayNow) - Integer.parseInt(day!!) == 1 -> "Yesterday, $time"
+                dayNow == day -> "Today"
+                Integer.parseInt(dayNow) - Integer.parseInt(day!!) == 1 -> "Yesterday"
                 else -> {
                     val monthFormatDisplay = SimpleDateFormat(Const.DAY_NAME_DATE_MONTH_NAME, Locale.US)
                     monthFormatDisplay.format(generalFormat.parse(this)) + " " + time

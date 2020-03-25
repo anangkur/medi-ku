@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 class AddMedicalRecordViewModel(private val repository: Repository): ViewModel() {
 
     var selectedCategory: String? = null
+    var selectedDate: String? = null
     var medicalRecord: MedicalRecord? = null
     var document: String? = null
 

@@ -14,6 +14,8 @@ import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordActivity.Com
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_detail_medical_record.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(), DetailMedicalRecordActionListener {
 
@@ -62,6 +64,9 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
     }
 
     private fun setupDataToView(data: MedicalRecord){
+        val date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).parse(data.createdAt)
+        val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(date)
+        tv_date.text = dateShow
         setupCategoryView(data.category)
         setupImage(data.document)
         tv_diagnose.text = data.diagnosis

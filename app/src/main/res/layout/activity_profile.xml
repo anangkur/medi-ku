@@ -25,7 +25,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/dimens_20dp"
                         android:src="@color/gray"
-                        android:foreground="@drawable/rect_rounded_100dp_solid_white"/>
+                        android:foreground="@drawable/ripple_button_background_light"/>
 
                     <TextView
                         android:id="@+id/tv_name"
