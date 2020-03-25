@@ -99,6 +99,7 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
                         errorEditProfile.postValue(it.message)
                     }
             }catch (e: Exception){
+                progressUploadImage.postValue(false)
                 errorEditProfile.postValue(e.message)
             }finally {
                 progressUploadImage.postValue(false)

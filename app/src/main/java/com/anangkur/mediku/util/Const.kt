@@ -7,7 +7,7 @@ object Const {
     const val PROVIDER_FIREBASE = "firebase"
     const val PROVIDER_PASSWORD = "password"
 
-    const val MAX_IMAGE_SIZE = 2048.0
+    const val MAX_IMAGE_SIZE = 500.0
     const val COMPRESS_QUALITY = 95
     const val SAMPLE_SIZE = 2
 

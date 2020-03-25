@@ -118,8 +118,23 @@
             <View
                 style="@style/ViewLine"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/dimens_20dp"
-                android:layout_marginBottom="@dimen/dimens_20dp"/>
+                android:layout_marginTop="@dimen/dimens_20dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_upload_document"
+                style="@style/ConstraintWrapHeight"
+                android:layout_margin="@dimen/dimens_20dp"
+                android:foreground="?selectableItemBackground"
+                android:background="@color/gray">
+                <ImageView
+                    android:id="@+id/iv_document"
+                    style="@style/ImageViewHeightRatio"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintDimensionRatio="2:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
     <com.anangkur.materialloadingbutton.MaterialLoadingButton

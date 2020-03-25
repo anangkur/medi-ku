@@ -5,8 +5,7 @@ import androidx.core.content.ContextCompat
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseAdapter
 import com.anangkur.mediku.data.model.medical.MedicalRecord
-import com.anangkur.mediku.util.Const
-import com.anangkur.mediku.util.formatDate
+import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.item_home.view.*
 
 class HomeAdapter(private val listener: HomeActionListener): BaseAdapter<MedicalRecord>(){
@@ -26,6 +25,12 @@ class HomeAdapter(private val listener: HomeActionListener): BaseAdapter<Medical
                 Pair(R.drawable.ic_first_aid_kit, R.drawable.rect_rounded_4dp_gradient_purple)
             }
             else -> Pair(0,0)
+        }
+        if (data.document != null){
+            itemView.iv_document.visible()
+            itemView.iv_document.setImageUrl(data.document)
+        }else{
+            itemView.iv_document.gone()
         }
         itemView.iv_item_home.setImageResource(resource.first)
         itemView.background = ContextCompat.getDrawable(itemView.context, resource.second)

@@ -8,4 +8,5 @@ interface AddMedicalActionListener {
         bodyTemperature: String?,
         heartRate: String?)
     fun onClickCategory()
+    fun onClickImage()
 }

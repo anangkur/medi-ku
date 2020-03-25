@@ -11,8 +11,7 @@ import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordActivity
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordActivity.Companion.REQ_EDIT
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordActivity.Companion.RES_EDIT
-import com.anangkur.mediku.util.Const
-import com.anangkur.mediku.util.obtainViewModel
+import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_detail_medical_record.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
@@ -64,6 +63,7 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
 
     private fun setupDataToView(data: MedicalRecord){
         setupCategoryView(data.category)
+        setupImage(data.document)
         tv_diagnose.text = data.diagnosis
         tv_blood_pressure.text = "${data.bloodPressure} mmHg"
         tv_body_temperature.text = "${data.bodyTemperature} Celcius"
@@ -86,6 +86,15 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
         iv_category.setImageResource(resource.first)
         btn_select_category.background = ContextCompat.getDrawable(this, resource.second)
         tv_category.text = category
+    }
+
+    private fun setupImage(imageUrl: String?){
+        if (imageUrl != null){
+            btn_upload_document.visible()
+            iv_document.setImageUrl(imageUrl)
+        }else{
+            btn_upload_document.gone()
+        }
     }
 
     override fun onClickEdit(data: MedicalRecord) {

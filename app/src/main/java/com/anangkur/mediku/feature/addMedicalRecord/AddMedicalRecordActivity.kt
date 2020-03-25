@@ -2,6 +2,7 @@ package com.anangkur.mediku.feature.addMedicalRecord
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -15,8 +16,11 @@ import com.anangkur.mediku.base.BaseSpinnerListener
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.feature.detailMedicalRecord.DetailMedicalRecordActivity.Companion.EXTRA_DETAIL_MEDICAL_RECORD
 import com.anangkur.mediku.util.*
+import com.esafirm.imagepicker.features.ImagePicker
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_add_medical_record.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import java.io.File
 
 class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMedicalActionListener {
 
@@ -58,6 +62,26 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
             )
         }
         btn_select_category.setOnClickListener { this.onClickCategory() }
+        btn_upload_document.setOnClickListener { this.onClickImage() }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            cropImage(data, false)
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            handleImageCropperResult(data, resultCode, object: CompressImageListener{
+                override fun progress(isLoading: Boolean) {
+                    mViewModel.progressUploadDocument.postValue(isLoading)
+                }
+                override fun success(data: File) {
+                    mViewModel.uploadDocument(Uri.fromFile(data))
+                }
+                override fun error(errorMessage: String) {
+                    showSnackbarLong(errorMessage)
+                }
+            })
+        }
     }
 
     private fun observeViewModel(){
@@ -68,6 +92,20 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
                 }else{
                     btn_save.hideProgress()
                 }
+            })
+            progressUploadDocument.observe(this@AddMedicalRecordActivity, Observer {
+                if (it){
+                    pb_document.visible()
+                    iv_camera.gone()
+                }else{
+                    pb_document.gone()
+                    iv_camera.visible()
+                }
+            })
+            successUploadDocument.observe(this@AddMedicalRecordActivity, Observer {
+                document = it.toString()
+                iv_document.setImageUrl(it.toString())
+                iv_camera.gone()
             })
             successAddMedicalRecord.observe(this@AddMedicalRecordActivity, Observer {
                 showToastShort(getString(R.string.message_success_add_medical_report))
@@ -90,6 +128,7 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
 
     private fun setupDataToView(data: MedicalRecord?){
         if (data != null){
+            setupImage(data.document)
             spinner_category.setSelection(mViewModel.createCategoryList().indexOf(data.category))
             et_diagnose.setText(data.diagnosis)
             et_blood_pressure.setText(data.bloodPressure.toString())
@@ -110,6 +149,20 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
 
     override fun onClickCategory() {
         spinner_category.performClick()
+    }
+
+    override fun onClickImage() {
+        showDialogImagePicker(object: DialogImagePickerActionListener{
+            override fun onClickCamera() {
+                ImagePicker.cameraOnly().start(this@AddMedicalRecordActivity)
+            }
+            override fun onClickGallery() {
+                ImagePicker.create(this@AddMedicalRecordActivity)
+                    .single()
+                    .showCamera(false)
+                    .start()
+            }
+        })
     }
 
     private fun validateInput(
@@ -141,7 +194,8 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
                                 else mViewModel.medicalRecord?.createdAt?:"",
                     diagnosis = diagnose,
                     heartRate = heartRate.toInt(),
-                    updateAt = getCurrentTimeStamp()?:"1990-01-01 00:00:00"
+                    updateAt = getCurrentTimeStamp()?:"1990-01-01 00:00:00",
+                    document = mViewModel.document
                 ))
             }
         }
@@ -172,6 +226,15 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
         iv_category.setImageResource(resource.first)
         btn_select_category.background = ContextCompat.getDrawable(this, resource.second)
         tv_category.text = category
+    }
+
+    private fun setupImage(imageUrl: String?){
+        if (imageUrl != null){
+            iv_document.setImageUrl(imageUrl)
+            iv_camera.gone()
+        }else{
+            iv_camera.visible()
+        }
     }
 
 }

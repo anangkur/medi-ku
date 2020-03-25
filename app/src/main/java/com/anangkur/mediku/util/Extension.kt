@@ -203,11 +203,11 @@ fun SwipeRefreshLayout.stopLoading(){
     this.isRefreshing = false
 }
 
-fun Activity.cropImage(data: Intent?) {
+fun Activity.cropImage(data: Intent?, fixAspectRatio: Boolean) {
     val image = ImagePicker.getFirstImageOrNull(data)
     CropImage.activity(Uri.fromFile(File(image.path)))
         .setGuidelines(CropImageView.Guidelines.OFF)
-        .setFixAspectRatio(true)
+        .setFixAspectRatio(fixAspectRatio)
         .start(this)
 }
 
