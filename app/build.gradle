@@ -99,6 +99,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
     implementation "com.google.firebase:firebase-firestore-ktx:$firebaseFirestoreVersion"
     implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
+    implementation "com.google.firebase:firebase-storage:$firebaseStorageVersion"
 
     // google
     implementation "com.google.android.gms:play-services-auth:$googleAuthVersion"

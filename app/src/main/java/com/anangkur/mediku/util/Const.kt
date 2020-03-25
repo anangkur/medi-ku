@@ -28,4 +28,7 @@ object Const {
 
     // notification
     const val NOTIFICATION_CHANNEL_ID = "10001"
+
+    // storage
+    const val STORAGE_PROFILE_PHOTO = "profile_photos"
 }

@@ -1,6 +1,7 @@
 package com.anangkur.mediku.feature.editProfile
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.data.Repository
@@ -74,17 +75,28 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 progressUploadImage.postValue(true)
-                val userUpdateRequest = UserProfileChangeRequest.Builder()
-                    .setPhotoUri(image)
-                    .build()
+                val fileName = image.lastPathSegment?:""
+                val extension = fileName.substring(fileName.lastIndexOf("."))
                 val user = repository.remoteRepository.firebaseAuth.currentUser
-                user?.updateProfile(userUpdateRequest)
-                    ?.addOnCompleteListener {
-                        if (it.isSuccessful){
-                            successUploadImage.postValue(user.photoUrl)
-                        }else{
-                            errorEditProfile.postValue(it.exception?.message)
+                val storageReference = repository.remoteRepository.storage.reference
+                    .child(Const.STORAGE_PROFILE_PHOTO)
+                    .child(user?.uid?:"")
+                    .child("${user?.uid}$extension")
+                storageReference.putFile(image)
+                    .addOnProgressListener {
+                        progressUploadImage.postValue(true)
+                    }.continueWithTask { task ->
+                        if (!task.isSuccessful) {
+                            throw task.exception!!
                         }
+                        storageReference.downloadUrl
+                    }.addOnSuccessListener {
+                        progressUploadImage.postValue(false)
+                        successUploadImage.postValue(it)
+                    }
+                    .addOnFailureListener {
+                        progressUploadImage.postValue(false)
+                        errorEditProfile.postValue(it.message)
                     }
             }catch (e: Exception){
                 errorEditProfile.postValue(e.message)

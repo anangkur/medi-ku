@@ -58,6 +58,7 @@ ext {
     firebaseAuthVersion='19.3.0'
     firebaseFirestoreVersion='21.4.1'
     firebaseMessagingVersion='20.1.3'
+    firebaseStorageVersion='19.1.1'
 
     googleAuthVersion='17.0.0'
 }
