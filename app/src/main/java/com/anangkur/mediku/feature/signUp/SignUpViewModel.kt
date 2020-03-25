@@ -26,6 +26,7 @@ class SignUpViewModel(private val repository: Repository): ViewModel() {
                 FirebaseAuth.getInstance()
                     .createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
+                        progressSignUpLive.postValue(false)
                         if (it.isSuccessful){
                             val profileUpdate = UserProfileChangeRequest.Builder()
                                 .setDisplayName(name)
@@ -42,9 +43,8 @@ class SignUpViewModel(private val repository: Repository): ViewModel() {
                         }
                     }
             }catch (e: Exception){
-                errorSignUpLive.postValue(e.message)
-            }finally {
                 progressSignUpLive.postValue(false)
+                errorSignUpLive.postValue(e.message)
             }
         }
     }
@@ -56,6 +56,7 @@ class SignUpViewModel(private val repository: Repository): ViewModel() {
                 progressSignUpGoogleLive.postValue(true)
                 val credential = GoogleAuthProvider.getCredential(acct?.idToken, null)
                 repository.remoteRepository.firebaseAuth.signInWithCredential(credential).addOnCompleteListener{ task ->
+                    progressSignUpGoogleLive.postValue(false)
                     if (task.isSuccessful) {
                         createUser(task.result?.user!!, false)
                     } else {
@@ -63,9 +64,8 @@ class SignUpViewModel(private val repository: Repository): ViewModel() {
                     }
                 }
             }catch (e: Exception){
-                errorSignUpLive.postValue(e.message)
-            }finally {
                 progressSignUpGoogleLive.postValue(false)
+                errorSignUpLive.postValue(e.message)
             }
         }
     }
@@ -99,24 +99,38 @@ class SignUpViewModel(private val repository: Repository): ViewModel() {
                                 .document(user.uid)
                                 .set(userMap)
                                 .addOnSuccessListener {
+                                    if (isPassword){
+                                        progressSignUpLive.postValue(false)
+                                    }else{
+                                        progressSignUpGoogleLive.postValue(false)
+                                    }
                                     successCreateUser.postValue(true)
                                 }
                                 .addOnFailureListener { exception ->
+                                    if (isPassword){
+                                        progressSignUpLive.postValue(false)
+                                    }else{
+                                        progressSignUpGoogleLive.postValue(false)
+                                    }
                                     errorSignUpLive.postValue(exception.message)
                                 }
                         }
                     }
                     .addOnFailureListener {
+                        if (isPassword){
+                            progressSignUpLive.postValue(false)
+                        }else{
+                            progressSignUpGoogleLive.postValue(false)
+                        }
                         errorSignUpLive.postValue(it.message)
                     }
             }catch (e: Exception){
-                errorSignUpLive.postValue(e.message)
-            }finally {
                 if (isPassword){
                     progressSignUpLive.postValue(false)
                 }else{
                     progressSignUpGoogleLive.postValue(false)
                 }
+                errorSignUpLive.postValue(e.message)
             }
         }
     }

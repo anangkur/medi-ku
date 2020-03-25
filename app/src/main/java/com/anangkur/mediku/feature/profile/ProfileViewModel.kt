@@ -25,15 +25,16 @@ class ProfileViewModel(private val repository: Repository): ViewModel() {
                     .document(user?.uid?:"")
                     .get()
                     .addOnSuccessListener { result ->
+                        progressGetProfile.postValue(false)
                         successGetProfile.postValue(result.toObject<User>())
                     }
                     .addOnFailureListener { exception ->
+                        progressGetProfile.postValue(false)
                         errorGetProfile.postValue(exception.message)
                     }
             }catch (e: Exception){
-                errorGetProfile.postValue(e.message)
-            }finally {
                 progressGetProfile.postValue(false)
+                errorGetProfile.postValue(e.message)
             }
         }
     }
@@ -46,11 +47,11 @@ class ProfileViewModel(private val repository: Repository): ViewModel() {
             try {
                 progressLogout.postValue(true)
                 repository.remoteRepository.firebaseAuth.signOut()
+                progressLogout.postValue(false)
                 successLogout.postValue(true)
             }catch (e: Exception){
-                errorLogout.postValue(e.message)
-            }finally {
                 progressLogout.postValue(false)
+                errorLogout.postValue(e.message)
             }
         }
     }

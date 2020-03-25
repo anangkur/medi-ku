@@ -15,18 +15,18 @@ class SplashViewModel(private val repository: Repository): ViewModel(){
     val errorGetProfile = MutableLiveData<String>()
     fun getProfile(){
         CoroutineScope(Dispatchers.IO).launch {
-            progressGetProfile.postValue(true)
             try {
+                progressGetProfile.postValue(true)
                 val user = repository.remoteRepository.firebaseAuth.currentUser
                 if (user != null){
                     successGetProfile.postValue(true)
                 }else{
                     successGetProfile.postValue(false)
                 }
-            }catch (e: Exception){
-                errorGetProfile.postValue(e.message?:"")
-            }finally {
                 progressGetProfile.postValue(false)
+            }catch (e: Exception){
+                progressGetProfile.postValue(false)
+                errorGetProfile.postValue(e.message?:"")
             }
         }
     }

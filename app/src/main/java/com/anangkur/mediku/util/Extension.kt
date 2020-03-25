@@ -1,6 +1,7 @@
 package com.anangkur.mediku.util
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -65,7 +67,6 @@ fun ImageView.setImageUrl(url: String){
         .load(url)
         .apply(RequestOptions().error(R.color.gray))
         .apply(RequestOptions().placeholder(createCircularProgressDrawable(this.context)))
-        .apply(RequestOptions().centerCrop())
         .into(this)
 }
 
@@ -380,4 +381,17 @@ fun String.formatDate(): String{
         timeReturn = yearFormatDisplay.format(generalFormat.parse(this)) + " " + time
     }
     return timeReturn
+}
+
+fun Context.showPreviewImage(url: String){
+    val nagDialog = Dialog(this, android.R.style.Theme_Translucent)
+    nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    nagDialog.setCancelable(true)
+    nagDialog.setContentView(R.layout.preview_image_popup)
+    val imageView = nagDialog.findViewById<ImageView>(R.id.iv_preview)
+    imageView.setImageUrl(url)
+    nagDialog.findViewById<RelativeLayout>(R.id.rl_main).setOnClickListener {
+        nagDialog.dismiss()
+    }
+    nagDialog.show()
 }

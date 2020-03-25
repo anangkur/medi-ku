@@ -23,6 +23,7 @@ class EditPasswordViewModel(private val repository: Repository): ViewModel() {
                 val user = repository.remoteRepository.firebaseAuth.currentUser
                 val credential = EmailAuthProvider.getCredential(user?.email?:"", oldPassword?:"")
                 user?.reauthenticate(credential)?.addOnCompleteListener {
+                    progressEditPassword.postValue(false)
                     if (it.isSuccessful){
                         user.updatePassword(newPassword?:"").addOnCompleteListener {task ->
                             if (task.isSuccessful){
@@ -36,9 +37,8 @@ class EditPasswordViewModel(private val repository: Repository): ViewModel() {
                     }
                 }
             }catch (e: Exception){
-                errorEditPassword.postValue(e.message)
-            }finally {
                 progressEditPassword.postValue(false)
+                errorEditPassword.postValue(e.message)
             }
         }
     }

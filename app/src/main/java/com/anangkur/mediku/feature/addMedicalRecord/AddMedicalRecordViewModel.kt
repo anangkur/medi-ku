@@ -22,8 +22,8 @@ class AddMedicalRecordViewModel(private val repository: Repository): ViewModel()
     val errorAddMedicalRecord = MutableLiveData<String>()
     fun addMedicalRecord(medicalRecord: MedicalRecord){
         CoroutineScope(Dispatchers.IO).launch {
-            progressAddMedicalRecord.postValue(true)
             try {
+                progressAddMedicalRecord.postValue(true)
                 val user = repository.remoteRepository.firebaseAuth.currentUser
                 repository.remoteRepository.firestore.collection(Const.COLLECTION_MEDICAL_RECORD)
                     .document(user?.uid?:"")
@@ -31,15 +31,16 @@ class AddMedicalRecordViewModel(private val repository: Repository): ViewModel()
                     .document(medicalRecord.createdAt)
                     .set(medicalRecord)
                     .addOnSuccessListener {
+                        progressAddMedicalRecord.postValue(false)
                         successAddMedicalRecord.postValue(medicalRecord)
                     }
                     .addOnFailureListener { exception ->
+                        progressAddMedicalRecord.postValue(false)
                         errorAddMedicalRecord.postValue(exception.message)
                     }
             }catch (e: Exception){
-                errorAddMedicalRecord.postValue(e.message)
-            }finally {
                 progressAddMedicalRecord.postValue(false)
+                errorAddMedicalRecord.postValue(e.message)
             }
         }
     }
@@ -79,8 +80,6 @@ class AddMedicalRecordViewModel(private val repository: Repository): ViewModel()
             }catch (e: Exception){
                 progressUploadDocument.postValue(false)
                 errorAddMedicalRecord.postValue(e.message)
-            }finally {
-                progressUploadDocument.postValue(false)
             }
         }
     }

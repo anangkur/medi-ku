@@ -30,15 +30,16 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
                     .document(userFirebase?.uid?:"")
                     .set(user)
                     .addOnSuccessListener { result ->
+                        progressEditProfile.postValue(false)
                         successEditProfile.postValue(result)
                     }
                     .addOnFailureListener { exeption ->
+                        progressEditProfile.postValue(false)
                         errorEditProfile.postValue(exeption.message)
                     }
             }catch (e: Exception){
-                errorEditProfile.postValue(e.message)
-            }finally {
                 progressEditProfile.postValue(false)
+                errorEditProfile.postValue(e.message)
             }
         }
     }
@@ -56,15 +57,16 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
                     .document(user?.uid?:"")
                     .get()
                     .addOnSuccessListener { result ->
+                        progressGetProfile.postValue(false)
                         successGetProfile.postValue(result.toObject<User>())
                     }
                     .addOnFailureListener { exception ->
+                        progressGetProfile.postValue(false)
                         errorGetProfile.postValue(exception.message)
                     }
             }catch (e: Exception){
-                errorGetProfile.postValue(e.message)
-            }finally {
                 progressGetProfile.postValue(false)
+                errorGetProfile.postValue(e.message)
             }
         }
     }
@@ -101,8 +103,6 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
             }catch (e: Exception){
                 progressUploadImage.postValue(false)
                 errorEditProfile.postValue(e.message)
-            }finally {
-                progressUploadImage.postValue(false)
             }
         }
     }

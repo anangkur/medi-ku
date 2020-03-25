@@ -19,8 +19,8 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
     val errorGetMedicalRecord = MutableLiveData<String>()
     fun getMedicalRecord(){
         CoroutineScope(Dispatchers.IO).launch {
-            progressGetMedicalRecord.postValue(true)
             try {
+                progressGetMedicalRecord.postValue(true)
                 val user = repository.remoteRepository.firebaseAuth.currentUser
                 repository.remoteRepository.firestore
                     .collection(Const.COLLECTION_MEDICAL_RECORD)
@@ -29,6 +29,7 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
                     .orderBy("createdAt", Query.Direction.DESCENDING)
                     .get()
                     .addOnSuccessListener {result ->
+                        progressGetMedicalRecord.postValue(false)
                         val listData = ArrayList<MedicalRecord>()
                         for (querySnapshot in result){
                             val data = querySnapshot.toObject<MedicalRecord>()
@@ -39,12 +40,12 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
                         successGetMedicalRecord.postValue(listData)
                     }
                     .addOnFailureListener {exception ->
+                        progressGetMedicalRecord.postValue(false)
                         errorGetMedicalRecord.postValue(exception.message)
                     }
             }catch (e: Exception){
-                errorGetMedicalRecord.postValue(e.message)
-            }finally {
                 progressGetMedicalRecord.postValue(false)
+                errorGetMedicalRecord.postValue(e.message)
             }
         }
     }
@@ -62,15 +63,16 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
                     .document(user?.uid?:"")
                     .get()
                     .addOnSuccessListener { result ->
+                        progressGetProfile.postValue(false)
                         successGetProfile.postValue(result.toObject<User>())
                     }
                     .addOnFailureListener { exception ->
+                        progressGetProfile.postValue(false)
                         errorGetProfile.postValue(exception.message)
                     }
             }catch (e: Exception){
-                errorGetProfile.postValue(e.message)
-            }finally {
                 progressGetProfile.postValue(false)
+                errorGetProfile.postValue(e.message)
             }
         }
     }

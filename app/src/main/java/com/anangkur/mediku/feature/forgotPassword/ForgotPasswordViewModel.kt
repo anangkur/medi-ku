@@ -19,6 +19,7 @@ class ForgotPasswordViewModel(private val repository: Repository): ViewModel() {
                 progressForgotPassword.postValue(true)
                 repository.remoteRepository.firebaseAuth.sendPasswordResetEmail(email)
                     .addOnCompleteListener {
+                        progressForgotPassword.postValue(false)
                         if (it.isSuccessful){
                             successForgotPassword.postValue("Email sent!")
                         }else{
@@ -26,9 +27,8 @@ class ForgotPasswordViewModel(private val repository: Repository): ViewModel() {
                         }
                     }
             }catch (e: Exception){
-                errorForgotPassword.postValue(e.message)
-            }finally {
                 progressForgotPassword.postValue(false)
+                errorForgotPassword.postValue(e.message)
             }
         }
     }

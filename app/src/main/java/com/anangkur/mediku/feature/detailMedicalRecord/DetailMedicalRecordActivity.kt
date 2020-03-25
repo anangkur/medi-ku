@@ -92,6 +92,7 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
         if (imageUrl != null){
             btn_upload_document.visible()
             iv_document.setImageUrl(imageUrl)
+            btn_upload_document.setOnClickListener { this.onCLickImage(imageUrl) }
         }else{
             btn_upload_document.gone()
         }
@@ -99,5 +100,9 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
 
     override fun onClickEdit(data: MedicalRecord) {
         AddMedicalRecordActivity.startActivity(this,this,  data)
+    }
+
+    override fun onCLickImage(imageUrl: String) {
+        this.showPreviewImage(imageUrl)
     }
 }
