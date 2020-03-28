@@ -26,10 +26,11 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:layout_marginStart="@dimen/dimens_20dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintTop_toTopOf="@id/iv_item_home"
         app:layout_constraintBottom_toTopOf="@id/tv_diagnosis_home"
         app:layout_constraintLeft_toRightOf="@id/iv_item_home"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toLeftOf="@id/tv_date_home"/>
     <TextView
         android:id="@+id/tv_diagnosis_home"
         style="@style/TextBoldNormal"
@@ -46,11 +47,12 @@
         app:layout_constraintRight_toRightOf="parent"/>
     <TextView
         android:id="@+id/tv_date_home"
-        style="@style/TextBoldNormal"
+        style="@style/TextBoldSmall"
         android:text="@string/app_name"
         android:textColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/tv_item_home"/>
     <ImageView
         android:id="@+id/iv_document"
         style="@style/ImageViewHeightRatio"
