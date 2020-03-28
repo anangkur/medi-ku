@@ -28,6 +28,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 androidExtensions {
@@ -53,6 +56,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataVersion"
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     kapt "androidx.room:room-compiler:$roomVersion"
 
     // Dependencies for Glide
@@ -94,6 +99,7 @@ dependencies {
     implementation "com.github.esafirm.android-image-picker:imagepicker:$imagePickerVersion"
     api "com.theartofdev.edmodo:android-image-cropper:$imageCropperVersion"
     implementation "com.applandeo:material-calendar-view:$materialCalendarVersion"
+    implementation "com.github.PhilJay:MPAndroidChart:$mpAndroidChartVersion"
 
     // firebase
     implementation "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"

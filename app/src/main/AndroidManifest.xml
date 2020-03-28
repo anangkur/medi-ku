@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".feature.detailMedicalRecord.DetailMedicalRecordActivity"/>
+        <activity android:name=".feature.covid19Detail.Covid19DetailActivity"></activity>
+        <activity android:name=".feature.covid19.CovidActivity" />
+        <activity android:name=".feature.detailMedicalRecord.DetailMedicalRecordActivity" />
         <activity android:name=".feature.addMedicalRecord.AddMedicalRecordActivity" />
         <activity android:name=".feature.home.HomeActivity" />
         <activity android:name=".feature.forgotPassword.ForgotPasswordActivity" />
@@ -34,6 +36,7 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
         <service
             android:name=".feature.notification.MessagingService"
             android:permission="com.google.android.c2dm.permission.SEND"

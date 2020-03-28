@@ -54,6 +54,7 @@ ext {
     imageCropperVersion='2.8.0'
     circleImageViewVersion='3.1.0'
     materialCalendarVersion = '1.5.1'
+    mpAndroidChartVersion='v3.1.0'
 
     firebaseAnalyticsVersion='17.2.3'
     firebaseAuthVersion='19.3.0'
