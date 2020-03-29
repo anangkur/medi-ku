@@ -69,7 +69,7 @@
     <string name="label_visit_date">Visit Date</string>
     <string name="label_live_statistics">Live Statistics</string>
     <string name="label_desc_covid_stat">Confirmed, Death and Recover \nCovid -19 case all over the world</string>
-    <string name="label_confirmed_cases">Confirmed Cases</string>
+    <string name="label_confirmed_cases">Confirmed</string>
     <string name="label_deaths">Deaths</string>
     <string name="label_recovered">Recovered</string>
     <string name="label_your_country">Your Country</string>
