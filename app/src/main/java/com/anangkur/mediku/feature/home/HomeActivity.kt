@@ -12,6 +12,7 @@ import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordActivity
+import com.anangkur.mediku.feature.covid19.CovidActivity
 import com.anangkur.mediku.feature.detailMedicalRecord.DetailMedicalRecordActivity
 import com.anangkur.mediku.feature.profile.ProfileActivity
 import com.anangkur.mediku.util.*
@@ -47,6 +48,7 @@ class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener {
         }
         btn_profile.setOnClickListener { this.onClickProfile() }
         btn_add_medical_report.setOnClickListener { this.onClickAddMedicalRecord() }
+        card_covid.setOnClickListener { this.onClickCovid() }
     }
 
     override fun onResume() {
@@ -110,5 +112,9 @@ class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener {
 
     override fun onClickItem(data: MedicalRecord) {
         DetailMedicalRecordActivity.startActivity(this, data)
+    }
+
+    override fun onClickCovid() {
+        CovidActivity.startActivity(this)
     }
 }

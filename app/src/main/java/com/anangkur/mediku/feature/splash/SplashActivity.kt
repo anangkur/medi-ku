@@ -9,11 +9,9 @@ import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.feature.home.HomeActivity
 import com.anangkur.mediku.feature.profile.ProfileActivity
 import com.anangkur.mediku.feature.signIn.SignInActivity
-import com.anangkur.mediku.util.gone
-import com.anangkur.mediku.util.obtainViewModel
-import com.anangkur.mediku.util.showToastShort
-import com.anangkur.mediku.util.visible
+import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_splash.*
+import java.util.*
 
 class SplashActivity: BaseActivity<SplashViewModel>() {
     override val mLayout: Int
@@ -29,6 +27,7 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
         super.onCreate(savedInstanceState)
 
         observeViewModel()
+        mViewModel.saveCountry(getUserCountry(this)?:"id")
         mViewModel.getProfile()
     }
 

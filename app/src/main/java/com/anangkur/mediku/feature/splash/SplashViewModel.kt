@@ -1,5 +1,6 @@
 package com.anangkur.mediku.feature.splash
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.data.Repository
@@ -29,5 +30,10 @@ class SplashViewModel(private val repository: Repository): ViewModel(){
                 errorGetProfile.postValue(e.message?:"")
             }
         }
+    }
+
+    fun saveCountry(country: String){
+        Log.d("saveCountry", country)
+        repository.saveCountry(country)
     }
 }

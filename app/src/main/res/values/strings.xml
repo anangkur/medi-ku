@@ -67,5 +67,17 @@
     <string name="hint_select_date">Select Date</string>
     <string name="error_date_empty">Date is mandatory!</string>
     <string name="label_visit_date">Visit Date</string>
+    <string name="label_live_statistics">Live Statistics</string>
+    <string name="label_desc_covid_stat">Confirmed, Death and Recover \nCovid -19 case all over the world</string>
+    <string name="label_confirmed_cases">Confirmed</string>
+    <string name="label_deaths">Deaths</string>
+    <string name="label_recovered">Recovered</string>
+    <string name="label_your_country">Your Country</string>
+    <string name="label_top_country">Top Country</string>
+    <string name="label_other_country">Other Country</string>
+    <string name="urlImageCountryFlag">https://www.countryflags.io/%1$s/flat/64.png</string>
+    <string name="label_data_shown">Data shown are the data as of %1$s</string>
+    <string name="btn_covid">See live statistics of Covid-19 cases all over the world</string>
+    <string name="toolbar_covid_19">Covid-19</string>
     <!--end of image picker dialog-->
 </resources>
