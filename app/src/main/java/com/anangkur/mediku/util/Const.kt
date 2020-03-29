@@ -2,6 +2,9 @@ package com.anangkur.mediku.util
 
 object Const {
     const val PREF_NAME = "PREF_NAME"
+    const val DATABASE_NAME = "mediku_database"
+
+    const val EXTRA_COUNTRY = "EXTRA_COUNTRY"
 
     const val PROVIDER_GOOGLE = "google.com"
     const val PROVIDER_FIREBASE = "firebase"
@@ -23,9 +26,9 @@ object Const {
     // date format
     const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
     const val TIME_GENERAL_HH_MM = "HH:mm"
-    const val DAY_NAME_DATE_MONTH_NAME = "EEE, dd MMMM"
-    const val DAY_FULL_WITH_DATE_LOCALE = "EEE, dd MMMM yyyy"
-    const val DATE_ENGLISH_YYYY_MM_DD = "yyyy-MM-dd"
+    const val DAY_NAME_DATE_MONTH_NAME = "EEE, dd MMM"
+    const val DAY_FULL_WITH_DATE_LOCALE = "EEE, dd MMM yyyy"
+    const val DATE_ENGLISH_YYYY_MM_DD = "yyyy-M-dd"
 
     // notification
     const val NOTIFICATION_CHANNEL_ID = "10001"

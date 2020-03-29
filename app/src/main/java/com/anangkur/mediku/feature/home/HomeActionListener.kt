@@ -6,4 +6,5 @@ interface HomeActionListener {
     fun onClickProfile()
     fun onClickAddMedicalRecord()
     fun onClickItem(data: MedicalRecord)
+    fun onClickCovid()
 }

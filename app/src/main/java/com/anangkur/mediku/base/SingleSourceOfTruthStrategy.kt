@@ -24,3 +24,12 @@ fun <T, A> resultLiveData(
             emitSource(source)
         }
     }
+
+fun <T> resultLiveData(
+    databaseQuery: suspend () -> LiveData<T>
+): LiveData<BaseResult<T>> =
+    liveData(Dispatchers.IO) {
+        emit(BaseResult.loading())
+        val source = databaseQuery.invoke().map { BaseResult.success(it) }
+        emitSource(source)
+    }

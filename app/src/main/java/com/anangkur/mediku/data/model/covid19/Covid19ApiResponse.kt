@@ -1,544 +1,541 @@
 package com.anangkur.mediku.data.model.covid19
 
+import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class Covid19ApiResponse(
     @SerializedName("Afghanistan")
-    val afghanistan: List<Country?>? = listOf(),
+    val afghanistan: List<Covid19Data> = listOf(),
 
     @SerializedName("Albania")
-    val albania: List<Country?>? = listOf(),
+    val albania: List<Covid19Data> = listOf(),
 
     @SerializedName("Algeria")
-    val algeria: List<Country?>? = listOf(),
+    val algeria: List<Covid19Data> = listOf(),
 
     @SerializedName("Andorra")
-    val andorra: List<Country?>? = listOf(),
+    val andorra: List<Covid19Data> = listOf(),
 
     @SerializedName("Angola")
-    val angola: List<Country?>? = listOf(),
+    val angola: List<Covid19Data> = listOf(),
 
     @SerializedName("Antigua and Barbuda")
-    val antiguaAndBarbuda: List<Country?>? = listOf(),
+    val antiguaAndBarbuda: List<Covid19Data> = listOf(),
 
     @SerializedName("Argentina")
-    val argentina: List<Country?>? = listOf(),
+    val argentina: List<Covid19Data> = listOf(),
 
     @SerializedName("Armenia")
-    val armenia: List<Country?>? = listOf(),
+    val armenia: List<Covid19Data> = listOf(),
 
     @SerializedName("Australia")
-    val australia: List<Country?>? = listOf(),
+    val australia: List<Covid19Data> = listOf(),
 
     @SerializedName("Austria")
-    val austria: List<Country?>? = listOf(),
+    val austria: List<Covid19Data> = listOf(),
 
     @SerializedName("Azerbaijan")
-    val azerbaijan: List<Country?>? = listOf(),
+    val azerbaijan: List<Covid19Data> = listOf(),
 
     @SerializedName("Bahamas")
-    val bahamas: List<Country?>? = listOf(),
+    val bahamas: List<Covid19Data> = listOf(),
 
     @SerializedName("Bahrain")
-    val bahrain: List<Country?>? = listOf(),
+    val bahrain: List<Covid19Data> = listOf(),
 
     @SerializedName("Bangladesh")
-    val bangladesh: List<Country?>? = listOf(),
+    val bangladesh: List<Covid19Data> = listOf(),
 
     @SerializedName("Barbados")
-    val barbados: List<Country?>? = listOf(),
+    val barbados: List<Covid19Data> = listOf(),
 
     @SerializedName("Belarus")
-    val belarus: List<Country?>? = listOf(),
+    val belarus: List<Covid19Data> = listOf(),
 
     @SerializedName("Belgium")
-    val belgium: List<Country?>? = listOf(),
+    val belgium: List<Covid19Data> = listOf(),
 
     @SerializedName("Belize")
-    val belize: List<Country?>? = listOf(),
+    val belize: List<Covid19Data> = listOf(),
 
     @SerializedName("Benin")
-    val benin: List<Country?>? = listOf(),
+    val benin: List<Covid19Data> = listOf(),
 
     @SerializedName("Bhutan")
-    val bhutan: List<Country?>? = listOf(),
+    val bhutan: List<Covid19Data> = listOf(),
 
     @SerializedName("Bolivia")
-    val bolivia: List<Country?>? = listOf(),
+    val bolivia: List<Covid19Data> = listOf(),
 
     @SerializedName("Bosnia and Herzegovina")
-    val bosniaAndHerzegovina: List<Country?>? = listOf(),
+    val bosniaAndHerzegovina: List<Covid19Data> = listOf(),
 
     @SerializedName("Brazil")
-    val brazil: List<Country?>? = listOf(),
+    val brazil: List<Covid19Data> = listOf(),
 
     @SerializedName("Brunei")
-    val brunei: List<Country?>? = listOf(),
+    val brunei: List<Covid19Data> = listOf(),
 
     @SerializedName("Bulgaria")
-    val bulgaria: List<Country?>? = listOf(),
+    val bulgaria: List<Covid19Data> = listOf(),
 
     @SerializedName("Burkina Faso")
-    val burkinaFaso: List<Country?>? = listOf(),
+    val burkinaFaso: List<Covid19Data> = listOf(),
 
     @SerializedName("Burma")
-    val burma: List<Country?>? = listOf(),
+    val burma: List<Covid19Data> = listOf(),
 
     @SerializedName("Cabo Verde")
-    val caboVerde: List<Country?>? = listOf(),
+    val caboVerde: List<Covid19Data> = listOf(),
 
     @SerializedName("Cambodia")
-    val cambodia: List<Country?>? = listOf(),
+    val cambodia: List<Covid19Data> = listOf(),
 
     @SerializedName("Cameroon")
-    val cameroon: List<Country?>? = listOf(),
+    val cameroon: List<Covid19Data> = listOf(),
 
     @SerializedName("Canada")
-    val canada: List<Country?>? = listOf(),
+    val canada: List<Covid19Data> = listOf(),
 
     @SerializedName("Central African Republic")
-    val centralAfricanRepublic: List<Country?>? = listOf(),
+    val centralAfricanRepublic: List<Covid19Data> = listOf(),
 
     @SerializedName("Chad")
-    val chad: List<Country?>? = listOf(),
+    val chad: List<Covid19Data> = listOf(),
 
     @SerializedName("Chile")
-    val chile: List<Country?>? = listOf(),
+    val chile: List<Covid19Data> = listOf(),
 
     @SerializedName("China")
-    val china: List<Country?>? = listOf(),
+    val china: List<Covid19Data> = listOf(),
 
     @SerializedName("Colombia")
-    val colombia: List<Country?>? = listOf(),
+    val colombia: List<Covid19Data> = listOf(),
 
     @SerializedName("Congo (Brazzaville)")
-    val congoBrazzaville: List<Country?>? = listOf(),
+    val congoBrazzaville: List<Covid19Data> = listOf(),
 
     @SerializedName("Congo (Kinshasa)")
-    val congoKinshasa: List<Country?>? = listOf(),
+    val congoKinshasa: List<Covid19Data> = listOf(),
 
     @SerializedName("Costa Rica")
-    val costaRica: List<Country?>? = listOf(),
+    val costaRica: List<Covid19Data> = listOf(),
 
     @SerializedName("Cote d'Ivoire")
-    val coteDIvoire: List<Country?>? = listOf(),
+    val coteDIvoire: List<Covid19Data> = listOf(),
 
     @SerializedName("Croatia")
-    val croatia: List<Country?>? = listOf(),
+    val croatia: List<Covid19Data> = listOf(),
 
     @SerializedName("Cuba")
-    val cuba: List<Country?>? = listOf(),
+    val cuba: List<Covid19Data> = listOf(),
 
     @SerializedName("Cyprus")
-    val cyprus: List<Country?>? = listOf(),
+    val cyprus: List<Covid19Data> = listOf(),
 
     @SerializedName("Czechia")
-    val czechia: List<Country?>? = listOf(),
+    val czechia: List<Covid19Data> = listOf(),
 
     @SerializedName("Denmark")
-    val denmark: List<Country?>? = listOf(),
+    val denmark: List<Covid19Data> = listOf(),
 
     @SerializedName("Diamond Princess")
-    val diamondPrincess: List<Country?>? = listOf(),
+    val diamondPrincess: List<Covid19Data> = listOf(),
 
     @SerializedName("Djibouti")
-    val djibouti: List<Country?>? = listOf(),
+    val djibouti: List<Covid19Data> = listOf(),
 
     @SerializedName("Dominica")
-    val dominica: List<Country?>? = listOf(),
+    val dominica: List<Covid19Data> = listOf(),
 
     @SerializedName("Dominican Republic")
-    val dominicanRepublic: List<Country?>? = listOf(),
+    val dominicanRepublic: List<Covid19Data> = listOf(),
 
     @SerializedName("Ecuador")
-    val ecuador: List<Country?>? = listOf(),
+    val ecuador: List<Covid19Data> = listOf(),
 
     @SerializedName("Egypt")
-    val egypt: List<Country?>? = listOf(),
+    val egypt: List<Covid19Data> = listOf(),
 
     @SerializedName("El Salvador")
-    val elSalvador: List<Country?>? = listOf(),
+    val elSalvador: List<Covid19Data> = listOf(),
 
     @SerializedName("Equatorial Guinea")
-    val equatorialGuinea: List<Country?>? = listOf(),
+    val equatorialGuinea: List<Covid19Data> = listOf(),
 
     @SerializedName("Eritrea")
-    val eritrea: List<Country?>? = listOf(),
+    val eritrea: List<Covid19Data> = listOf(),
 
     @SerializedName("Estonia")
-    val estonia: List<Country?>? = listOf(),
+    val estonia: List<Covid19Data> = listOf(),
 
     @SerializedName("Eswatini")
-    val eswatini: List<Country?>? = listOf(),
+    val eswatini: List<Covid19Data> = listOf(),
 
     @SerializedName("Ethiopia")
-    val ethiopia: List<Country?>? = listOf(),
+    val ethiopia: List<Covid19Data> = listOf(),
 
     @SerializedName("Fiji")
-    val fiji: List<Country?>? = listOf(),
+    val fiji: List<Covid19Data> = listOf(),
 
     @SerializedName("Finland")
-    val finland: List<Country?>? = listOf(),
+    val finland: List<Covid19Data> = listOf(),
 
     @SerializedName("France")
-    val france: List<Country?>? = listOf(),
+    val france: List<Covid19Data> = listOf(),
 
     @SerializedName("Gabon")
-    val gabon: List<Country?>? = listOf(),
+    val gabon: List<Covid19Data> = listOf(),
 
     @SerializedName("Gambia")
-    val gambia: List<Country?>? = listOf(),
+    val gambia: List<Covid19Data> = listOf(),
 
     @SerializedName("Georgia")
-    val georgia: List<Country?>? = listOf(),
+    val georgia: List<Covid19Data> = listOf(),
 
     @SerializedName("Germany")
-    val germany: List<Country?>? = listOf(),
+    val germany: List<Covid19Data> = listOf(),
 
     @SerializedName("Ghana")
-    val ghana: List<Country?>? = listOf(),
+    val ghana: List<Covid19Data> = listOf(),
 
     @SerializedName("Greece")
-    val greece: List<Country?>? = listOf(),
+    val greece: List<Covid19Data> = listOf(),
 
     @SerializedName("Grenada")
-    val grenada: List<Country?>? = listOf(),
+    val grenada: List<Covid19Data> = listOf(),
 
     @SerializedName("Guatemala")
-    val guatemala: List<Country?>? = listOf(),
+    val guatemala: List<Covid19Data> = listOf(),
 
     @SerializedName("Guinea")
-    val guinea: List<Country?>? = listOf(),
+    val guinea: List<Covid19Data> = listOf(),
 
     @SerializedName("Guinea-Bissau")
-    val guineaBissau: List<Country?>? = listOf(),
+    val guineaBissau: List<Covid19Data> = listOf(),
 
     @SerializedName("Guyana")
-    val guyana: List<Country?>? = listOf(),
+    val guyana: List<Covid19Data> = listOf(),
 
     @SerializedName("Haiti")
-    val haiti: List<Country?>? = listOf(),
+    val haiti: List<Covid19Data> = listOf(),
 
     @SerializedName("Holy See")
-    val holySee: List<Country?>? = listOf(),
+    val holySee: List<Covid19Data> = listOf(),
 
     @SerializedName("Honduras")
-    val honduras: List<Country?>? = listOf(),
+    val honduras: List<Covid19Data> = listOf(),
 
     @SerializedName("Hungary")
-    val hungary: List<Country?>? = listOf(),
+    val hungary: List<Covid19Data> = listOf(),
 
     @SerializedName("Iceland")
-    val iceland: List<Country?>? = listOf(),
+    val iceland: List<Covid19Data> = listOf(),
 
     @SerializedName("India")
-    val india: List<Country?>? = listOf(),
+    val india: List<Covid19Data> = listOf(),
 
     @SerializedName("Indonesia")
-    val indonesia: List<Country?>? = listOf(),
+    val indonesia: List<Covid19Data> = listOf(),
 
     @SerializedName("Iran")
-    val iran: List<Country?>? = listOf(),
+    val iran: List<Covid19Data> = listOf(),
 
     @SerializedName("Iraq")
-    val iraq: List<Country?>? = listOf(),
+    val iraq: List<Covid19Data> = listOf(),
 
     @SerializedName("Ireland")
-    val ireland: List<Country?>? = listOf(),
+    val ireland: List<Covid19Data> = listOf(),
 
     @SerializedName("Israel")
-    val israel: List<Country?>? = listOf(),
+    val israel: List<Covid19Data> = listOf(),
 
     @SerializedName("Italy")
-    val italy: List<Country?>? = listOf(),
+    val italy: List<Covid19Data> = listOf(),
 
     @SerializedName("Jamaica")
-    val jamaica: List<Country?>? = listOf(),
+    val jamaica: List<Covid19Data> = listOf(),
 
     @SerializedName("Japan")
-    val japan: List<Country?>? = listOf(),
+    val japan: List<Covid19Data> = listOf(),
 
     @SerializedName("Jordan")
-    val jordan: List<Country?>? = listOf(),
+    val jordan: List<Covid19Data> = listOf(),
 
     @SerializedName("Kazakhstan")
-    val kazakhstan: List<Country?>? = listOf(),
+    val kazakhstan: List<Covid19Data> = listOf(),
 
     @SerializedName("Kenya")
-    val kenya: List<Country?>? = listOf(),
+    val kenya: List<Covid19Data> = listOf(),
 
     @SerializedName("Korea, South")
-    val koreaSouth: List<Country?>? = listOf(),
+    val koreaSouth: List<Covid19Data> = listOf(),
 
     @SerializedName("Kosovo")
-    val kosovo: List<Country?>? = listOf(),
+    val kosovo: List<Covid19Data> = listOf(),
 
     @SerializedName("Kuwait")
-    val kuwait: List<Country?>? = listOf(),
+    val kuwait: List<Covid19Data> = listOf(),
 
     @SerializedName("Kyrgyzstan")
-    val kyrgyzstan: List<Country?>? = listOf(),
+    val kyrgyzstan: List<Covid19Data> = listOf(),
 
     @SerializedName("Laos")
-    val laos: List<Country?>? = listOf(),
+    val laos: List<Covid19Data> = listOf(),
 
     @SerializedName("Latvia")
-    val latvia: List<Country?>? = listOf(),
+    val latvia: List<Covid19Data> = listOf(),
 
     @SerializedName("Lebanon")
-    val lebanon: List<Country?>? = listOf(),
+    val lebanon: List<Covid19Data> = listOf(),
 
     @SerializedName("Liberia")
-    val liberia: List<Country?>? = listOf(),
+    val liberia: List<Covid19Data> = listOf(),
 
     @SerializedName("Libya")
-    val libya: List<Country?>? = listOf(),
+    val libya: List<Covid19Data> = listOf(),
 
     @SerializedName("Liechtenstein")
-    val liechtenstein: List<Country?>? = listOf(),
+    val liechtenstein: List<Covid19Data> = listOf(),
 
     @SerializedName("Lithuania")
-    val lithuania: List<Country?>? = listOf(),
+    val lithuania: List<Covid19Data> = listOf(),
 
     @SerializedName("Luxembourg")
-    val luxembourg: List<Country?>? = listOf(),
+    val luxembourg: List<Covid19Data> = listOf(),
 
     @SerializedName("Madagascar")
-    val madagascar: List<Country?>? = listOf(),
+    val madagascar: List<Covid19Data> = listOf(),
 
     @SerializedName("Malaysia")
-    val malaysia: List<Country?>? = listOf(),
+    val malaysia: List<Covid19Data> = listOf(),
 
     @SerializedName("Maldives")
-    val maldives: List<Country?>? = listOf(),
+    val maldives: List<Covid19Data> = listOf(),
 
     @SerializedName("Mali")
-    val mali: List<Country?>? = listOf(),
+    val mali: List<Covid19Data> = listOf(),
 
     @SerializedName("Malta")
-    val malta: List<Country?>? = listOf(),
+    val malta: List<Covid19Data> = listOf(),
 
     @SerializedName("Mauritania")
-    val mauritania: List<Country?>? = listOf(),
+    val mauritania: List<Covid19Data> = listOf(),
 
     @SerializedName("Mauritius")
-    val mauritius: List<Country?>? = listOf(),
+    val mauritius: List<Covid19Data> = listOf(),
 
     @SerializedName("Mexico")
-    val mexico: List<Country?>? = listOf(),
+    val mexico: List<Covid19Data> = listOf(),
 
     @SerializedName("Moldova")
-    val moldova: List<Country?>? = listOf(),
+    val moldova: List<Covid19Data> = listOf(),
 
     @SerializedName("Monaco")
-    val monaco: List<Country?>? = listOf(),
+    val monaco: List<Covid19Data> = listOf(),
 
     @SerializedName("Mongolia")
-    val mongolia: List<Country?>? = listOf(),
+    val mongolia: List<Covid19Data> = listOf(),
 
     @SerializedName("Montenegro")
-    val montenegro: List<Country?>? = listOf(),
+    val montenegro: List<Covid19Data> = listOf(),
 
     @SerializedName("Morocco")
-    val morocco: List<Country?>? = listOf(),
+    val morocco: List<Covid19Data> = listOf(),
 
     @SerializedName("Mozambique")
-    val mozambique: List<Country?>? = listOf(),
+    val mozambique: List<Covid19Data> = listOf(),
+
+    @SerializedName("MS Zaandam")
+    val msZaandam: List<Covid19Data> = listOf(),
 
     @SerializedName("Namibia")
-    val namibia: List<Country?>? = listOf(),
+    val namibia: List<Covid19Data> = listOf(),
 
     @SerializedName("Nepal")
-    val nepal: List<Country?>? = listOf(),
+    val nepal: List<Covid19Data> = listOf(),
 
     @SerializedName("Netherlands")
-    val netherlands: List<Country?>? = listOf(),
+    val netherlands: List<Covid19Data> = listOf(),
 
     @SerializedName("New Zealand")
-    val newZealand: List<Country?>? = listOf(),
+    val newZealand: List<Covid19Data> = listOf(),
 
     @SerializedName("Nicaragua")
-    val nicaragua: List<Country?>? = listOf(),
+    val nicaragua: List<Covid19Data> = listOf(),
 
     @SerializedName("Niger")
-    val niger: List<Country?>? = listOf(),
+    val niger: List<Covid19Data> = listOf(),
 
     @SerializedName("Nigeria")
-    val nigeria: List<Country?>? = listOf(),
+    val nigeria: List<Covid19Data> = listOf(),
 
     @SerializedName("North Macedonia")
-    val northMacedonia: List<Country?>? = listOf(),
+    val northMacedonia: List<Covid19Data> = listOf(),
 
     @SerializedName("Norway")
-    val norway: List<Country?>? = listOf(),
+    val norway: List<Covid19Data> = listOf(),
 
     @SerializedName("Oman")
-    val oman: List<Country?>? = listOf(),
+    val oman: List<Covid19Data> = listOf(),
 
     @SerializedName("Pakistan")
-    val pakistan: List<Country?>? = listOf(),
+    val pakistan: List<Covid19Data> = listOf(),
 
     @SerializedName("Panama")
-    val panama: List<Country?>? = listOf(),
+    val panama: List<Covid19Data> = listOf(),
 
     @SerializedName("Papua New Guinea")
-    val papuaNewGuinea: List<Country?>? = listOf(),
+    val papuaNewGuinea: List<Covid19Data> = listOf(),
 
     @SerializedName("Paraguay")
-    val paraguay: List<Country?>? = listOf(),
+    val paraguay: List<Covid19Data> = listOf(),
 
     @SerializedName("Peru")
-    val peru: List<Country?>? = listOf(),
+    val peru: List<Covid19Data> = listOf(),
 
     @SerializedName("Philippines")
-    val philippines: List<Country?>? = listOf(),
+    val philippines: List<Covid19Data> = listOf(),
 
     @SerializedName("Poland")
-    val poland: List<Country?>? = listOf(),
+    val poland: List<Covid19Data> = listOf(),
 
     @SerializedName("Portugal")
-    val portugal: List<Country?>? = listOf(),
+    val portugal: List<Covid19Data> = listOf(),
 
     @SerializedName("Qatar")
-    val qatar: List<Country?>? = listOf(),
+    val qatar: List<Covid19Data> = listOf(),
 
     @SerializedName("Romania")
-    val romania: List<Country?>? = listOf(),
+    val romania: List<Covid19Data> = listOf(),
 
     @SerializedName("Russia")
-    val russia: List<Country?>? = listOf(),
+    val russia: List<Covid19Data> = listOf(),
 
     @SerializedName("Rwanda")
-    val rwanda: List<Country?>? = listOf(),
+    val rwanda: List<Covid19Data> = listOf(),
 
     @SerializedName("Saint Kitts and Nevis")
-    val saintKittsAndNevis: List<Country?>? = listOf(),
+    val saintKittsAndNevis: List<Covid19Data> = listOf(),
 
     @SerializedName("Saint Lucia")
-    val saintLucia: List<Country?>? = listOf(),
+    val saintLucia: List<Covid19Data> = listOf(),
 
     @SerializedName("Saint Vincent and the Grenadines")
-    val saintVincentAndTheGrenadines: List<Country?>? = listOf(),
+    val saintVincentAndTheGrenadines: List<Covid19Data> = listOf(),
 
     @SerializedName("San Marino")
-    val sanMarino: List<Country?>? = listOf(),
+    val sanMarino: List<Covid19Data> = listOf(),
 
     @SerializedName("Saudi Arabia")
-    val saudiArabia: List<Country?>? = listOf(),
+    val saudiArabia: List<Covid19Data> = listOf(),
 
     @SerializedName("Senegal")
-    val senegal: List<Country?>? = listOf(),
+    val senegal: List<Covid19Data> = listOf(),
 
     @SerializedName("Serbia")
-    val serbia: List<Country?>? = listOf(),
+    val serbia: List<Covid19Data> = listOf(),
 
     @SerializedName("Seychelles")
-    val seychelles: List<Country?>? = listOf(),
+    val seychelles: List<Covid19Data> = listOf(),
 
     @SerializedName("Singapore")
-    val singapore: List<Country?>? = listOf(),
+    val singapore: List<Covid19Data> = listOf(),
 
     @SerializedName("Slovakia")
-    val slovakia: List<Country?>? = listOf(),
+    val slovakia: List<Covid19Data> = listOf(),
 
     @SerializedName("Slovenia")
-    val slovenia: List<Country?>? = listOf(),
+    val slovenia: List<Covid19Data> = listOf(),
 
     @SerializedName("Somalia")
-    val somalia: List<Country?>? = listOf(),
+    val somalia: List<Covid19Data> = listOf(),
 
     @SerializedName("South Africa")
-    val southAfrica: List<Country?>? = listOf(),
+    val southAfrica: List<Covid19Data> = listOf(),
 
     @SerializedName("Spain")
-    val spain: List<Country?>? = listOf(),
+    val spain: List<Covid19Data> = listOf(),
 
     @SerializedName("Sri Lanka")
-    val sriLanka: List<Country?>? = listOf(),
+    val sriLanka: List<Covid19Data> = listOf(),
 
     @SerializedName("Sudan")
-    val sudan: List<Country?>? = listOf(),
+    val sudan: List<Covid19Data> = listOf(),
 
     @SerializedName("Suriname")
-    val suriname: List<Country?>? = listOf(),
+    val suriname: List<Covid19Data> = listOf(),
 
     @SerializedName("Sweden")
-    val sweden: List<Country?>? = listOf(),
+    val sweden: List<Covid19Data> = listOf(),
 
     @SerializedName("Switzerland")
-    val switzerland: List<Country?>? = listOf(),
+    val switzerland: List<Covid19Data> = listOf(),
 
     @SerializedName("Syria")
-    val syria: List<Country?>? = listOf(),
+    val syria: List<Covid19Data> = listOf(),
 
     @SerializedName("Taiwan*")
-    val taiwan: List<Country?>? = listOf(),
+    val taiwan: List<Covid19Data> = listOf(),
 
     @SerializedName("Tanzania")
-    val tanzania: List<Country?>? = listOf(),
+    val tanzania: List<Covid19Data> = listOf(),
 
     @SerializedName("Thailand")
-    val thailand: List<Country?>? = listOf(),
+    val thailand: List<Covid19Data> = listOf(),
 
     @SerializedName("Timor-Leste")
-    val timorLeste: List<Country?>? = listOf(),
+    val timorLeste: List<Covid19Data> = listOf(),
 
     @SerializedName("Togo")
-    val togo: List<Country?>? = listOf(),
+    val togo: List<Covid19Data> = listOf(),
 
     @SerializedName("Trinidad and Tobago")
-    val trinidadAndTobago: List<Country?>? = listOf(),
+    val trinidadAndTobago: List<Covid19Data> = listOf(),
 
     @SerializedName("Tunisia")
-    val tunisia: List<Country?>? = listOf(),
+    val tunisia: List<Covid19Data> = listOf(),
 
     @SerializedName("Turkey")
-    val turkey: List<Country?>? = listOf(),
+    val turkey: List<Covid19Data> = listOf(),
 
     @SerializedName("US")
-    val uS: List<Country?>? = listOf(),
+    val uS: List<Covid19Data> = listOf(),
 
     @SerializedName("Uganda")
-    val uganda: List<Country?>? = listOf(),
+    val uganda: List<Covid19Data> = listOf(),
 
     @SerializedName("Ukraine")
-    val ukraine: List<Country?>? = listOf(),
+    val ukraine: List<Covid19Data> = listOf(),
 
     @SerializedName("United Arab Emirates")
-    val unitedArabEmirates: List<Country?>? = listOf(),
+    val unitedArabEmirates: List<Covid19Data> = listOf(),
 
     @SerializedName("United Kingdom")
-    val unitedKingdom: List<Country?>? = listOf(),
+    val unitedKingdom: List<Covid19Data> = listOf(),
 
     @SerializedName("Uruguay")
-    val uruguay: List<Country?>? = listOf(),
+    val uruguay: List<Covid19Data> = listOf(),
 
     @SerializedName("Uzbekistan")
-    val uzbekistan: List<Country?>? = listOf(),
+    val uzbekistan: List<Covid19Data> = listOf(),
 
     @SerializedName("Venezuela")
-    val venezuela: List<Country?>? = listOf(),
+    val venezuela: List<Covid19Data> = listOf(),
 
     @SerializedName("Vietnam")
-    val vietnam: List<Country?>? = listOf(),
+    val vietnam: List<Covid19Data> = listOf(),
 
     @SerializedName("West Bank and Gaza")
-    val westBankAndGaza: List<Country?>? = listOf(),
+    val westBankAndGaza: List<Covid19Data> = listOf(),
 
     @SerializedName("Zambia")
-    val zambia: List<Country?>? = listOf(),
+    val zambia: List<Covid19Data> = listOf(),
 
     @SerializedName("Zimbabwe")
-    val zimbabwe: List<Country?>? = listOf()
-) {
-    data class Country(
-        @SerializedName("confirmed")
-        val confirmed: Int? = 0,
-        @SerializedName("date")
-        val date: String? = "",
-        @SerializedName("deaths")
-        val deaths: Int? = 0,
-        @SerializedName("recovered")
-        val recovered: Int? = 0
-    )
-}
+    val zimbabwe: List<Covid19Data> = listOf()
+)

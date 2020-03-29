@@ -45,6 +45,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_home"
                 style="@style/RecyclerDefault"
+                android:paddingTop="@dimen/dimens_80dp"
+                android:paddingBottom="@dimen/dimens_20dp"
+                android:clipToPadding="false"
                 tools:listitem="@layout/item_home"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <LinearLayout
@@ -69,6 +72,22 @@
                 android:text="@string/btn_add_medical_record"
                 android:layout_marginStart="@dimen/dimens_20dp"/>
         </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_covid"
+            style="@style/CardWrapHeight"
+            app:cardBackgroundColor="#CF4436"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:layout_marginStart="@dimen/dimens_20dp"
+            android:layout_marginEnd="@dimen/dimens_20dp">
+            <TextView
+                style="@style/TextBoldNormal"
+                android:text="@string/btn_covid"
+                android:textColor="@color/white"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:drawablePadding="@dimen/dimens_10dp"
+                android:layout_margin="@dimen/dimens_10dp"/>
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
 </LinearLayout>

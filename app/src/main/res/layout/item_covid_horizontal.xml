@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/CardWrapAll"
-    android:layout_marginStart="@dimen/dimens_20dp"
+    app:cardUseCompatPadding="true"
+    android:layout_width="@dimen/dimens_180dp"
+    android:layout_marginStart="@dimen/dimens_10dp"
     android:elevation="@dimen/dimens_10dp">
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/ConstraintWrapHeight"
@@ -22,6 +24,8 @@
             style="@style/TextBoldNormal"
             android:text="@string/app_name"
             android:layout_marginStart="@dimen/dimens_10dp"
+            android:lines="1"
+            android:ellipsize="end"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@id/iv_country"/>
         <ImageView

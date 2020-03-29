@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.anangkur.mediku.data.local.room.AppDatabase
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordViewModel
 import com.anangkur.mediku.feature.covid19.CovidViewModel
 import com.anangkur.mediku.feature.covid19Detail.Covid19DetailViewModel
@@ -51,7 +52,8 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
                 context.getSharedPreferences(Const.PREF_NAME, MODE_PRIVATE),
                 FirebaseAuth.getInstance(),
                 Firebase.firestore,
-                FirebaseStorage.getInstance()
+                FirebaseStorage.getInstance(),
+                AppDatabase.getDatabase(context).getDao()
             )).also { INSTANCE = it }
         }
     }
