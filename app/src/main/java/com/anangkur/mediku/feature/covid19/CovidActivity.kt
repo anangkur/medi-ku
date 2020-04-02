@@ -120,7 +120,7 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
         otherCountryAdapter = CovidVerticalAdapter()
         recycler_other_country.apply {
             adapter = otherCountryAdapter
-            setupRecyclerViewGrid(this@CovidActivity, 2)
+            setupRecyclerViewLinear(this@CovidActivity, RecyclerView.VERTICAL)
         }
     }
 

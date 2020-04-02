@@ -79,5 +79,6 @@
     <string name="label_data_shown">Data shown are the data as of %1$s</string>
     <string name="btn_covid">See live statistics of Covid-19 cases all over the world</string>
     <string name="toolbar_covid_19">Covid-19</string>
+    <string name="label_country">Country</string>
     <!--end of image picker dialog-->
 </resources>

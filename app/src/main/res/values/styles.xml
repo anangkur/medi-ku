@@ -185,6 +185,10 @@
         <item name="android:layout_height">@dimen/dimens_10dp</item>
     </style>
 
+    <style name="ImageView24" parent="ImageViewDefault">
+        <item name="android:layout_width">@dimen/dimens_24dp</item>
+        <item name="android:layout_height">@dimen/dimens_24dp</item>
+    </style>
 
     <style name="ImageView28" parent="ImageViewDefault">
         <item name="android:layout_width">28dp</item>

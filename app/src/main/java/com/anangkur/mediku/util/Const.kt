@@ -28,7 +28,7 @@ object Const {
     const val TIME_GENERAL_HH_MM = "HH:mm"
     const val DAY_NAME_DATE_MONTH_NAME = "EEE, dd MMM"
     const val DAY_FULL_WITH_DATE_LOCALE = "EEE, dd MMM yyyy"
-    const val DATE_ENGLISH_YYYY_MM_DD = "yyyy-M-dd"
+    const val DATE_ENGLISH_YYYY_MM_DD = "yyyy-M-d"
 
     // notification
     const val NOTIFICATION_CHANNEL_ID = "10001"

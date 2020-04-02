@@ -1,14 +1,9 @@
 package com.anangkur.mediku.data
 
-import androidx.lifecycle.LiveData
 import com.anangkur.mediku.base.resultLiveData
 import com.anangkur.mediku.data.local.LocalRepository
-import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
 import com.anangkur.mediku.data.remote.RemoteRepository
 import com.anangkur.mediku.util.extractAllData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class Repository(val remoteRepository: RemoteRepository, private val localRepository: LocalRepository) {
 
