@@ -11,6 +11,7 @@ import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.BaseResult
 import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
 import com.anangkur.mediku.data.model.covid19.Covid19Data
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.feature.covid19.adapter.CovidHorizontalAdapter
 import com.anangkur.mediku.feature.covid19.adapter.CovidVerticalAdapter
 import com.anangkur.mediku.util.*
@@ -43,20 +44,13 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        tv_data_shown.text = getString(R.string.label_data_shown, SimpleDateFormat(Const.DAY_FULL_WITH_DATE_LOCALE, Locale.US).format(
-            getTimeYesterday()
-        ))
         setupOtherCountryAdapter()
         setupYourCountryAdapter()
         setupTopCountryAdapter()
         observeViewModel()
-        mViewModel.getCovid19Data(SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(
-            getTimeYesterday()
-        ))
+        mViewModel.getCovid19Data()
         swipe_covid.setOnRefreshListener {
-            mViewModel.getCovid19Data(SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(
-                getTimeYesterday()
-            ))
+            mViewModel.getCovid19Data()
             swipe_covid.isRefreshing = false
         }
     }
@@ -74,12 +68,14 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
                     }
                     BaseResult.Status.SUCCESS -> {
                         setupLoadingGeneral(false)
-                        val date = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(
-                            getTimeYesterday()
-                        )
-                        setupDataOtherCountryToView(it.data!!)
-                        getCovid19DataOnYourCountry(country.convertCoutryCodeIsoToCountryName(), date)
-                        getCovid19DataTopCountry(date)
+                        val date = it.data?.get(0)?.date
+                        val dateParsed = SimpleDateFormat(Const.DATE_FORMAT_NEW_COVID19, Locale.US).parse(date?:"1990-01-01T00:00:00.00000000Z")
+                        val dateFormatted = SimpleDateFormat(Const.DATE_FORMAT_SHOWN_COVID19, Locale.US).format(dateParsed?: getTime())
+                        tv_data_shown.text = getString(R.string.label_data_shown, dateFormatted)
+                        tv_data_shown.visible()
+                        setupDataOtherCountryToView(it.data!!.subList(1, it.data.size))
+                        getCovid19DataOnYourCountry(country.convertCoutryCodeIsoToCountryName())
+                        getCovid19DataTopCountry()
                     }
                 }
             })
@@ -140,7 +136,7 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
         }
     }
 
-    private fun setupDataOtherCountryToView(listCovid19Data: List<Covid19Data>){
+    private fun setupDataOtherCountryToView(listCovid19Data: List<NewCovid19Summary>){
         otherCountryAdapter.setRecyclerData(listCovid19Data)
         val statCovid = mViewModel.getStatCovid(listCovid19Data)
         tv_stat_confirmed.text = statCovid.first.formatThousandNumber()
@@ -154,6 +150,7 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
             pb_stat_death.visible()
             pb_stat_recover.visible()
             pb_layout_content.visible()
+            tv_data_shown.gone()
             layout_content.gone()
             tv_label_stat_confirmed.gone()
             tv_label_stat_death.gone()

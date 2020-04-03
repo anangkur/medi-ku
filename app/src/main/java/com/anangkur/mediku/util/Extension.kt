@@ -32,6 +32,9 @@ import com.anangkur.mediku.base.BaseSpinnerListener
 import com.anangkur.mediku.data.ViewModelFactory
 import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
 import com.anangkur.mediku.data.model.covid19.Covid19Data
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.esafirm.imagepicker.features.ImagePicker
@@ -444,6 +447,25 @@ fun Context.showPreviewImage(url: String){
         nagDialog.dismiss()
     }
     nagDialog.show()
+}
+
+fun List<NewCovid19DataCountry>.createCompleteData(): List<NewCovid19DataCountry>{
+    val listNewCovid19DataCountry = this
+    listNewCovid19DataCountry.forEach { newCovid19DataCountry ->
+        newCovid19DataCountry.apply {
+            id = "${this.country}_${this.date}_${this.status}"
+        }
+    }
+    return listNewCovid19DataCountry
+}
+
+fun NewCovid19SummaryResponse.createCompleteData(): List<NewCovid19Summary>{
+    val listNewCovid19Summary = this.countries
+    val date = this.date
+    listNewCovid19Summary?.forEach {newCovid19Summary ->
+        newCovid19Summary.date = date
+    }
+    return listNewCovid19Summary?: listOf()
 }
 
 fun Covid19ApiResponse.extractAllData(): List<Covid19Data> {

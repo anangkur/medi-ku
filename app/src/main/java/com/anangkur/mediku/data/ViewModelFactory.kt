@@ -5,6 +5,8 @@ import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.anangkur.mediku.data.local.room.AppDatabase
+import com.anangkur.mediku.data.remote.Covid19ApiService
+import com.anangkur.mediku.data.remote.NewCovid19ApiService
 import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordViewModel
 import com.anangkur.mediku.feature.covid19.CovidViewModel
 import com.anangkur.mediku.feature.covid19Detail.Covid19DetailViewModel
@@ -48,12 +50,13 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
         @Volatile private var INSTANCE: ViewModelFactory? = null
         fun getInstance(context: Context) = INSTANCE ?: synchronized(ViewModelFactory::class.java){
             INSTANCE ?: ViewModelFactory(Injection.provideRepository(
-                context,
                 context.getSharedPreferences(Const.PREF_NAME, MODE_PRIVATE),
                 FirebaseAuth.getInstance(),
                 Firebase.firestore,
                 FirebaseStorage.getInstance(),
-                AppDatabase.getDatabase(context).getDao()
+                AppDatabase.getDatabase(context).getDao(),
+                Covid19ApiService.getCovid19ApiService,
+                NewCovid19ApiService.getCovid19ApiService
             )).also { INSTANCE = it }
         }
     }

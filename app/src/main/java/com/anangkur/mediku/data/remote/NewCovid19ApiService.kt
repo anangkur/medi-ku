@@ -1,23 +1,29 @@
 package com.anangkur.mediku.data.remote
 
-import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import java.util.concurrent.TimeUnit
 
+interface NewCovid19ApiService {
 
-interface ApiService {
+    @GET("summary")
+    suspend fun getSummary(): Response<NewCovid19SummaryResponse>
 
-    @GET("covid19/timeseries.json")
-    suspend fun getCovid19StatData(): Response<Covid19ApiResponse>
+    @GET("country/{country}/status/{status}/live")
+    suspend fun getDataCovid19ByCountry(
+        @Path("country") country: String,
+        @Path("status") status: String
+    ): Response<List<NewCovid19DataCountry>>
 
     companion object Factory{
-        val getApiService: ApiService by lazy {
-
+        val getCovid19ApiService: NewCovid19ApiService by lazy {
             val mClient =
                 OkHttpClient.Builder()
                     .readTimeout(30, TimeUnit.SECONDS)
@@ -33,12 +39,12 @@ interface ApiService {
                     .build()
 
             val mRetrofit = Retrofit.Builder()
-                .baseUrl("https://pomber.github.io/")
+                .baseUrl("https://api.covid19api.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(mClient)
                 .build()
 
-            mRetrofit.create(ApiService::class.java)
+            mRetrofit.create(NewCovid19ApiService::class.java)
         }
     }
 }

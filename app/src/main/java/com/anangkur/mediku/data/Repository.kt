@@ -2,11 +2,16 @@ package com.anangkur.mediku.data
 
 import com.anangkur.mediku.base.resultLiveData
 import com.anangkur.mediku.data.local.LocalRepository
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.remote.RemoteRepository
+import com.anangkur.mediku.util.createCompleteData
 import com.anangkur.mediku.util.extractAllData
 
 class Repository(val remoteRepository: RemoteRepository, private val localRepository: LocalRepository) {
 
+    /**
+     * covid 19 data
+     */
     fun getCovid19StatData(date: String) = resultLiveData(
         databaseQuery = { localRepository.getAllDataByDate(date) },
         networkCall = { remoteRepository.getCovid19StatData() },
@@ -29,6 +34,29 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
         databaseQuery = { localRepository.getDataByCountryAndDate(country, date) }
     )
 
+    fun getNewCovid19Summary() = resultLiveData(
+        databaseQuery = { localRepository.getNewCovid19SummaryAll() },
+        networkCall = { remoteRepository.getSummary() },
+        saveCallResult = { localRepository.insertDataSummary(it.createCompleteData()) }
+    )
+
+    fun getNewCovid19SummaryTopCountry() = resultLiveData(
+        databaseQuery = { localRepository.getNewCovid19SummaryTopCountry() }
+    )
+
+    fun getNewCovid19SummaryByCountry(country: String) = resultLiveData(
+        databaseQuery = { localRepository.getNewCovid19SummaryByCountry(country) }
+    )
+
+    fun getNewCovid19Country(country: String, status: String) = resultLiveData(
+        databaseQuery = { localRepository.getNewCovid19CountryByCountry(country) },
+        networkCall = { remoteRepository.getDataCovid19ByCountry(country, status) },
+        saveCallResult = { localRepository.insertDataCountry(it.createCompleteData()) }
+    )
+
+    /**
+     * preferences
+     */
     fun saveCountry(country: String){
         localRepository.saveCountry(country)
     }
