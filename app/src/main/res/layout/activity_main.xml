@@ -23,26 +23,48 @@
         app:contentInsetStart="@dimen/dimens_0dp">
         <LinearLayout
             style="@style/LinearHorizontalDefault">
-            <TextView
-                android:id="@+id/btn_home"
-                style="@style/TextBoldNormal"
+            <LinearLayout
+                android:id="@+id/layout_btn_home"
+                style="@style/LinearVerticalDefault"
+                android:layout_width="wrap_content"
                 android:layout_height="?actionBarSize"
                 android:layout_weight="1"
-                android:text="@string/menu_home"
                 android:gravity="center"
-                android:foreground="?selectableItemBackground"/>
+                android:foreground="?selectableItemBackground">
+                <ImageView
+                    android:id="@+id/iv_btn_home"
+                    style="@style/ImageViewWrapAll"
+                    android:src="@drawable/ic_dashboard_inactive"/>
+                <TextView
+                    android:id="@+id/btn_home"
+                    style="@style/TextBoldNormal"
+                    android:text="@string/menu_home"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/dimens_4dp" />
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/btn_profile"
-                style="@style/TextBoldNormal"
+            <LinearLayout
+                android:id="@+id/layout_btn_profile"
+                style="@style/LinearVerticalDefault"
+                android:layout_width="wrap_content"
                 android:layout_height="?actionBarSize"
                 android:layout_weight="1"
-                android:text="@string/toolbar_profile"
                 android:gravity="center"
-                android:foreground="?selectableItemBackground"/>
+                android:foreground="?selectableItemBackground">
+                <ImageView
+                    android:id="@+id/iv_btn_profile"
+                    style="@style/ImageViewWrapAll"
+                    android:src="@drawable/ic_profile_inactive"/>
+                <TextView
+                    android:id="@+id/btn_profile"
+                    style="@style/TextBoldNormal"
+                    android:text="@string/toolbar_profile"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/dimens_4dp" />
+            </LinearLayout>
         </LinearLayout>
     </com.google.android.material.bottomappbar.BottomAppBar>
     <com.google.android.material.floatingactionbutton.FloatingActionButton

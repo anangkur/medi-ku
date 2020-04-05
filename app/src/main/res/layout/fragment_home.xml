@@ -6,10 +6,13 @@
 
     <androidx.appcompat.widget.Toolbar
         style="@style/ToolbarDefault"
-        android:elevation="@dimen/dimens_4dp">
+        android:elevation="@dimen/dimens_4dp"
+        app:contentInsetStart="@dimen/dimens_0dp">
         <TextView
             style="@style/TextBoldExtraBig"
-            android:text="@string/app_name"/>
+            android:layout_width="match_parent"
+            android:text="@string/app_name"
+            android:gravity="center"/>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -98,7 +101,7 @@
                     style="@style/RecyclerWrapHeight"
                     android:paddingEnd="@dimen/dimens_20dp"
                     android:clipToPadding="false"
-                    android:layout_marginTop="@dimen/dimens_20dp"
+                    android:layout_marginTop="@dimen/dimens_14dp"
                     android:layout_marginBottom="@dimen/dimens_40dp"
                     tools:listitem="@layout/item_news"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

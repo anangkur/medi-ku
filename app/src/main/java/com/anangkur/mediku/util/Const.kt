@@ -32,6 +32,7 @@ object Const {
     const val DATE_FORMAT_NEW_COVID19 = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSS'Z'"
     const val DATE_FORMAT_NEW_COVID19_2 = "yyyy-MM-dd'T'HH:mm:ss'Z'"
     const val DATE_FORMAT_SHOWN_COVID19 = "EEE, dd MMM yyyy - hh:mm"
+    const val DATE_NEWS_SHOWN = "dd/MM/yyyy - hh:mm"
 
     // notification
     const val NOTIFICATION_CHANNEL_ID = "10001"

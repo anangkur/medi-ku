@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/LinearVerticalDefault">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_profile"
         style="@style/ToolbarDefault"
-        android:elevation="@dimen/dimens_4dp">
+        android:elevation="@dimen/dimens_4dp"
+        app:contentInsetStart="@dimen/dimens_0dp">
         <TextView
             style="@style/TextBoldExtraBig"
-            android:text="@string/toolbar_profile"/>
+            android:layout_width="match_parent"
+            android:text="@string/toolbar_profile"
+            android:gravity="center"/>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.core.widget.NestedScrollView

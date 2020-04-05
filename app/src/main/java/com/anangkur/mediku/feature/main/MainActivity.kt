@@ -43,22 +43,20 @@ class MainActivity: BaseActivity<ViewModel>(), MainActionListener, ForceUpdateCh
         showHomeFragment()
 
         fab_add.setOnClickListener { this.onClickAdd() }
-        btn_home.setOnClickListener { this.onClickHome() }
-        btn_profile.setOnClickListener { this.onClickProfile() }
+        layout_btn_home.setOnClickListener { this.onClickHome() }
+        layout_btn_profile.setOnClickListener { this.onClickProfile() }
     }
 
-    fun showHomeFragment(){
-        setupMenuEnable(btn_home)
-        setupMenuDisable(btn_profile)
+    private fun showHomeFragment(){
+        setupHomeMenuEnable()
         val fragment = HomeFragment.newInstance()
         supportFragmentManager.beginTransaction()
             .replace(R.id.container_main, fragment)
             .commit()
     }
 
-    fun showProfileFragment(){
-        setupMenuEnable(btn_profile)
-        setupMenuDisable(btn_home)
+    private fun showProfileFragment(){
+        setupProfileMenuEnable()
         val fragment = ProfileFragment.newInstance()
         supportFragmentManager.beginTransaction()
             .replace(R.id.container_main, fragment)
@@ -93,11 +91,17 @@ class MainActivity: BaseActivity<ViewModel>(), MainActionListener, ForceUpdateCh
         startActivity(intent)
     }
 
-    private fun setupMenuEnable(textView: TextView){
-        textView.setTextColor(ContextCompat.getColor(this, R.color.black))
+    private fun setupHomeMenuEnable(){
+        btn_home.setTextColor(ContextCompat.getColor(this, R.color.blue3))
+        iv_btn_home.setImageResource(R.drawable.ic_dashboard_active)
+        btn_profile.setTextColor(ContextCompat.getColor(this, R.color.grayDisable))
+        iv_btn_profile.setImageResource(R.drawable.ic_profile_inactive)
     }
 
-    private fun setupMenuDisable(textView: TextView){
-        textView.setTextColor(ContextCompat.getColor(this, R.color.grayDisable))
+    private fun setupProfileMenuEnable(){
+        btn_profile.setTextColor(ContextCompat.getColor(this, R.color.brown))
+        iv_btn_profile.setImageResource(R.drawable.ic_profile_active)
+        btn_home.setTextColor(ContextCompat.getColor(this, R.color.grayDisable))
+        iv_btn_home.setImageResource(R.drawable.ic_dashboard_inactive)
     }
 }

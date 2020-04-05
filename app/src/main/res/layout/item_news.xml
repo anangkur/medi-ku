@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/CardWrapHeight"
     android:layout_width="wrap_content"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="@dimen/dimens_10dp"
     app:cardUseCompatPadding="true"
     android:layout_marginStart="@dimen/dimens_14dp">
     <androidx.constraintlayout.widget.ConstraintLayout
