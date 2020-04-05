@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".feature.originalNews.OriginalNewsActivity"/>
         <activity android:name=".feature.main.MainActivity"/>
         <activity android:name=".feature.covid19Detail.Covid19DetailActivity" />
         <activity android:name=".feature.covid19.CovidActivity" />

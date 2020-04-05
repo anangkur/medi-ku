@@ -77,8 +77,7 @@
                 <TextView
                     style="@style/TextBoldBig"
                     android:text="@string/label_medical_records"
-                    android:layout_marginStart="@dimen/dimens_20dp"
-                    android:layout_marginTop="@dimen/dimens_20dp"/>
+                    android:layout_marginStart="@dimen/dimens_20dp"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_medical_record"
                     style="@style/RecyclerWrapHeight"

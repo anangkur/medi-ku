@@ -86,5 +86,7 @@
     <string name="label_medical_records">Medical Records</string>
     <string name="label_latest_news">Latest News</string>
     <string name="lipsum_short">Lorem ipsum dolor sit amet, consectetur</string>
+    <string name="menu_open_in_browser">Open in browser</string>
+    <string name="error_default">Something went wrong</string>
     <!--end of image picker dialog-->
 </resources>

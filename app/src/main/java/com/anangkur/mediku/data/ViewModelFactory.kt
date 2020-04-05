@@ -18,6 +18,7 @@ import com.anangkur.mediku.feature.home.HomeViewModel
 import com.anangkur.mediku.feature.main.home.HomeViewModel as HomeViewModelFragment
 import com.anangkur.mediku.feature.main.MainViewModel
 import com.anangkur.mediku.feature.profile.ProfileViewModel
+import com.anangkur.mediku.feature.main.profile.ProfileViewModel as ProfileViewModelFragment
 import com.anangkur.mediku.feature.signIn.SignInViewModel
 import com.anangkur.mediku.feature.signUp.SignUpViewModel
 import com.anangkur.mediku.feature.splash.SplashViewModel
@@ -46,6 +47,7 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
                 isAssignableFrom(Covid19DetailViewModel::class.java) -> Covid19DetailViewModel(repository)
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(repository)
                 isAssignableFrom(HomeViewModelFragment::class.java) -> HomeViewModelFragment(repository)
+                isAssignableFrom(ProfileViewModelFragment::class.java) -> ProfileViewModelFragment(repository)
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T

@@ -13,6 +13,7 @@ import com.anangkur.mediku.feature.covid19.CovidActivity
 import com.anangkur.mediku.feature.detailMedicalRecord.DetailMedicalRecordActivity
 import com.anangkur.mediku.feature.main.home.adapter.MedicalRecordAdapter
 import com.anangkur.mediku.feature.main.home.adapter.NewsAdapter
+import com.anangkur.mediku.feature.originalNews.OriginalNewsActivity
 import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.setupRecyclerViewLinear
 import com.anangkur.mediku.util.showSnackbarLong
@@ -110,7 +111,7 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
     }
 
     override fun onClickNews(data: Article) {
-
+        OriginalNewsActivity.startActivity(requireContext(), data.url?:"")
     }
 
     override fun onClickMedicalRecord(data: MedicalRecord) {
