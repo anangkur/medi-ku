@@ -30,7 +30,7 @@ object Const {
     const val DAY_FULL_WITH_DATE_LOCALE = "EEE, dd MMM yyyy"
     const val DATE_ENGLISH_YYYY_MM_DD = "yyyy-M-d"
     const val DATE_FORMAT_NEW_COVID19 = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSS'Z'"
-    const val DATE_FORMAT_NEW_COVID19_2 = "yyyy-MM-dd'T'HH:mm:ssZ"
+    const val DATE_FORMAT_NEW_COVID19_2 = "yyyy-MM-dd'T'HH:mm:ss'Z'"
     const val DATE_FORMAT_SHOWN_COVID19 = "EEE, dd MMM yyyy - hh:mm"
 
     // notification

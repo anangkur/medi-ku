@@ -11,7 +11,7 @@ android {
         applicationId "com.anangkur.mediku"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3
+        versionCode 4
         versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -105,6 +105,8 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore-ktx:$firebaseFirestoreVersion"
     implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
     implementation "com.google.firebase:firebase-storage:$firebaseStorageVersion"
+    implementation "com.google.firebase:firebase-inappmessaging-display:$firebaseInAppMessagingVersion"
+    implementation "com.google.firebase:firebase-config:$firebaseRemoteConfigVersion"
 
     // google
     implementation "com.google.android.gms:play-services-auth:$googleAuthVersion"

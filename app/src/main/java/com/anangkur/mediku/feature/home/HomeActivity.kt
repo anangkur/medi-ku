@@ -2,8 +2,9 @@ package com.anangkur.mediku.feature.home
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,8 @@ import com.anangkur.mediku.feature.profile.ProfileActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener {
+
+class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener, ForceUpdateChecker.OnUpdateNeededListener {
 
     companion object{
         fun startActivity(context: Context){
@@ -40,6 +42,7 @@ class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        ForceUpdateChecker.with(this).onUpdateNeeded(this).check()
         setupAdapter()
         observeViewModel()
         swipe_home.setOnRefreshListener {
@@ -116,5 +119,21 @@ class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener {
 
     override fun onClickCovid() {
         CovidActivity.startActivity(this)
+    }
+
+    override fun onUpdateNeeded(updateUrl: String?) {
+        val dialog: AlertDialog = AlertDialog.Builder(this)
+            .setTitle("New version available")
+            .setMessage("Please, update app to new version to continue reposting.")
+            .setPositiveButton("Update") { dialog, which -> redirectStore(updateUrl) }
+            .setNegativeButton("No, thanks") { dialog, which -> finish() }
+            .create()
+        dialog.show()
+    }
+
+    private fun redirectStore(updateUrl: String?) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 }
