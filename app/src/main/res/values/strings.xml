@@ -80,5 +80,11 @@
     <string name="btn_covid">See live statistics of Covid-19 cases all over the world</string>
     <string name="toolbar_covid_19">Covid-19</string>
     <string name="label_country">Country</string>
+    <string name="menu_home">Home</string>
+    <string name="label_hi">Hi!</string>
+    <string name="label_condition">How’s your condition?</string>
+    <string name="label_medical_records">Medical Records</string>
+    <string name="label_latest_news">Latest News</string>
+    <string name="lipsum_short">Lorem ipsum dolor sit amet, consectetur</string>
     <!--end of image picker dialog-->
 </resources>

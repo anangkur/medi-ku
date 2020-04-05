@@ -14,9 +14,10 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/ic_mediku_512"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/MaterialTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".feature.covid19Detail.Covid19DetailActivity"/>
+        <activity android:name=".feature.main.MainActivity"/>
+        <activity android:name=".feature.covid19Detail.Covid19DetailActivity" />
         <activity android:name=".feature.covid19.CovidActivity" />
         <activity android:name=".feature.detailMedicalRecord.DetailMedicalRecordActivity" />
         <activity android:name=".feature.addMedicalRecord.AddMedicalRecordActivity" />

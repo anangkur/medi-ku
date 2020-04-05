@@ -15,6 +15,8 @@ import com.anangkur.mediku.feature.editPassword.EditPasswordViewModel
 import com.anangkur.mediku.feature.editProfile.EditProfileViewModel
 import com.anangkur.mediku.feature.forgotPassword.ForgotPasswordViewModel
 import com.anangkur.mediku.feature.home.HomeViewModel
+import com.anangkur.mediku.feature.main.home.HomeViewModel as HomeViewModelFragment
+import com.anangkur.mediku.feature.main.MainViewModel
 import com.anangkur.mediku.feature.profile.ProfileViewModel
 import com.anangkur.mediku.feature.signIn.SignInViewModel
 import com.anangkur.mediku.feature.signUp.SignUpViewModel
@@ -42,6 +44,8 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
                 isAssignableFrom(DetailMedicalRecordViewModel::class.java) -> DetailMedicalRecordViewModel(repository)
                 isAssignableFrom(CovidViewModel::class.java) -> CovidViewModel(repository)
                 isAssignableFrom(Covid19DetailViewModel::class.java) -> Covid19DetailViewModel(repository)
+                isAssignableFrom(MainViewModel::class.java) -> MainViewModel(repository)
+                isAssignableFrom(HomeViewModelFragment::class.java) -> HomeViewModelFragment(repository)
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T

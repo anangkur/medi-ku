@@ -11,6 +11,7 @@ import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.feature.forgotPassword.ForgotPasswordActivity
 import com.anangkur.mediku.feature.home.HomeActivity
+import com.anangkur.mediku.feature.main.MainActivity
 import com.anangkur.mediku.feature.profile.ProfileActivity
 import com.anangkur.mediku.feature.signUp.SignUpActivity
 import com.anangkur.mediku.util.*
@@ -82,11 +83,11 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
                 }
             })
             resultSignInLive.observe(this@SignInActivity, Observer {
-                HomeActivity.startActivity(this@SignInActivity)
+                MainActivity.startActivity(this@SignInActivity)
                 finish()
             })
             successCreateUser.observe(this@SignInActivity, Observer {
-                HomeActivity.startActivity(this@SignInActivity)
+                MainActivity.startActivity(this@SignInActivity)
                 finish()
             })
             errorSignInLive.observe(this@SignInActivity, Observer {
