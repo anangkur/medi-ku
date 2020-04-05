@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.BaseResult
-import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
-import com.anangkur.mediku.data.model.covid19.Covid19Data
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.feature.covid19.adapter.CovidHorizontalAdapter
 import com.anangkur.mediku.feature.covid19.adapter.CovidVerticalAdapter
@@ -68,10 +66,7 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
                     }
                     BaseResult.Status.SUCCESS -> {
                         setupLoadingGeneral(false)
-                        val date = it.data?.get(0)?.date
-                        val dateParsed = SimpleDateFormat(Const.DATE_FORMAT_NEW_COVID19, Locale.US).parse(date?:"1990-01-01T00:00:00.00000000Z")
-                        val dateFormatted = SimpleDateFormat(Const.DATE_FORMAT_SHOWN_COVID19, Locale.US).format(dateParsed?: getTime())
-                        tv_data_shown.text = getString(R.string.label_data_shown, dateFormatted)
+                        setupShownDate(it.data?.get(0)?.date)
                         tv_data_shown.visible()
                         setupDataOtherCountryToView(it.data!!.subList(1, it.data.size))
                         getCovid19DataOnYourCountry(country.convertCoutryCodeIsoToCountryName())
@@ -171,6 +166,27 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
             tv_stat_death.visible()
             tv_stat_recover.visible()
         }
+    }
+
+    private fun setupShownDate(date: String?){
+        val dateParsed = try {
+            SimpleDateFormat(Const.DATE_FORMAT_NEW_COVID19, Locale.US).parse(date?:"1990-01-01T00:00:00.00000000Z")
+        }catch (e: Exception){
+            e.printStackTrace()
+            try {
+                SimpleDateFormat(Const.DATE_FORMAT_NEW_COVID19_2, Locale.US).parse(date?:"1990-01-01T00:00:00Z")
+            }catch (e: Exception){
+                e.printStackTrace()
+                null
+            }
+        }
+        val dateFormatted = try {
+            SimpleDateFormat(Const.DATE_FORMAT_SHOWN_COVID19, Locale.US).format(dateParsed)
+        }catch (e: Exception){
+            e.printStackTrace()
+            date
+        }
+        tv_data_shown.text = getString(R.string.label_data_shown, "$dateFormatted GMT")
     }
 
     private fun setupLoadingYourCountry(isLoading: Boolean){
