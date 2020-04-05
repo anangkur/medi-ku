@@ -43,4 +43,8 @@ object Const {
     const val STATUS_NEW_COVID19_CONFIRMED = "confirmed"
     const val STATUS_NEW_COVID19_RECOVERED = "recovered"
     const val STATUS_NEW_COVID19_DEATHS = "deaths"
+
+    // news
+    const val API_KEY = "261d82dd7e26494e841fb1039a4fdaf7"
+    const val NEWS_HEALTH = "health"
 }

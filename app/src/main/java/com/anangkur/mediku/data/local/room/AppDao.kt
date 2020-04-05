@@ -8,6 +8,7 @@ import androidx.room.Query
 import com.anangkur.mediku.data.model.covid19.Covid19Data
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
+import com.anangkur.mediku.data.model.news.Article
 
 @Dao
 interface AppDao {
@@ -27,6 +28,7 @@ interface AppDao {
     @Query("SELECT * FROM covid19data WHERE country = :country AND date = :date LIMIT 1")
     fun getDataByCountryAndDate(country: String, date: String): LiveData<List<Covid19Data>>
 
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDataSummary(data: List<NewCovid19Summary>)
 
@@ -39,9 +41,17 @@ interface AppDao {
     @Query("SELECT * FROM newcovid19summary WHERE Country = :country LIMIT 1")
     fun getNewCovid19SummaryByCountry(country: String): LiveData<List<NewCovid19Summary>>
 
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDataCountry(data: List<NewCovid19DataCountry>)
 
     @Query("SELECT * FROM newcovid19datacountry WHERE Country = :country ORDER BY Date ASC")
     fun getNewCovid19CountryByCountry(country: String): LiveData<List<NewCovid19DataCountry>>
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDataNews(data: List<Article>)
+
+    @Query("SELECT * FROM Article WHERE category = :category")
+    fun getAllDataByCategory(category: String): LiveData<List<Article>>
 }

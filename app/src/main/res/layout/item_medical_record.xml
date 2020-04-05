@@ -6,6 +6,12 @@
     android:background="@drawable/rect_rounded_4dp_gradient_blue"
     android:padding="@dimen/dimens_20dp"
     android:layout_marginStart="20dp">
+    <TextView
+        android:id="@+id/tv_date_medical_record"
+        style="@style/TextRegularSmall"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:layout_gravity="end"/>
     <LinearLayout
         style="@style/LinearHorizontalWrapAll"
         android:gravity="center">
@@ -14,6 +20,7 @@
             style="@style/ImageView48"
             android:src="@drawable/ic_pills"/>
         <TextView
+            android:id="@+id/tv_title_medical_record"
             style="@style/TextBoldSuperExtraBig"
             android:text="@string/app_name"
             android:textColor="@color/white"

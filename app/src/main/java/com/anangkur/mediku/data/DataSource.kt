@@ -7,10 +7,23 @@ import com.anangkur.mediku.data.model.covid19.Covid19Data
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
+import com.anangkur.mediku.data.model.news.Article
+import com.anangkur.mediku.data.model.news.GetNewsResponse
 import retrofit2.Response
 import retrofit2.http.Path
 
 interface DataSource {
+
+    suspend fun getTopHeadlinesNews(
+        apiKey: String?,
+        country: String?,
+        category: String?,
+        sources: String?,
+        q: String?
+    ): BaseResult<GetNewsResponse> { throw Exception() }
+
+    suspend fun insertDataNews(data: List<Article>) { throw Exception() }
+    fun getAllDataByCategory(category: String): LiveData<List<Article>> { throw Exception() }
 
     suspend fun getCovid19StatData(): BaseResult<Covid19ApiResponse> { throw Exception() }
 

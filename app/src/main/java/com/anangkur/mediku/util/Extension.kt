@@ -403,17 +403,50 @@ fun String.formatDate(): String{
     val timeFormat = SimpleDateFormat(Const.TIME_GENERAL_HH_MM, Locale.US)
 
     val generalFormat = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US)
+    val generalFormatAlternate = SimpleDateFormat(Const.DATE_FORMAT_NEW_COVID19_2, Locale.US)
 
-    val year = yearFormat.format(generalFormat.parse(this))
-    val month = monthFormat.format(generalFormat.parse(this))
-    val day = dayFormat.format(generalFormat.parse(this))
-    val time = timeFormat.format(generalFormat.parse(this))
+    val year = try {
+        yearFormat.format(generalFormat.parse(this))
+    }catch (e: Exception){
+        try {
+            yearFormat.format(generalFormatAlternate.parse(this))
+        }catch (e: Exception){
+            "1990"
+        }
+    }
+    val month = try {
+        monthFormat.format(generalFormat.parse(this))
+    }catch (e: Exception){
+        try {
+            monthFormat.format(generalFormatAlternate.parse(this))
+        }catch (e: Exception){
+            "01"
+        }
+    }
+    val day = try {
+        dayFormat.format(generalFormat.parse(this))
+    }catch (e: Exception){
+        try {
+            dayFormat.format(generalFormatAlternate.parse(this))
+        }catch (e: Exception){
+            "01"
+        }
+    }
+    val time = try {
+        timeFormat.format(generalFormat.parse(this))
+    }catch (e: Exception){
+        try {
+            timeFormat.format(generalFormatAlternate.parse(this))
+        }catch (e: Exception){
+            "00:00"
+        }
+    }
 
     val yearNow = yearFormat.format(dateNow)
     val monthNow = monthFormat.format(dateNow)
     val dayNow = dayFormat.format(dateNow)
 
-    var timeReturn: String
+    val timeReturn: String
 
     if (yearNow == year) {
         timeReturn = if (monthNow == month) {
@@ -422,16 +455,40 @@ fun String.formatDate(): String{
                 Integer.parseInt(dayNow) - Integer.parseInt(day!!) == 1 -> "Yesterday"
                 else -> {
                     val monthFormatDisplay = SimpleDateFormat(Const.DAY_NAME_DATE_MONTH_NAME, Locale.US)
-                    monthFormatDisplay.format(generalFormat.parse(this)) + " " + time
+                    try {
+                        monthFormatDisplay.format(generalFormat.parse(this)) + " " + time
+                    }catch (e: Exception){
+                        try {
+                            monthFormatDisplay.format(generalFormatAlternate.parse(this)) + " " + time
+                        }catch (e: Exception){
+                            ""
+                        }
+                    }
                 }
             }
         } else {
             val monthFormatDisplay = SimpleDateFormat(Const.DAY_NAME_DATE_MONTH_NAME, Locale.US)
-            monthFormatDisplay.format(generalFormat.parse(this)) + " " + time
+            try {
+                monthFormatDisplay.format(generalFormat.parse(this)) + " " + time
+            }catch (e: Exception){
+                try {
+                    monthFormatDisplay.format(generalFormatAlternate.parse(this)) + " " + time
+                }catch (e: Exception){
+                    ""
+                }
+            }
         }
     } else {
         val yearFormatDisplay = SimpleDateFormat(Const.DAY_FULL_WITH_DATE_LOCALE, Locale.US)
-        timeReturn = yearFormatDisplay.format(generalFormat.parse(this)) + " " + time
+        timeReturn = try {
+            yearFormatDisplay.format(generalFormat.parse(this)) + " " + time
+        }catch (e: Exception){
+            try {
+                yearFormatDisplay.format(generalFormatAlternate.parse(this)) + " " + time
+            }catch (e: Exception){
+                ""
+            }
+        }
     }
     return timeReturn
 }

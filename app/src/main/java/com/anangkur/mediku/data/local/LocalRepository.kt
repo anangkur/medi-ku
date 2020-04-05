@@ -10,12 +10,22 @@ import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
 import com.anangkur.mediku.data.model.covid19.Covid19Data
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
+import com.anangkur.mediku.data.model.news.Article
 import com.anangkur.mediku.util.Const.EXTRA_COUNTRY
 
 class LocalRepository(
     private val preferences: SharedPreferences,
     private val dao: AppDao
 ): DataSource {
+
+    /**
+     * News
+     */
+    override suspend fun insertDataNews(data: List<Article>) { dao.insertDataNews(data) }
+
+    override fun getAllDataByCategory(category: String): LiveData<List<Article>> {
+        return dao.getAllDataByCategory(category)
+    }
 
     /**
      * covid 19 data

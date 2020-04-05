@@ -6,6 +6,7 @@ import com.anangkur.mediku.data.model.BaseResult
 import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
+import com.anangkur.mediku.data.model.news.GetNewsResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -19,6 +20,24 @@ class RemoteRepository(
     private val covid19ApiService: Covid19ApiService,
     private val newCovid19ApiService: NewCovid19ApiService
 ): DataSource, BaseDataSource() {
+
+    override suspend fun getTopHeadlinesNews(
+        apiKey: String?,
+        country: String?,
+        category: String?,
+        sources: String?,
+        q: String?
+    ): BaseResult<GetNewsResponse> {
+        return getResult {
+            NewsApiService.getApiService.getTopHeadlinesNews(
+                apiKey,
+                country,
+                category,
+                sources,
+                q
+            )
+        }
+    }
 
     override suspend fun getCovid19StatData(): BaseResult<Covid19ApiResponse> {
         return getResult { covid19ApiService.getCovid19StatData() }

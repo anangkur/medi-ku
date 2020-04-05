@@ -4,6 +4,7 @@ import com.anangkur.mediku.base.resultLiveData
 import com.anangkur.mediku.data.local.LocalRepository
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.remote.RemoteRepository
+import com.anangkur.mediku.util.Const
 import com.anangkur.mediku.util.createCompleteData
 import com.anangkur.mediku.util.extractAllData
 
@@ -34,6 +35,9 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
         databaseQuery = { localRepository.getDataByCountryAndDate(country, date) }
     )
 
+    /**
+     * Covid 19 new Data
+     */
     fun getNewCovid19Summary() = resultLiveData(
         databaseQuery = { localRepository.getNewCovid19SummaryAll() },
         networkCall = { remoteRepository.getSummary() },
@@ -52,6 +56,48 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
         databaseQuery = { localRepository.getNewCovid19CountryByCountry(country) },
         networkCall = { remoteRepository.getDataCovid19ByCountry(country, status) },
         saveCallResult = { localRepository.insertDataCountry(it.createCompleteData()) }
+    )
+
+    /**
+     * News
+     */
+
+    fun getHealthNews() = resultLiveData(
+        databaseQuery = { localRepository.getAllDataByCategory(Const.NEWS_HEALTH) },
+        networkCall = { remoteRepository.getTopHeadlinesNews(
+            Const.API_KEY,
+            null,
+            Const.NEWS_HEALTH,
+            null,
+            null)
+        },
+        saveCallResult = {
+            localRepository.insertDataNews(it.articles.map {article ->
+                article.copy(
+                    id = "${article.publishedAt}_${article.title}",
+                    category = Const.NEWS_HEALTH
+                )
+            })
+        }
+    )
+
+    fun getHealthNewsByCountry(country: String) = resultLiveData(
+        databaseQuery = { localRepository.getAllDataByCategory(Const.NEWS_HEALTH) },
+        networkCall = { remoteRepository.getTopHeadlinesNews(
+            Const.API_KEY,
+            country,
+            Const.NEWS_HEALTH,
+            null,
+            null)
+        },
+        saveCallResult = {
+            localRepository.insertDataNews(it.articles.map {article ->
+                article.copy(
+                    id = "${article.publishedAt}_${article.title}",
+                    category = Const.NEWS_HEALTH,
+                    country = country)
+            })
+        }
     )
 
     /**
