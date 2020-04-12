@@ -46,7 +46,7 @@ class MenstrualEditViewModel(private val repository: Repository): ViewModel() {
 
     fun createMenstrualPeriodResume(periodLong: String, cycleLong: String): MenstrualPeriodResume {
 
-        val dateFormat = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US)
+        val dateFormat = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT_NO_TIME, Locale.US)
 
         val month = SimpleDateFormat("MMMM", Locale.US).format(selectedCalendar?.time?: getTime())
         val year = SimpleDateFormat("yyyy", Locale.US).format(selectedCalendar?.time?: getTime())

@@ -6,16 +6,23 @@
     <include layout="@layout/layout_toolbar"/>
 
     <LinearLayout
+        android:id="@+id/layout_menstrual"
         style="@style/LinearVerticalDefault">
-        <CalendarView
+        <com.applandeo.materialcalendarview.CalendarView
             android:id="@+id/calendar_menstrual"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_height="@dimen/dimens_0dp"
+            android:layout_weight="4"
+            app:headerColor="@color/white"
+            app:headerLabelColor="@color/black"
+            app:forwardButtonSrc="@drawable/ic_navigate_next_black_24dp"
+            app:previousButtonSrc="@drawable/ic_keyboard_arrow_left_black_24dp"/>
         <RelativeLayout
             style="@style/RelativeDefault"
-            android:layout_weight="1">
+            android:layout_height="@dimen/dimens_0dp"
+            android:layout_weight="3">
             <LinearLayout
+                android:id="@+id/layout_illustration_menstrual"
                 style="@style/LinearVerticalDefault"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/dimens_20dp"
@@ -60,6 +67,12 @@
                     android:layout_marginTop="@dimen/dimens_10dp"
                     android:visibility="gone"/>
             </LinearLayout>
+            <ProgressBar
+                android:id="@+id/pb_menstrual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
