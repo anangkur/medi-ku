@@ -1,4 +1,4 @@
-package com.anangkur.mediku.feature.editProfile
+package com.anangkur.mediku.feature.profile.editProfile
 
 import android.content.Context
 import android.content.Intent
@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
-import com.anangkur.mediku.base.BaseErrorView
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.util.*
 import com.esafirm.imagepicker.features.ImagePicker

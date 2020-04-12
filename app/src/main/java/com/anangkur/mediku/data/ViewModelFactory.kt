@@ -12,14 +12,14 @@ import com.anangkur.mediku.feature.covid.covid19.CovidViewModel
 import com.anangkur.mediku.feature.covid.covid19Detail.Covid19DetailViewModel
 import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordViewModel
 import com.anangkur.mediku.feature.auth.editPassword.EditPasswordViewModel
-import com.anangkur.mediku.feature.editProfile.EditProfileViewModel
+import com.anangkur.mediku.feature.profile.editProfile.EditProfileViewModel
 import com.anangkur.mediku.feature.auth.forgotPassword.ForgotPasswordViewModel
 import com.anangkur.mediku.feature.dashboard.home.HomeViewModel
 import com.anangkur.mediku.feature.dashboard.main.home.HomeViewModel as HomeViewModelFragment
 import com.anangkur.mediku.feature.dashboard.main.MainViewModel
 import com.anangkur.mediku.feature.mens.menstrual.MenstrualViewModel
 import com.anangkur.mediku.feature.mens.menstrualEdit.MenstrualEditViewModel
-import com.anangkur.mediku.feature.profile.ProfileViewModel
+import com.anangkur.mediku.feature.profile.userProfile.ProfileViewModel
 import com.anangkur.mediku.feature.dashboard.main.profile.ProfileViewModel as ProfileViewModelFragment
 import com.anangkur.mediku.feature.auth.signIn.SignInViewModel
 import com.anangkur.mediku.feature.auth.signUp.SignUpViewModel

@@ -1,4 +1,4 @@
-package com.anangkur.mediku.feature.profile
+package com.anangkur.mediku.feature.profile.userProfile
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

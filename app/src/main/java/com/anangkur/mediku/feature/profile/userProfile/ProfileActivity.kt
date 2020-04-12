@@ -1,4 +1,4 @@
-package com.anangkur.mediku.feature.profile
+package com.anangkur.mediku.feature.profile.userProfile
 
 import android.content.Context
 import android.content.Intent
@@ -9,7 +9,7 @@ import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.feature.auth.editPassword.EditPasswordActivity
-import com.anangkur.mediku.feature.editProfile.EditProfileActivity
+import com.anangkur.mediku.feature.profile.editProfile.EditProfileActivity
 import com.anangkur.mediku.feature.auth.signIn.SignInActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_profile.*

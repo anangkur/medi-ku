@@ -15,7 +15,7 @@ import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.feature.medicalRecords.addMedicalRecord.AddMedicalRecordActivity
 import com.anangkur.mediku.feature.covid.covid19.CovidActivity
 import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity
-import com.anangkur.mediku.feature.profile.ProfileActivity
+import com.anangkur.mediku.feature.profile.userProfile.ProfileActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_home.*
 

@@ -1,4 +1,4 @@
-package com.anangkur.mediku.feature.profile
+package com.anangkur.mediku.feature.profile.userProfile
 
 interface ProfileActionListener {
     fun onClickEditProfile()

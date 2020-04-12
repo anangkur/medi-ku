@@ -27,8 +27,8 @@
         <activity android:name="com.anangkur.mediku.feature.dashboard.home.HomeActivity" />
         <activity android:name="com.anangkur.mediku.feature.auth.forgotPassword.ForgotPasswordActivity" />
         <activity android:name="com.anangkur.mediku.feature.auth.editPassword.EditPasswordActivity" />
-        <activity android:name=".feature.editProfile.EditProfileActivity" />
-        <activity android:name=".feature.profile.ProfileActivity" />
+        <activity android:name="com.anangkur.mediku.feature.profile.editProfile.EditProfileActivity" />
+        <activity android:name="com.anangkur.mediku.feature.profile.userProfile.ProfileActivity" />
         <activity android:name="com.anangkur.mediku.feature.auth.signUp.SignUpActivity" />
         <activity android:name="com.anangkur.mediku.feature.auth.signIn.SignInActivity" />
         <activity android:name=".feature.splash.SplashActivity">

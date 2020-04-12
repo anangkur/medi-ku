@@ -1,13 +1,11 @@
-package com.anangkur.mediku.feature.editProfile
+package com.anangkur.mediku.feature.profile.editProfile
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.util.Const
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
