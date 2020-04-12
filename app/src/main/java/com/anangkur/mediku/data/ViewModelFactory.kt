@@ -17,6 +17,8 @@ import com.anangkur.mediku.feature.forgotPassword.ForgotPasswordViewModel
 import com.anangkur.mediku.feature.home.HomeViewModel
 import com.anangkur.mediku.feature.main.home.HomeViewModel as HomeViewModelFragment
 import com.anangkur.mediku.feature.main.MainViewModel
+import com.anangkur.mediku.feature.menstrual.MenstrualViewModel
+import com.anangkur.mediku.feature.menstrualEdit.MenstrualEditViewModel
 import com.anangkur.mediku.feature.profile.ProfileViewModel
 import com.anangkur.mediku.feature.main.profile.ProfileViewModel as ProfileViewModelFragment
 import com.anangkur.mediku.feature.signIn.SignInViewModel
@@ -34,20 +36,29 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
         with(modelClass) {
             when {
                 isAssignableFrom(SplashViewModel::class.java) -> SplashViewModel(repository)
+
                 isAssignableFrom(SignInViewModel::class.java) -> SignInViewModel(repository)
                 isAssignableFrom(SignUpViewModel::class.java) -> SignUpViewModel(repository)
-                isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(repository)
                 isAssignableFrom(EditProfileViewModel::class.java) -> EditProfileViewModel(repository)
                 isAssignableFrom(EditPasswordViewModel::class.java) -> EditPasswordViewModel(repository)
                 isAssignableFrom(ForgotPasswordViewModel::class.java) -> ForgotPasswordViewModel(repository)
+
+                isAssignableFrom(ProfileViewModelFragment::class.java) -> ProfileViewModelFragment(repository)
+                isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(repository)
+
+                isAssignableFrom(HomeViewModelFragment::class.java) -> HomeViewModelFragment(repository)
+                isAssignableFrom(MainViewModel::class.java) -> MainViewModel(repository)
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(repository)
+
                 isAssignableFrom(AddMedicalRecordViewModel::class.java) -> AddMedicalRecordViewModel(repository)
                 isAssignableFrom(DetailMedicalRecordViewModel::class.java) -> DetailMedicalRecordViewModel(repository)
+
                 isAssignableFrom(CovidViewModel::class.java) -> CovidViewModel(repository)
                 isAssignableFrom(Covid19DetailViewModel::class.java) -> Covid19DetailViewModel(repository)
-                isAssignableFrom(MainViewModel::class.java) -> MainViewModel(repository)
-                isAssignableFrom(HomeViewModelFragment::class.java) -> HomeViewModelFragment(repository)
-                isAssignableFrom(ProfileViewModelFragment::class.java) -> ProfileViewModelFragment(repository)
+
+                isAssignableFrom(MenstrualViewModel::class.java) -> MenstrualViewModel(repository)
+                isAssignableFrom(MenstrualEditViewModel::class.java) -> MenstrualEditViewModel(repository)
+
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T

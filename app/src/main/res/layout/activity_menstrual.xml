@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearVerticalDefault">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <LinearLayout
+        style="@style/LinearVerticalDefault">
+        <CalendarView
+            android:id="@+id/calendar_menstrual"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <RelativeLayout
+            style="@style/RelativeDefault"
+            android:layout_weight="1">
+            <LinearLayout
+                style="@style/LinearVerticalDefault"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/dimens_20dp"
+                android:background="@drawable/rect_gradient_red"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_count_day"
+                    style="@style/TextBoldBig"
+                    android:text="@string/dummy_day"
+                    android:textColor="@color/white"/>
+                <ImageView
+                    android:id="@+id/iv_status_menstrual"
+                    style="@style/ImageViewWrapAll"
+                    android:src="@drawable/ic_blood"
+                    android:layout_marginTop="@dimen/dimens_20dp"/>
+                <TextView
+                    android:id="@+id/tv_date"
+                    style="@style/TextBoldBig"
+                    android:text="@string/dummy_date"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/dimens_20dp"/>
+                <TextView
+                    android:id="@+id/tv_label_menstrual"
+                    style="@style/TextBoldBig"
+                    android:text="@string/dummy_status_menstrual"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/dimens_10dp"/>
+                <TextView
+                    android:id="@+id/tv_next_menstrual"
+                    style="@style/TextBoldBig"
+                    android:text="@string/dummy_next_period"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/dimens_10dp"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

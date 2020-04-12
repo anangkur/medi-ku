@@ -88,5 +88,14 @@
     <string name="lipsum_short">Lorem ipsum dolor sit amet, consectetur</string>
     <string name="menu_open_in_browser">Open in browser</string>
     <string name="error_default">Something went wrong</string>
+    <string name="dummy_day">Day 1</string>
+    <string name="dummy_date">01 May</string>
+    <string name="dummy_status_menstrual">The Period</string>
+    <string name="dummy_next_period">Next Period on 01 Jun</string>
+    <string name="label_i_dont_remember">I don’t remember</string>
+    <string name="hint_last_period">When did your last period start?</string>
+    <string name="label_long_period">How long is your period (average)?</string>
+    <string name="hint_long_period">Period long (normally 3-7 days)</string>
+    <string name="hint_long_cycle">Cycle long (normally 21 - 35 days)</string>
     <!--end of image picker dialog-->
 </resources>
