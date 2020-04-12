@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ConstraintDefault"
-    tools:context="com.anangkur.mediku.feature.signIn.SignInActivity">
+    tools:context=".feature.auth.signIn.SignInActivity">
 
     <ScrollView
         style="@style/NestedScrollDefault"

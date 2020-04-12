@@ -7,22 +7,22 @@ import androidx.lifecycle.ViewModelProvider
 import com.anangkur.mediku.data.local.room.AppDatabase
 import com.anangkur.mediku.data.remote.Covid19ApiService
 import com.anangkur.mediku.data.remote.NewCovid19ApiService
-import com.anangkur.mediku.feature.addMedicalRecord.AddMedicalRecordViewModel
-import com.anangkur.mediku.feature.covid19.CovidViewModel
-import com.anangkur.mediku.feature.covid19Detail.Covid19DetailViewModel
-import com.anangkur.mediku.feature.detailMedicalRecord.DetailMedicalRecordViewModel
-import com.anangkur.mediku.feature.editPassword.EditPasswordViewModel
+import com.anangkur.mediku.feature.medicalRecords.addMedicalRecord.AddMedicalRecordViewModel
+import com.anangkur.mediku.feature.covid.covid19.CovidViewModel
+import com.anangkur.mediku.feature.covid.covid19Detail.Covid19DetailViewModel
+import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordViewModel
+import com.anangkur.mediku.feature.auth.editPassword.EditPasswordViewModel
 import com.anangkur.mediku.feature.editProfile.EditProfileViewModel
-import com.anangkur.mediku.feature.forgotPassword.ForgotPasswordViewModel
-import com.anangkur.mediku.feature.home.HomeViewModel
-import com.anangkur.mediku.feature.main.home.HomeViewModel as HomeViewModelFragment
-import com.anangkur.mediku.feature.main.MainViewModel
-import com.anangkur.mediku.feature.menstrual.MenstrualViewModel
-import com.anangkur.mediku.feature.menstrualEdit.MenstrualEditViewModel
+import com.anangkur.mediku.feature.auth.forgotPassword.ForgotPasswordViewModel
+import com.anangkur.mediku.feature.dashboard.home.HomeViewModel
+import com.anangkur.mediku.feature.dashboard.main.home.HomeViewModel as HomeViewModelFragment
+import com.anangkur.mediku.feature.dashboard.main.MainViewModel
+import com.anangkur.mediku.feature.mens.menstrual.MenstrualViewModel
+import com.anangkur.mediku.feature.mens.menstrualEdit.MenstrualEditViewModel
 import com.anangkur.mediku.feature.profile.ProfileViewModel
-import com.anangkur.mediku.feature.main.profile.ProfileViewModel as ProfileViewModelFragment
-import com.anangkur.mediku.feature.signIn.SignInViewModel
-import com.anangkur.mediku.feature.signUp.SignUpViewModel
+import com.anangkur.mediku.feature.dashboard.main.profile.ProfileViewModel as ProfileViewModelFragment
+import com.anangkur.mediku.feature.auth.signIn.SignInViewModel
+import com.anangkur.mediku.feature.auth.signUp.SignUpViewModel
 import com.anangkur.mediku.feature.splash.SplashViewModel
 import com.anangkur.mediku.util.Const
 import com.google.firebase.auth.FirebaseAuth
