@@ -17,6 +17,7 @@ object Const {
     // fireStore
     const val COLLECTION_USER = "users"
     const val COLLECTION_MEDICAL_RECORD = "medical_records"
+    const val COLLECTION_MENSTRUAL_PERIOD = "menstrual_period"
 
     // medical record
     const val CATEGORY_SICK = "Sick"

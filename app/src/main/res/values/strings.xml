@@ -97,5 +97,16 @@
     <string name="label_long_period">How long is your period (average)?</string>
     <string name="hint_long_period">Period long (normally 3-7 days)</string>
     <string name="hint_long_cycle">Cycle long (normally 21 - 35 days)</string>
+    <string name="btn_log_period">Log Period</string>
+    <string name="label_menstrual_desc">We can help you predict your menstrual period by filling in the data below</string>
+    <string name="toolbar_edit_menstrual">Edit Menstrual Period</string>
+    <string name="message_success_save_menstrual_period">Success saving menstrual period</string>
+    <string name="error_last_period_empty">Last period is mandatory!</string>
+    <string name="error_period_long_empty">Period long is mandatory!</string>
+    <string name="error_cycle_long_empty">Cycle long is mandatory!</string>
+    <string name="error_period_long_less_than_1">Period long must not less than 1</string>
+    <string name="error_period_long_more_than_12">Period long must not more than 12</string>
+    <string name="error_cycle_long_less_than_21">Cycle long must not less than 21</string>
+    <string name="error_cycle_long_more_than_100">Cycle long must not more than 100</string>
     <!--end of image picker dialog-->
 </resources>

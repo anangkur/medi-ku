@@ -386,6 +386,11 @@ fun getTime(): Date {
     return c.time
 }
 
+fun getCurrentYear(): String {
+    val date = getTime()
+    return SimpleDateFormat("yyyy").format(date)
+}
+
 fun getTimeYesterday(): Date {
     val c = Calendar.getInstance()
     c.add(Calendar.DATE, -1)

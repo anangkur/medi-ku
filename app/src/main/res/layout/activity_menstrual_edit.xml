@@ -15,18 +15,47 @@
             android:layout_above="@id/btn_save">
             <LinearLayout
                 style="@style/LinearVerticalWrap">
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_last_period"
-                    style="@style/TextInputLayoutDefault"
+
+                <ImageView
+                    style="@style/ImageView120"
+                    android:src="@drawable/ic_doctor"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dimens_20dp"/>
+
+                <TextView
+                    style="@style/TextBoldBig"
+                    android:text="@string/label_menstrual_desc"
+                    android:textAlignment="center"
                     android:layout_marginTop="@dimen/dimens_20dp"
                     android:layout_marginStart="@dimen/dimens_20dp"
-                    android:layout_marginEnd="@dimen/dimens_20dp">
-                    <EditText
-                        android:id="@+id/et_last_period"
-                        style="@style/EditTextDefault"
-                        android:hint="@string/hint_last_period"
-                        android:inputType="none"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginEnd="@dimen/dimens_20dp"
+                    android:layout_marginBottom="@dimen/dimens_20dp"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_last_period"
+                        style="@style/TextInputLayoutDefault"
+                        android:layout_marginTop="@dimen/dimens_20dp"
+                        android:layout_marginStart="@dimen/dimens_20dp"
+                        android:layout_marginEnd="@dimen/dimens_20dp"
+                        android:layout_marginBottom="@dimen/dimens_20dp">
+                        <EditText
+                            android:id="@+id/et_last_period"
+                            style="@style/EditTextDefault"
+                            android:hint="@string/hint_last_period"
+                            android:inputType="none"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:paddingStart="@dimen/dimens_60dp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView
+                        style="@style/ImageViewWrapAll"
+                        android:src="@drawable/ic_calendar"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimens_40dp"/>
+                </RelativeLayout>
                 <CheckBox
                     android:id="@+id/cb_last_period"
                     android:layout_width="wrap_content"
@@ -35,19 +64,25 @@
                     android:layout_marginStart="@dimen/dimens_20dp"
                     android:layout_marginBottom="@dimen/dimens_20dp"
                     android:text="@string/label_i_dont_remember"
-                    android:fontFamily="@font/comfortaa_bold"/>
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:visibility="gone"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_long_period"
                     style="@style/TextInputLayoutDefault"
                     android:layout_marginTop="@dimen/dimens_20dp"
                     android:layout_marginStart="@dimen/dimens_20dp"
-                    android:layout_marginEnd="@dimen/dimens_20dp">
+                    android:layout_marginEnd="@dimen/dimens_20dp"
+                    android:layout_marginBottom="@dimen/dimens_20dp">
                     <EditText
                         android:id="@+id/et_long_period"
                         style="@style/EditTextDefault"
                         android:hint="@string/hint_long_period"
-                        android:inputType="none"/>
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionNext"
+                        android:digits="0987654321"
+                        android:maxLength="2"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <CheckBox
                     android:id="@+id/cb_long_period"
@@ -57,19 +92,25 @@
                     android:layout_marginStart="@dimen/dimens_20dp"
                     android:layout_marginBottom="@dimen/dimens_20dp"
                     android:text="@string/label_i_dont_remember"
-                    android:fontFamily="@font/comfortaa_bold"/>
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:visibility="gone"/>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_long_period"
+                    android:id="@+id/til_long_cycle"
                     style="@style/TextInputLayoutDefault"
                     android:layout_marginTop="@dimen/dimens_20dp"
                     android:layout_marginStart="@dimen/dimens_20dp"
-                    android:layout_marginEnd="@dimen/dimens_20dp">
+                    android:layout_marginEnd="@dimen/dimens_20dp"
+                    android:layout_marginBottom="@dimen/dimens_20dp">
                     <EditText
-                        android:id="@+id/et_long_period"
+                        android:id="@+id/et_long_cycle"
                         style="@style/EditTextDefault"
                         android:hint="@string/hint_long_cycle"
-                        android:inputType="none"/>
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionDone"
+                        android:digits="0987654321"
+                        android:maxLength="2"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <CheckBox
                     android:id="@+id/cb_long_period"
@@ -79,7 +120,8 @@
                     android:layout_marginStart="@dimen/dimens_20dp"
                     android:layout_marginBottom="@dimen/dimens_20dp"
                     android:text="@string/label_i_dont_remember"
-                    android:fontFamily="@font/comfortaa_bold"/>
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:visibility="gone"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
