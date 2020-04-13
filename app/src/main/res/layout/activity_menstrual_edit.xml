@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LinearVerticalDefault">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <RelativeLayout
+        style="@style/RelativeDefault">
+
+        <androidx.core.widget.NestedScrollView
+            style="@style/NestedScrollDefault"
+            android:layout_above="@id/btn_save">
+            <LinearLayout
+                style="@style/LinearVerticalWrap">
+
+                <ImageView
+                    style="@style/ImageView120"
+                    android:src="@drawable/ic_doctor"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dimens_20dp"/>
+
+                <TextView
+                    style="@style/TextBoldBig"
+                    android:text="@string/label_menstrual_desc"
+                    android:textAlignment="center"
+                    android:layout_marginTop="@dimen/dimens_20dp"
+                    android:layout_marginStart="@dimen/dimens_20dp"
+                    android:layout_marginEnd="@dimen/dimens_20dp"
+                    android:layout_marginBottom="@dimen/dimens_20dp"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_last_period"
+                        style="@style/TextInputLayoutDefault"
+                        android:layout_marginTop="@dimen/dimens_20dp"
+                        android:layout_marginStart="@dimen/dimens_20dp"
+                        android:layout_marginEnd="@dimen/dimens_20dp"
+                        android:layout_marginBottom="@dimen/dimens_20dp">
+                        <EditText
+                            android:id="@+id/et_last_period"
+                            style="@style/EditTextDefault"
+                            android:hint="@string/hint_last_period"
+                            android:inputType="none"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:paddingStart="@dimen/dimens_60dp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView
+                        style="@style/ImageViewWrapAll"
+                        android:src="@drawable/ic_calendar"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimens_40dp"/>
+                </RelativeLayout>
+                <CheckBox
+                    android:id="@+id/cb_last_period"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:layout_marginStart="@dimen/dimens_20dp"
+                    android:layout_marginBottom="@dimen/dimens_20dp"
+                    android:text="@string/label_i_dont_remember"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_long_period"
+                    style="@style/TextInputLayoutDefault"
+                    android:layout_marginTop="@dimen/dimens_20dp"
+                    android:layout_marginStart="@dimen/dimens_20dp"
+                    android:layout_marginEnd="@dimen/dimens_20dp"
+                    android:layout_marginBottom="@dimen/dimens_20dp">
+                    <EditText
+                        android:id="@+id/et_long_period"
+                        style="@style/EditTextDefault"
+                        android:hint="@string/hint_long_period"
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionNext"
+                        android:digits="0987654321"
+                        android:maxLength="2"
+                        android:maxLines="1"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <CheckBox
+                    android:id="@+id/cb_long_period"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:layout_marginStart="@dimen/dimens_20dp"
+                    android:layout_marginBottom="@dimen/dimens_20dp"
+                    android:text="@string/label_i_dont_remember"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_long_cycle"
+                    style="@style/TextInputLayoutDefault"
+                    android:layout_marginTop="@dimen/dimens_20dp"
+                    android:layout_marginStart="@dimen/dimens_20dp"
+                    android:layout_marginEnd="@dimen/dimens_20dp"
+                    android:layout_marginBottom="@dimen/dimens_20dp">
+                    <EditText
+                        android:id="@+id/et_long_cycle"
+                        style="@style/EditTextDefault"
+                        android:hint="@string/hint_long_cycle"
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionDone"
+                        android:digits="0987654321"
+                        android:maxLength="2"
+                        android:maxLines="1"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <CheckBox
+                    android:id="@+id/cb_long_period"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:layout_marginStart="@dimen/dimens_20dp"
+                    android:layout_marginBottom="@dimen/dimens_20dp"
+                    android:text="@string/label_i_dont_remember"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.anangkur.materialloadingbutton.MaterialLoadingButton
+            android:id="@+id/btn_save"
+            style="@style/ButtonDefault"
+            app:mlb_cornerRadius="@dimen/dimens_100dp"
+            app:mlb_defaultColor="@color/colorPrimary"
+            app:mlb_textColor="@color/white"
+            app:mlb_textButton="@string/btn_save"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

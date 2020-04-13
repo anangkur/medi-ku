@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/CardWrapAll"
     app:cardUseCompatPadding="true"
-    android:layout_width="@dimen/dimens_180dp"
+    android:minWidth="@dimen/dimens_180dp"
     android:layout_marginStart="@dimen/dimens_10dp"
     android:elevation="@dimen/dimens_10dp">
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,12 +13,20 @@
         android:paddingBottom="@dimen/dimens_10dp"
         android:paddingStart="@dimen/dimens_14dp"
         android:paddingEnd="@dimen/dimens_14dp">
-        <ImageView
-            android:id="@+id/iv_country"
-            style="@style/ImageView48"
-            android:src="@color/gray"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_iv_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardElevation="1dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent">
+            <ImageView
+                android:id="@+id/iv_country"
+                style="@style/ImageView48"
+                android:layout_height="32dp"
+                android:scaleType="centerCrop"
+                android:src="@color/gray"/>
+        </androidx.cardview.widget.CardView>
         <TextView
             android:id="@+id/tv_country"
             style="@style/TextBoldNormal"
@@ -27,12 +35,12 @@
             android:lines="1"
             android:ellipsize="end"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/iv_country"/>
+            app:layout_constraintLeft_toRightOf="@id/card_iv_country"/>
         <ImageView
             android:id="@+id/iv_dot_yellow"
             style="@style/ImageView10"
             android:src="@drawable/dot_yellow"
-            android:layout_marginTop="@dimen/dimens_10dp"
+            android:layout_marginTop="@dimen/dimens_4dp"
             app:layout_constraintTop_toBottomOf="@id/tv_country"
             app:layout_constraintLeft_toLeftOf="@id/tv_country"/>
         <TextView
@@ -47,9 +55,9 @@
             android:id="@+id/iv_dot_red"
             style="@style/ImageView10"
             android:src="@drawable/dot_red"
-            android:layout_marginTop="@dimen/dimens_10dp"
-            app:layout_constraintTop_toBottomOf="@id/iv_country"
-            app:layout_constraintLeft_toLeftOf="@id/iv_country"/>
+            android:layout_marginTop="@dimen/dimens_20dp"
+            app:layout_constraintTop_toBottomOf="@id/card_iv_country"
+            app:layout_constraintLeft_toLeftOf="@id/card_iv_country"/>
         <TextView
             android:id="@+id/tv_death"
             style="@style/TextBoldSmall"
@@ -64,7 +72,7 @@
             android:src="@drawable/dot_green"
             android:layout_marginTop="@dimen/dimens_10dp"
             app:layout_constraintTop_toBottomOf="@id/iv_dot_red"
-            app:layout_constraintLeft_toLeftOf="@id/iv_country"/>
+            app:layout_constraintLeft_toLeftOf="@id/card_iv_country"/>
         <TextView
             android:id="@+id/tv_recovered"
             style="@style/TextBoldSmall"

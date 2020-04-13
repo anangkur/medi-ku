@@ -37,6 +37,8 @@
                     android:text="@string/app_name"
                     android:layout_marginTop="@dimen/dimens_20dp"
                     android:layout_marginStart="@dimen/dimens_20dp"
+                    android:layout_marginEnd="@dimen/dimens_20dp"
+                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/tv_desc_stat"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
@@ -214,14 +216,17 @@
                         style="@style/TextBoldExtraBig"
                         android:text="@string/label_other_country"
                         android:layout_marginTop="@dimen/dimens_20dp"
-                        android:layout_marginStart="@dimen/dimens_20dp" />
+                        android:layout_marginStart="@dimen/dimens_20dp"
+                        android:layout_marginBottom="@dimen/dimens_20dp"/>
+                    <include layout="@layout/layout_header_covid_data"/>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_other_country"
                         style="@style/RecyclerWrapHeight"
                         tools:listitem="@layout/item_covid"
-                        app:spanCount="2"
+                        app:spanCount="1"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         android:paddingStart="@dimen/dimens_20dp"
+                        android:paddingEnd="@dimen/dimens_20dp"
                         android:paddingBottom="@dimen/dimens_20dp"
                         android:clipToPadding="false" />
                 </LinearLayout>

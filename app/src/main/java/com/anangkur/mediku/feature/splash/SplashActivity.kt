@@ -6,12 +6,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
-import com.anangkur.mediku.feature.home.HomeActivity
-import com.anangkur.mediku.feature.profile.ProfileActivity
-import com.anangkur.mediku.feature.signIn.SignInActivity
+import com.anangkur.mediku.feature.auth.signIn.SignInActivity
+import com.anangkur.mediku.feature.mens.menstrual.MenstrualActivity
+import com.anangkur.mediku.feature.mens.menstrualEdit.MenstrualEditActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_splash.*
-import java.util.*
 
 class SplashActivity: BaseActivity<SplashViewModel>() {
     override val mLayout: Int
@@ -35,7 +34,7 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
         val handler = Handler()
         handler.postDelayed({
             if (isLoggedIn){
-                HomeActivity.startActivity(this)
+                MenstrualActivity.startActivity(this)
             }else{
                 SignInActivity.startActivity(this)
             }

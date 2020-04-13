@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearVerticalWrapAll"
+    android:layout_width="@dimen/dimens_280dp"
+    android:background="@drawable/rect_rounded_4dp_gradient_blue"
+    android:padding="@dimen/dimens_20dp"
+    android:layout_marginStart="20dp">
+    <TextView
+        android:id="@+id/tv_date_medical_record"
+        style="@style/TextRegularSmall"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:layout_gravity="end"/>
+    <LinearLayout
+        style="@style/LinearHorizontalWrapAll"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/iv_medical_record"
+            style="@style/ImageView48"
+            android:src="@drawable/ic_pills"/>
+        <TextView
+            android:id="@+id/tv_title_medical_record"
+            style="@style/TextBoldSuperExtraBig"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:layout_marginStart="@dimen/dimens_20dp"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_desc_medical_record"
+        style="@style/TextRegularNormal"
+        android:layout_marginTop="@dimen/dimens_10dp"
+        android:layout_width="match_parent"
+        android:text="@string/lipsum_short"
+        android:textColor="@color/white"
+        android:lines="2"
+        android:maxLines="2"
+        android:ellipsize="end"/>
+</LinearLayout>
