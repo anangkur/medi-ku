@@ -13,6 +13,7 @@ import com.anangkur.mediku.feature.covid.covid19.CovidActivity
 import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity
 import com.anangkur.mediku.feature.dashboard.main.home.adapter.MedicalRecordAdapter
 import com.anangkur.mediku.feature.dashboard.main.home.adapter.NewsAdapter
+import com.anangkur.mediku.feature.mens.menstrual.MenstrualActivity
 import com.anangkur.mediku.feature.originalNews.OriginalNewsActivity
 import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.setupRecyclerViewLinear
@@ -45,6 +46,7 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
             mViewModel.getMedicalRecord()
         }
         card_covid.setOnClickListener { this.onClickCovid19() }
+        layout_menstrual_period.setOnClickListener { this.onClickMenstrualPeriod() }
     }
 
     override fun onResume() {
@@ -116,5 +118,9 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
 
     override fun onClickMedicalRecord(data: MedicalRecord) {
         DetailMedicalRecordActivity.startActivity(requireContext(), data)
+    }
+
+    override fun onClickMenstrualPeriod() {
+        MenstrualActivity.startActivity(requireContext())
     }
 }

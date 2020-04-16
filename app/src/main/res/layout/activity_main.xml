@@ -16,8 +16,6 @@
         app:backgroundTint="@color/white"
         android:background="@color/white"
         app:fabAlignmentMode="center"
-        app:hideOnScroll="true"
-        app:layout_scrollFlags="scroll|enterAlways"
         app:contentInsetStartWithNavigation="@dimen/dimens_0dp"
         app:contentInsetLeft="@dimen/dimens_0dp"
         app:contentInsetStart="@dimen/dimens_0dp">

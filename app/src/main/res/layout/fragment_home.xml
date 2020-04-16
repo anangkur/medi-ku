@@ -77,10 +77,37 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_1dp"
+                    android:background="@color/gray"/>
+                <LinearLayout
+                    android:id="@+id/layout_menstrual_period"
+                    style="@style/LinearHorizontalWrap"
+                    android:padding="@dimen/dimens_20dp"
+                    android:gravity="center"
+                    android:foreground="?selectableItemBackground">
+                    <TextView
+                        style="@style/TextBoldNormal"
+                        android:text="Calculate menstrual period here"/>
+                    <RelativeLayout
+                        style="@style/RelativeWrapH">
+                        <ImageView
+                            style="@style/ImageViewWrapAll"
+                            android:src="@drawable/ic_navigate_next_black_24dp"
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_1dp"
+                    android:background="@color/gray"/>
+
                 <TextView
                     style="@style/TextBoldBig"
                     android:text="@string/label_medical_records"
-                    android:layout_marginStart="@dimen/dimens_20dp"/>
+                    android:layout_marginStart="@dimen/dimens_20dp"
+                    android:layout_marginTop="@dimen/dimens_20dp"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_medical_record"
                     style="@style/RecyclerWrapHeight"
