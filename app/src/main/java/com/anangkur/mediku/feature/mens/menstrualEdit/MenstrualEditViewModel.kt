@@ -43,39 +43,4 @@ class MenstrualEditViewModel(private val repository: Repository): ViewModel() {
             }
         }
     }
-
-    fun createMenstrualPeriodResume(periodLong: String, cycleLong: String): MenstrualPeriodResume {
-
-        val dateFormat = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT_NO_TIME, Locale.US)
-
-        val month = SimpleDateFormat("MMMM", Locale.US).format(selectedCalendar?.time?: getTime())
-        val year = SimpleDateFormat("yyyy", Locale.US).format(selectedCalendar?.time?: getTime())
-
-        val firstDayFertile = cycleLong.toInt() - 18
-        val lastDayFertile = cycleLong.toInt() - 11
-
-        val firstDayPeriodString = dateFormat.format(selectedCalendar?.time?: getTime())
-
-        selectedCalendar?.add(Calendar.DAY_OF_MONTH, periodLong.toInt())
-        val lastDayPeriodString = dateFormat.format(selectedCalendar?.time?: getTime())
-
-        selectedCalendar?.add(Calendar.DAY_OF_MONTH, (firstDayFertile - periodLong.toInt()))
-        val firstDayFertileString = dateFormat.format(selectedCalendar?.time?: getTime())
-
-        selectedCalendar?.add(Calendar.DAY_OF_MONTH, (lastDayFertile - firstDayFertile))
-        val lastDayFertileString = dateFormat.format(selectedCalendar?.time?: getTime())
-
-        return MenstrualPeriodResume(
-            year = year,
-            month = month,
-            firstDayFertile = firstDayFertileString,
-            firstDayPeriod = firstDayPeriodString,
-            lastDayFertile = lastDayFertileString,
-            lastDayPeriod = lastDayPeriodString,
-            longCycle = cycleLong.toInt(),
-            firstDayFertileDay = firstDayFertile,
-            lastDayFertileDay = lastDayFertile,
-            longPeriod = periodLong.toInt()
-        )
-    }
 }

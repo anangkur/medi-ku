@@ -3,6 +3,7 @@ package com.anangkur.mediku.feature.mens.menstrualEdit
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
@@ -20,8 +21,10 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEditActionListener {
 
     companion object{
-        fun startActivity(context: Context){
-            context.startActivity(Intent(context, MenstrualEditActivity::class.java))
+        const val REQ_CODE_EDIT = 100
+        const val RES_CODE_EDIT = 200
+        fun startActivity(activity: AppCompatActivity, context: Context){
+            activity.startActivityForResult(Intent(context, MenstrualEditActivity::class.java), REQ_CODE_EDIT)
         }
     }
 
@@ -57,6 +60,8 @@ class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEd
             })
             successAddMenstrualRecord.observe(this@MenstrualEditActivity, Observer {
                 showToastShort(getString(R.string.message_success_save_menstrual_period))
+                setResult(RES_CODE_EDIT)
+                finish()
             })
             errorAddMenstrualRecord.observe(this@MenstrualEditActivity, Observer {
                 showSnackbarLong(it)
@@ -98,7 +103,12 @@ class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEd
             periodLong.toInt() > 12 -> { til_long_period.setErrorMessage(getString(R.string.error_period_long_more_than_12)) }
             cycleLong.toInt() < 21 -> { til_long_cycle.setErrorMessage(getString(R.string.error_cycle_long_less_than_21)) }
             cycleLong.toInt() > 100 -> { til_long_cycle.setErrorMessage(getString(R.string.error_cycle_long_more_than_100)) }
-            else -> { mViewModel.addMenstrualPeriod(mViewModel.createMenstrualPeriodResume(periodLong, cycleLong)) }
+            else -> { mViewModel.addMenstrualPeriod(createMenstrualPeriodResume(
+                selectedCalendar = mViewModel.selectedCalendar,
+                periodLong = periodLong,
+                maxCycleLong = cycleLong,
+                minCycleLong = cycleLong
+            )) }
         }
     }
 }

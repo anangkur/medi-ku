@@ -91,6 +91,7 @@
     <string name="dummy_day">Day 1</string>
     <string name="dummy_date">01 May</string>
     <string name="dummy_status_menstrual">The Period</string>
+    <string name="dummy_status_fertile">Chance to Get Pregnant</string>
     <string name="dummy_next_period">Next Period on 01 Jun</string>
     <string name="label_i_dont_remember">I don’t remember</string>
     <string name="hint_last_period">When did your last period start?</string>

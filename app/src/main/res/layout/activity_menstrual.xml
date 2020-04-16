@@ -32,7 +32,8 @@
                     android:id="@+id/tv_count_day"
                     style="@style/TextBoldBig"
                     android:text="@string/dummy_day"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:visibility="gone"/>
                 <ImageView
                     android:id="@+id/iv_status_menstrual"
                     style="@style/ImageViewWrapAll"
@@ -55,7 +56,8 @@
                     style="@style/TextBoldBig"
                     android:text="@string/dummy_next_period"
                     android:textColor="@color/white"
-                    android:layout_marginTop="@dimen/dimens_10dp"/>
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:visibility="gone"/>
                 <com.anangkur.materialloadingbutton.MaterialLoadingButton
                     android:id="@+id/btn_log_period"
                     android:layout_width="@dimen/dimens_200dp"

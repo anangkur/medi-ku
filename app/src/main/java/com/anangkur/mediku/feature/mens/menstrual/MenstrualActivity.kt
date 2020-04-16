@@ -4,18 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
-import com.anangkur.mediku.util.gone
-import com.anangkur.mediku.util.obtainViewModel
-import com.anangkur.mediku.util.showSnackbarLong
-import com.anangkur.mediku.util.visible
+import com.anangkur.mediku.feature.mens.menstrualEdit.MenstrualEditActivity
+import com.anangkur.mediku.util.*
 import com.applandeo.materialcalendarview.EventDay
 import kotlinx.android.synthetic.main.activity_menstrual.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
@@ -43,7 +43,22 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
         observeViewModel()
         setupCalendarListener()
         calendar_menstrual.setDate(Calendar.getInstance())
-        mViewModel.getMedicalRecord(calendar_menstrual.currentPageDate.time)
+        val year = SimpleDateFormat("yyyy").format(calendar_menstrual.currentPageDate.time)
+        mViewModel.getMedicalRecord(year)
+        showEventData(null)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == MenstrualEditActivity.REQ_CODE_EDIT){
+            if (resultCode == MenstrualEditActivity.RES_CODE_EDIT){
+                val year = SimpleDateFormat("yyyy").format(calendar_menstrual.currentPageDate.time)
+                mViewModel.getMedicalRecord(year)
+            }else{
+                finish()
+            }
+        }
     }
 
     private fun observeViewModel(){
@@ -52,10 +67,23 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
                 setupLoadingMenstrual(it)
             })
             successGetMenstrualRecord.observe(this@MenstrualActivity, Observer {
-                setupMenstrualMonthly(it)
+                if (activeMonth == 0){
+                    MenstrualEditActivity.startActivity(this@MenstrualActivity, this@MenstrualActivity)
+                }else{
+                    setupMenstrualMonthly(it)
+                }
             })
             errorGetMenstrualRecord.observe(this@MenstrualActivity, Observer {
                 showSnackbarLong(it)
+            })
+            progressAddMenstrualRecord.observe(this@MenstrualActivity, Observer {
+
+            })
+            successAddMenstrualRecord.observe(this@MenstrualActivity, Observer {
+
+            })
+            errorAddMenstrualRecord.observe(this@MenstrualActivity, Observer {
+
             })
         }
     }
@@ -65,37 +93,42 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
             layout_illustration_menstrual.gone()
             pb_menstrual.visible()
         }else{
-            layout_illustration_menstrual.visible()
             pb_menstrual.gone()
         }
     }
 
     private fun setupMenstrualMonthly(data: MenstrualPeriodMonthly){
-        when {
-            data.jan != null -> {showMenstrualData(data.jan!!)}
-            data.feb != null -> {showMenstrualData(data.feb!!)}
-            data.mar != null -> {showMenstrualData(data.mar!!)}
-            data.apr != null -> {showMenstrualData(data.apr!!)}
-            data.may != null -> {showMenstrualData(data.may!!)}
-            data.jun != null -> {showMenstrualData(data.jun!!)}
-            data.jul != null -> {showMenstrualData(data.jul!!)}
-            data.aug != null -> {showMenstrualData(data.aug!!)}
-            data.sep != null -> {showMenstrualData(data.sep!!)}
-            data.oct != null -> {showMenstrualData(data.oct!!)}
-            data.nov != null -> {showMenstrualData(data.nov!!)}
-            data.dec != null -> {showMenstrualData(data.dec!!)}
+        mViewModel.activeYearData = data
+        val month = SimpleDateFormat("MMMM", Locale.US).format(calendar_menstrual.currentPageDate.time)
+        when (month) {
+            Const.KEY_JAN -> showDataCalendar(mViewModel.activeYearData?.jan)
+            Const.KEY_FEB -> showDataCalendar(mViewModel.activeYearData?.feb)
+            Const.KEY_MAR -> showDataCalendar(mViewModel.activeYearData?.mar)
+            Const.KEY_APR -> showDataCalendar(mViewModel.activeYearData?.apr)
+            Const.KEY_MAY -> showDataCalendar(mViewModel.activeYearData?.may)
+            Const.KEY_JUN -> showDataCalendar(mViewModel.activeYearData?.jun)
+            Const.KEY_JUL -> showDataCalendar(mViewModel.activeYearData?.jul)
+            Const.KEY_AUG -> showDataCalendar(mViewModel.activeYearData?.aug)
+            Const.KEY_SEP -> showDataCalendar(mViewModel.activeYearData?.sep)
+            Const.KEY_OCT -> showDataCalendar(mViewModel.activeYearData?.oct)
+            Const.KEY_NOV -> showDataCalendar(mViewModel.activeYearData?.nov)
+            Const.KEY_DEC -> showDataCalendar(mViewModel.activeYearData?.dec)
         }
     }
 
-    private fun showMenstrualData(data: MenstrualPeriodResume){
-        val calendarMenstrual = ArrayList<EventDay>()
+    private fun showDataCalendar(data: MenstrualPeriodResume?){
+        if (data != null){
+            val calendarMenstrual = ArrayList<EventDay>()
+            calendarMenstrual.addAll(showMenstrualDataCalendar(data))
+            calendarMenstrual.addAll(showFertileDataCalendar(data))
+            calendar_menstrual.setEvents(calendarMenstrual)
+        }
+    }
 
+    private fun showMenstrualDataCalendar(data: MenstrualPeriodResume): ArrayList<EventDay> {
+        val listEvent = ArrayList<EventDay>()
         var firstMenstrualDate: LocalDate = LocalDate.parse(data.firstDayPeriod)
         val lastMenstrualDate: LocalDate = LocalDate.parse(data.lastDayPeriod)
-
-        var firstFertileDate: LocalDate = LocalDate.parse(data.firstDayFertile)
-        val lastDayFertileDate: LocalDate = LocalDate.parse(data.lastDayFertile)!!
-
         while (!firstMenstrualDate.isAfter(lastMenstrualDate)){
             val calendar = Calendar.getInstance()
             calendar.set(
@@ -103,10 +136,16 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
                 firstMenstrualDate.monthValue-1,
                 firstMenstrualDate.dayOfMonth
             )
-            calendarMenstrual.add(EventDay(calendar, R.drawable.ic_blood))
+            listEvent.add(EventDay(calendar, R.drawable.ic_blood))
             firstMenstrualDate = firstMenstrualDate.plusDays(1L)
         }
+        return listEvent
+    }
 
+    private fun showFertileDataCalendar(data: MenstrualPeriodResume): ArrayList<EventDay> {
+        val listEvent = ArrayList<EventDay>()
+        var firstFertileDate: LocalDate = LocalDate.parse(data.firstDayFertile)
+        val lastDayFertileDate: LocalDate = LocalDate.parse(data.lastDayFertile)!!
         while (!firstFertileDate.isAfter(lastDayFertileDate)){
             val calendar = Calendar.getInstance()
             calendar.set(
@@ -114,19 +153,87 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
                 firstFertileDate.monthValue-1,
                 firstFertileDate.dayOfMonth
             )
-            calendarMenstrual.add(EventDay(calendar, R.drawable.ic_baby))
+            listEvent.add(EventDay(calendar, R.drawable.ic_baby))
             firstFertileDate = firstFertileDate.plusDays(1L)
         }
-
-        calendar_menstrual.setEvents(calendarMenstrual)
+        return listEvent
     }
 
     private fun setupCalendarListener(){
-        calendar_menstrual.setOnForwardPageChangeListener {
-            mViewModel.getMedicalRecord(calendar_menstrual.currentPageDate.time)
+        calendar_menstrual.apply {
+            setOnForwardPageChangeListener {
+                onChangeDate(currentPageDate)
+            }
+            setOnPreviousPageChangeListener {
+                onChangeDate(currentPageDate)
+            }
+            setOnDayClickListener {
+                showEventData(it)
+            }
         }
-        calendar_menstrual.setOnPreviousPageChangeListener {
-            mViewModel.getMedicalRecord(calendar_menstrual.currentPageDate.time)
+    }
+
+    private fun onChangeDate(currentPageDate: Calendar){
+        val currentMonth = SimpleDateFormat("MMMM", Locale.US).format(currentPageDate.time)
+        val menstrualResumeDataCurrentMonth = mViewModel.getMenstrualResumeDataCurrentMonth(currentMonth)
+        if (menstrualResumeDataCurrentMonth != null){
+            val dateFormat = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT_NO_TIME, Locale.US)
+            val firstDayMenstrual: Date = dateFormat.parse(menstrualResumeDataCurrentMonth.firstDayPeriod)
+            val firstDayMenstrualCalendar = Calendar.getInstance()
+            firstDayMenstrualCalendar.time = firstDayMenstrual
+            firstDayMenstrualCalendar.add(Calendar.DAY_OF_MONTH, menstrualResumeDataCurrentMonth.longCycle)
+            val menstrualPeriodResume = createMenstrualPeriodResume(
+                firstDayMenstrualCalendar,
+                mViewModel.periodLong.toString(),
+                mViewModel.maxCycleLong.toString(),
+                mViewModel.minCycleLong.toString()
+            )
+            showDataCalendar(menstrualResumeDataCurrentMonth)
+            mViewModel.addMenstrualPeriod(menstrualPeriodResume, firstDayMenstrualCalendar.time)
         }
+        showEventData(null)
+        val year = SimpleDateFormat("yyyy").format(currentPageDate.time)
+        if (year != mViewModel.activeYear){
+            mViewModel.getMedicalRecord(year)
+        }
+    }
+
+    private fun showEventData(eventDay: EventDay?){
+        if (eventDay != null){
+            layout_illustration_menstrual.visible()
+            when (eventDay.imageDrawable){
+                R.drawable.ic_baby -> showFertileData(eventDay.calendar.time)
+                R.drawable.ic_blood -> showMenstrualData(eventDay.calendar.time)
+                else -> showNormalData(eventDay.calendar.time)
+            }
+        }else{
+            layout_illustration_menstrual.gone()
+        }
+    }
+
+    private fun showFertileData(date: Date){
+        layout_illustration_menstrual.background = ContextCompat.getDrawable(this, R.drawable.rect_gradient_green)
+        iv_status_menstrual.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baby))
+        tv_date.setTextColor(getColor(R.color.white))
+        tv_date.text = SimpleDateFormat("MMMM dd").format(date)
+        tv_label_menstrual.visible()
+        tv_label_menstrual.text = getString(R.string.dummy_status_fertile)
+    }
+
+    private fun showMenstrualData(date: Date){
+        layout_illustration_menstrual.background = ContextCompat.getDrawable(this, R.drawable.rect_gradient_red)
+        iv_status_menstrual.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_blood))
+        tv_date.setTextColor(getColor(R.color.white))
+        tv_date.text = SimpleDateFormat("MMMM dd").format(date)
+        tv_label_menstrual.visible()
+        tv_label_menstrual.text = getString(R.string.dummy_status_menstrual)
+    }
+
+    private fun showNormalData(date: Date){
+        layout_illustration_menstrual.background = ContextCompat.getDrawable(this, R.color.white)
+        iv_status_menstrual.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_doctor))
+        tv_date.setTextColor(getColor(R.color.black))
+        tv_date.text = SimpleDateFormat("MMMM dd").format(date)
+        tv_label_menstrual.gone()
     }
 }
