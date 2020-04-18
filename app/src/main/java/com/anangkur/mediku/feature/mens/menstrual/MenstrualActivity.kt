@@ -151,14 +151,14 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
         val listEvent = ArrayList<EventDay>()
         var firstMenstrualDate: LocalDate = LocalDate.parse(data.firstDayPeriod)
         val lastMenstrualDate: LocalDate = LocalDate.parse(data.lastDayPeriod)
-        while (!firstMenstrualDate.isAfter(lastMenstrualDate)){
+        while (firstMenstrualDate.isBefore(lastMenstrualDate)){
             val calendar = Calendar.getInstance()
             calendar.set(
                 firstMenstrualDate.year,
                 firstMenstrualDate.monthValue-1,
                 firstMenstrualDate.dayOfMonth
             )
-            listEvent.add(EventDay(calendar, R.drawable.ic_blood))
+            listEvent.add(EventDay(calendar, R.drawable.ic_blood_event))
             firstMenstrualDate = firstMenstrualDate.plusDays(1L)
         }
         return listEvent
@@ -168,14 +168,14 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
         val listEvent = ArrayList<EventDay>()
         var firstFertileDate: LocalDate = LocalDate.parse(data.firstDayFertile)
         val lastDayFertileDate: LocalDate = LocalDate.parse(data.lastDayFertile)!!
-        while (!firstFertileDate.isAfter(lastDayFertileDate)){
+        while (firstFertileDate.isBefore(lastDayFertileDate)){
             val calendar = Calendar.getInstance()
             calendar.set(
                 firstFertileDate.year,
                 firstFertileDate.monthValue-1,
                 firstFertileDate.dayOfMonth
             )
-            listEvent.add(EventDay(calendar, R.drawable.ic_baby))
+            listEvent.add(EventDay(calendar, R.drawable.ic_baby_event))
             firstFertileDate = firstFertileDate.plusDays(1L)
         }
         return listEvent
@@ -232,8 +232,8 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
         if (eventDay != null){
             layout_illustration_menstrual.visible()
             when (eventDay.imageDrawable){
-                R.drawable.ic_baby -> showFertileData(eventDay.calendar.time)
-                R.drawable.ic_blood -> showMenstrualData(eventDay.calendar.time)
+                R.drawable.ic_baby_event -> showFertileData(eventDay.calendar.time)
+                R.drawable.ic_blood_event -> showMenstrualData(eventDay.calendar.time)
                 else -> showNormalData(eventDay.calendar.time)
             }
         }else{
