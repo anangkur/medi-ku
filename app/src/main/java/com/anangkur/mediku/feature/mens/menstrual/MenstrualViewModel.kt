@@ -36,6 +36,8 @@ class MenstrualViewModel(private val repository: Repository): ViewModel() {
                 progressGetMenstrualRecord.postValue(true)
                 val user = repository.remoteRepository.firebaseAuth.currentUser
                 activeYear = year
+                periodLong = 0
+                activeMonth = 0
                 repository.remoteRepository.firestore
                     .collection(Const.COLLECTION_MENSTRUAL_PERIOD)
                     .document(user?.uid?:"")

@@ -123,26 +123,34 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
     private fun setupMenstrualMonthly(data: MenstrualPeriodMonthly){
         mViewModel.activeYearData = data
         when (SimpleDateFormat("MMMM", Locale.US).format(calendar_menstrual.currentPageDate.time)) {
-            Const.KEY_JAN -> showDataCalendar(mViewModel.activeYearData?.jan)
-            Const.KEY_FEB -> showDataCalendar(mViewModel.activeYearData?.feb)
-            Const.KEY_MAR -> showDataCalendar(mViewModel.activeYearData?.mar)
-            Const.KEY_APR -> showDataCalendar(mViewModel.activeYearData?.apr)
-            Const.KEY_MAY -> showDataCalendar(mViewModel.activeYearData?.may)
-            Const.KEY_JUN -> showDataCalendar(mViewModel.activeYearData?.jun)
-            Const.KEY_JUL -> showDataCalendar(mViewModel.activeYearData?.jul)
-            Const.KEY_AUG -> showDataCalendar(mViewModel.activeYearData?.aug)
-            Const.KEY_SEP -> showDataCalendar(mViewModel.activeYearData?.sep)
-            Const.KEY_OCT -> showDataCalendar(mViewModel.activeYearData?.oct)
-            Const.KEY_NOV -> showDataCalendar(mViewModel.activeYearData?.nov)
-            Const.KEY_DEC -> showDataCalendar(mViewModel.activeYearData?.dec)
+            Const.KEY_JAN -> showDataCalendar(mViewModel.activeYearData?.jan, mViewModel.activeYearData?.feb, null)
+            Const.KEY_FEB -> showDataCalendar(mViewModel.activeYearData?.feb, mViewModel.activeYearData?.mar, mViewModel.activeYearData?.jan)
+            Const.KEY_MAR -> showDataCalendar(mViewModel.activeYearData?.mar, mViewModel.activeYearData?.apr, mViewModel.activeYearData?.feb)
+            Const.KEY_APR -> showDataCalendar(mViewModel.activeYearData?.apr, mViewModel.activeYearData?.may, mViewModel.activeYearData?.mar)
+            Const.KEY_MAY -> showDataCalendar(mViewModel.activeYearData?.may, mViewModel.activeYearData?.jun, mViewModel.activeYearData?.apr)
+            Const.KEY_JUN -> showDataCalendar(mViewModel.activeYearData?.jun, mViewModel.activeYearData?.jul, mViewModel.activeYearData?.may)
+            Const.KEY_JUL -> showDataCalendar(mViewModel.activeYearData?.jul, mViewModel.activeYearData?.aug, mViewModel.activeYearData?.jun)
+            Const.KEY_AUG -> showDataCalendar(mViewModel.activeYearData?.aug, mViewModel.activeYearData?.sep, mViewModel.activeYearData?.jul)
+            Const.KEY_SEP -> showDataCalendar(mViewModel.activeYearData?.sep, mViewModel.activeYearData?.oct, mViewModel.activeYearData?.aug)
+            Const.KEY_OCT -> showDataCalendar(mViewModel.activeYearData?.oct, mViewModel.activeYearData?.nov, mViewModel.activeYearData?.sep)
+            Const.KEY_NOV -> showDataCalendar(mViewModel.activeYearData?.nov, mViewModel.activeYearData?.dec, mViewModel.activeYearData?.oct)
+            Const.KEY_DEC -> showDataCalendar(mViewModel.activeYearData?.dec, null, mViewModel.activeYearData?.nov)
         }
     }
 
-    private fun showDataCalendar(data: MenstrualPeriodResume?){
-        if (data != null){
+    private fun showDataCalendar(current: MenstrualPeriodResume?, next: MenstrualPeriodResume?, previous: MenstrualPeriodResume?){
+        if (current != null){
             val calendarMenstrual = ArrayList<EventDay>()
-            calendarMenstrual.addAll(showMenstrualDataCalendar(data))
-            calendarMenstrual.addAll(showFertileDataCalendar(data))
+            calendarMenstrual.addAll(showMenstrualDataCalendar(current))
+            calendarMenstrual.addAll(showFertileDataCalendar(current))
+            if (next != null){
+                calendarMenstrual.addAll(showMenstrualDataCalendar(next))
+                calendarMenstrual.addAll(showFertileDataCalendar(next))
+            }
+            if (previous != null){
+                calendarMenstrual.addAll(showMenstrualDataCalendar(previous))
+                calendarMenstrual.addAll(showFertileDataCalendar(previous))
+            }
             calendar_menstrual.setEvents(calendarMenstrual)
         }
     }
@@ -196,11 +204,17 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
     }
 
     private fun onChangeDate(currentPageDate: Calendar){
+        val currentYear = SimpleDateFormat("yyyy").format(currentPageDate.time)
         val currentMonth = SimpleDateFormat("MMMM", Locale.US).format(currentPageDate.time)
         currentPageDate.add(Calendar.MONTH, 1)
         val nextMonth = SimpleDateFormat("MMMM", Locale.US).format(currentPageDate.time)
+        currentPageDate.add(Calendar.MONTH, -2)
+        val previousMonth = SimpleDateFormat("MMMM", Locale.US).format(currentPageDate.time)
+
         val menstrualResumeDataCurrentMonth = mViewModel.getMenstrualResumeDataCurrentMonth(currentMonth)
         val menstrualResumeDataNextMonth = mViewModel.getMenstrualResumeDataCurrentMonth(nextMonth)
+        val menstrualResumeDataPreviousMonth = mViewModel.getMenstrualResumeDataCurrentMonth(previousMonth)
+
         if (menstrualResumeDataCurrentMonth != null){
             val dateFormat = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT_NO_TIME, Locale.US)
             val firstDayMenstrual: Date = dateFormat.parse(menstrualResumeDataCurrentMonth.firstDayPeriod)!!
@@ -214,7 +228,9 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
                 mViewModel.minCycleLong.toString(),
                 menstrualResumeDataNextMonth?.isEdit?:false
             )
-            showDataCalendar(menstrualResumeDataCurrentMonth)
+
+            showDataCalendar(menstrualResumeDataCurrentMonth, menstrualResumeDataNextMonth, menstrualResumeDataPreviousMonth)
+
             if (menstrualResumeDataNextMonth == null) {
                 mViewModel.addMenstrualPeriod(menstrualPeriodResume, firstDayMenstrualCalendar.time)
             }else if (!menstrualPeriodResume.isEdit){
@@ -222,9 +238,8 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
             }
         }
         showEventData(null)
-        val year = SimpleDateFormat("yyyy").format(currentPageDate.time)
-        if (year != mViewModel.activeYear){
-            mViewModel.getMedicalRecord(year)
+        if (currentYear != mViewModel.activeYear){
+            mViewModel.getMedicalRecord(currentYear)
         }
     }
 
