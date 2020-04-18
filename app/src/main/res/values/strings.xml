@@ -110,5 +110,7 @@
     <string name="error_cycle_long_less_than_21">Cycle long must not less than 21</string>
     <string name="error_cycle_long_more_than_100">Cycle long must not more than 100</string>
     <string name="toolbar_menstrual_calendar">Menstrual Calendar</string>
+    <string name="menu_edit_menstrual">Edit Data</string>
+    <string name="error_edit_after_today">You can only edit event before current month (%1$s)</string>
     <!--end of image picker dialog-->
 </resources>

@@ -16,6 +16,9 @@ class MenstrualEditViewModel(private val repository: Repository): ViewModel() {
 
     var selectedCalendar: Calendar? = null
 
+    var menstrualIntentLive = MutableLiveData<MenstrualPeriodResume>()
+    var isEdit = false
+
     val progressAddMenstrualRecord = MutableLiveData<Boolean>()
     val successAddMenstrualRecord = MutableLiveData<MenstrualPeriodResume>()
     val errorAddMenstrualRecord = MutableLiveData<String>()

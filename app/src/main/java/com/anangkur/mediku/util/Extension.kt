@@ -761,7 +761,13 @@ fun List<Covid19Data>.createListCovid19DataByCountry(
     return this
 }
 
-fun createMenstrualPeriodResume(selectedCalendar: Calendar?, periodLong: String, maxCycleLong: String, minCycleLong: String): MenstrualPeriodResume {
+fun createMenstrualPeriodResume(
+    selectedCalendar: Calendar?,
+    periodLong: String,
+    maxCycleLong: String,
+    minCycleLong: String,
+    isEdit: Boolean
+): MenstrualPeriodResume {
 
     val cycleLong: Int = (maxCycleLong.toInt() + minCycleLong.toInt()) / 2
 
@@ -794,6 +800,7 @@ fun createMenstrualPeriodResume(selectedCalendar: Calendar?, periodLong: String,
         longCycle = cycleLong,
         firstDayFertileDay = firstDayFertile,
         lastDayFertileDay = lastDayFertile,
-        longPeriod = periodLong.toInt()
+        longPeriod = periodLong.toInt(),
+        isEdit = isEdit
     )
 }

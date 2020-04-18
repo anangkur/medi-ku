@@ -142,7 +142,7 @@ class MenstrualViewModel(private val repository: Repository): ViewModel() {
         }
     }
 
-    fun addMenstrualResumeDataMonth(month: String, data: MenstrualPeriodResume) {
+    private fun addMenstrualResumeDataMonth(month: String, data: MenstrualPeriodResume) {
         when (month){
             Const.KEY_JAN -> activeYearData?.jan = data
             Const.KEY_FEB -> activeYearData?.feb = data

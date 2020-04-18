@@ -1,5 +1,9 @@
 package com.anangkur.mediku.data.model.menstrual
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class MenstrualPeriodResume(
     val year: String = "",
     val month: String = "",
@@ -10,5 +14,6 @@ data class MenstrualPeriodResume(
     val firstDayFertileDay: Int = 0,
     val lastDayFertileDay: Int = 0,
     val longCycle: Int = 0,
-    val longPeriod: Int = 0
-)
+    val longPeriod: Int = 0,
+    val isEdit: Boolean = false
+): Parcelable

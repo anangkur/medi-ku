@@ -3,6 +3,8 @@ package com.anangkur.mediku.feature.mens.menstrual
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -61,6 +63,27 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_menstrual, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.menu_edit_menstrual -> {
+                if (calendar_menstrual.currentPageDate.time.before(getTime())) {
+                    val currentMonth = SimpleDateFormat("MMMM", Locale.US).format(calendar_menstrual.currentPageDate.time)
+                    MenstrualEditActivity.startActivity(this, this, mViewModel.getMenstrualResumeDataCurrentMonth(currentMonth))
+                }else{
+                    val currentMonth = SimpleDateFormat("MMMM yyyy", Locale.US).format(getTime())
+                    showSnackbarLong(getString(R.string.error_edit_after_today, currentMonth))
+                }
+                true
+            }
+            else -> false
+        }
+    }
+
     private fun observeViewModel(){
         mViewModel.apply {
             progressGetMenstrualRecord.observe(this@MenstrualActivity, Observer {
@@ -99,8 +122,7 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
 
     private fun setupMenstrualMonthly(data: MenstrualPeriodMonthly){
         mViewModel.activeYearData = data
-        val month = SimpleDateFormat("MMMM", Locale.US).format(calendar_menstrual.currentPageDate.time)
-        when (month) {
+        when (SimpleDateFormat("MMMM", Locale.US).format(calendar_menstrual.currentPageDate.time)) {
             Const.KEY_JAN -> showDataCalendar(mViewModel.activeYearData?.jan)
             Const.KEY_FEB -> showDataCalendar(mViewModel.activeYearData?.feb)
             Const.KEY_MAR -> showDataCalendar(mViewModel.activeYearData?.mar)
@@ -175,10 +197,13 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
 
     private fun onChangeDate(currentPageDate: Calendar){
         val currentMonth = SimpleDateFormat("MMMM", Locale.US).format(currentPageDate.time)
+        currentPageDate.add(Calendar.MONTH, 1)
+        val nextMonth = SimpleDateFormat("MMMM", Locale.US).format(currentPageDate.time)
         val menstrualResumeDataCurrentMonth = mViewModel.getMenstrualResumeDataCurrentMonth(currentMonth)
+        val menstrualResumeDataNextMonth = mViewModel.getMenstrualResumeDataCurrentMonth(nextMonth)
         if (menstrualResumeDataCurrentMonth != null){
             val dateFormat = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT_NO_TIME, Locale.US)
-            val firstDayMenstrual: Date = dateFormat.parse(menstrualResumeDataCurrentMonth.firstDayPeriod)
+            val firstDayMenstrual: Date = dateFormat.parse(menstrualResumeDataCurrentMonth.firstDayPeriod)!!
             val firstDayMenstrualCalendar = Calendar.getInstance()
             firstDayMenstrualCalendar.time = firstDayMenstrual
             firstDayMenstrualCalendar.add(Calendar.DAY_OF_MONTH, menstrualResumeDataCurrentMonth.longCycle)
@@ -186,10 +211,15 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
                 firstDayMenstrualCalendar,
                 mViewModel.periodLong.toString(),
                 mViewModel.maxCycleLong.toString(),
-                mViewModel.minCycleLong.toString()
+                mViewModel.minCycleLong.toString(),
+                menstrualResumeDataNextMonth?.isEdit?:false
             )
             showDataCalendar(menstrualResumeDataCurrentMonth)
-            mViewModel.addMenstrualPeriod(menstrualPeriodResume, firstDayMenstrualCalendar.time)
+            if (menstrualResumeDataNextMonth == null) {
+                mViewModel.addMenstrualPeriod(menstrualPeriodResume, firstDayMenstrualCalendar.time)
+            }else if (!menstrualPeriodResume.isEdit){
+                mViewModel.addMenstrualPeriod(menstrualPeriodResume, firstDayMenstrualCalendar.time)
+            }
         }
         showEventData(null)
         val year = SimpleDateFormat("yyyy").format(currentPageDate.time)
