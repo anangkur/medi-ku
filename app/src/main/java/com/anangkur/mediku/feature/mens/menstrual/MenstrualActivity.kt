@@ -18,7 +18,6 @@ import com.applandeo.materialcalendarview.EventDay
 import kotlinx.android.synthetic.main.activity_menstrual.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -157,34 +156,34 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
 
     private fun showMenstrualDataCalendar(data: MenstrualPeriodResume): ArrayList<EventDay> {
         val listEvent = ArrayList<EventDay>()
-        var firstMenstrualDate: LocalDate = LocalDate.parse(data.firstDayPeriod)
-        val lastMenstrualDate: LocalDate = LocalDate.parse(data.lastDayPeriod)
-        while (firstMenstrualDate.isBefore(lastMenstrualDate)){
-            val calendar = Calendar.getInstance()
-            calendar.set(
-                firstMenstrualDate.year,
-                firstMenstrualDate.monthValue-1,
-                firstMenstrualDate.dayOfMonth
-            )
-            listEvent.add(EventDay(calendar, R.drawable.ic_blood_event))
-            firstMenstrualDate = firstMenstrualDate.plusDays(1L)
+        val firstMenstrualCalendar = Calendar.getInstance()
+        val lastMenstrualCalendar = Calendar.getInstance()
+        val firstMenstrualDate: Date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT_NO_TIME, Locale.US).parse(data.firstDayPeriod)!!
+        val lastMenstrualDate: Date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT_NO_TIME, Locale.US).parse(data.lastDayPeriod)!!
+        firstMenstrualCalendar.time = firstMenstrualDate
+        lastMenstrualCalendar.time = lastMenstrualDate
+        while (firstMenstrualCalendar.before(lastMenstrualCalendar)){
+            val eventCalendar = Calendar.getInstance()
+            eventCalendar.time = firstMenstrualCalendar.time
+            listEvent.add(EventDay(eventCalendar, R.drawable.ic_blood_event))
+            firstMenstrualCalendar.add(Calendar.DAY_OF_MONTH, 1)
         }
         return listEvent
     }
 
     private fun showFertileDataCalendar(data: MenstrualPeriodResume): ArrayList<EventDay> {
         val listEvent = ArrayList<EventDay>()
-        var firstFertileDate: LocalDate = LocalDate.parse(data.firstDayFertile)
-        val lastDayFertileDate: LocalDate = LocalDate.parse(data.lastDayFertile)!!
-        while (firstFertileDate.isBefore(lastDayFertileDate)){
-            val calendar = Calendar.getInstance()
-            calendar.set(
-                firstFertileDate.year,
-                firstFertileDate.monthValue-1,
-                firstFertileDate.dayOfMonth
-            )
-            listEvent.add(EventDay(calendar, R.drawable.ic_baby_event))
-            firstFertileDate = firstFertileDate.plusDays(1L)
+        val firstFertileCalendar = Calendar.getInstance()
+        val lastFertileCalendar = Calendar.getInstance()
+        val firstFertileDate: Date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT_NO_TIME, Locale.US).parse(data.firstDayFertile)!!
+        val lastFertileDate: Date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT_NO_TIME, Locale.US).parse(data.lastDayFertile)!!
+        firstFertileCalendar.time = firstFertileDate
+        lastFertileCalendar.time = lastFertileDate
+        while (firstFertileCalendar.before(lastFertileCalendar)){
+            val eventCalendar = Calendar.getInstance()
+            eventCalendar.time = firstFertileCalendar.time
+            listEvent.add(EventDay(eventCalendar, R.drawable.ic_baby_event))
+            firstFertileCalendar.add(Calendar.DAY_OF_MONTH, 1)
         }
         return listEvent
     }
