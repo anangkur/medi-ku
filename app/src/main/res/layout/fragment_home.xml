@@ -38,7 +38,9 @@
 
                 <androidx.cardview.widget.CardView
                     style="@style/CardDefault"
-                    android:layout_margin="@dimen/dimens_20dp">
+                    android:layout_marginStart="@dimen/dimens_20dp"
+                    android:layout_marginEnd="@dimen/dimens_20dp"
+                    android:layout_marginBottom="@dimen/dimens_20dp">
                     <androidx.constraintlayout.widget.ConstraintLayout
                         style="@style/ConstraintWrapHeight">
                         <TextView
