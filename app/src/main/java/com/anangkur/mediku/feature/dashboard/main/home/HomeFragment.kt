@@ -15,9 +15,7 @@ import com.anangkur.mediku.feature.dashboard.main.home.adapter.MedicalRecordAdap
 import com.anangkur.mediku.feature.dashboard.main.home.adapter.NewsAdapter
 import com.anangkur.mediku.feature.mens.menstrual.MenstrualActivity
 import com.anangkur.mediku.feature.originalNews.OriginalNewsActivity
-import com.anangkur.mediku.util.obtainViewModel
-import com.anangkur.mediku.util.setupRecyclerViewLinear
-import com.anangkur.mediku.util.showSnackbarLong
+import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
@@ -44,6 +42,7 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
             mViewModel.getUserProfile()
             mViewModel.getNews()
             mViewModel.getMedicalRecord()
+            swipe_home.isRefreshing = false
         }
         card_covid.setOnClickListener { this.onClickCovid19() }
         layout_menstrual_period.setOnClickListener { this.onClickMenstrualPeriod() }
@@ -59,13 +58,17 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
     private fun observeViewModel(){
         mViewModel.apply {
             progressGetMedicalRecord.observe(this@HomeFragment, Observer {
-                swipe_home.isRefreshing = it
+                setupLoadingMedicalRecord(it)
             })
             successGetMedicalRecord.observe(this@HomeFragment, Observer {
+                recycler_medical_record.visible()
+                tv_error_medical_record.gone()
                 medicalRecordAdapter.setRecyclerData(it)
             })
             errorGetMedicalRecord.observe(this@HomeFragment, Observer {
-                requireActivity().showSnackbarLong(it)
+                recycler_medical_record.gone()
+                tv_error_medical_record.visible()
+                tv_error_medical_record.text = it
             })
             progressGetProfile.observe(this@HomeFragment, Observer {
 
@@ -78,14 +81,24 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
             })
             healthNewsLive.observe(this@HomeFragment, Observer {
                 when (it.status){
-                    BaseResult.Status.LOADING -> { swipe_home.isRefreshing = true }
+                    BaseResult.Status.LOADING -> { setupLoadingLatestNews(true) }
                     BaseResult.Status.SUCCESS -> {
-                        swipe_home.isRefreshing = false
-                        newsAdapter.setRecyclerData(it.data?: listOf())
+                        setupLoadingLatestNews(false)
+                        if (it.data.isNullOrEmpty()){
+                            recycler_news.gone()
+                            tv_error_latest_news.visible()
+                            tv_error_latest_news.text = "There's something happen with our data."
+                        }else{
+                            recycler_news.visible()
+                            tv_error_latest_news.gone()
+                            newsAdapter.setRecyclerData(it.data)
+                        }
                     }
                     BaseResult.Status.ERROR -> {
-                        swipe_home.isRefreshing = false
-                        requireActivity().showSnackbarLong(it.message?:"")
+                        setupLoadingLatestNews(false)
+                        recycler_news.gone()
+                        tv_error_latest_news.visible()
+                        tv_error_latest_news.text = it.message
                     }
                 }
             })
@@ -105,6 +118,26 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
         recycler_news.apply {
             adapter = newsAdapter
             setupRecyclerViewLinear(requireContext(), RecyclerView.HORIZONTAL)
+        }
+    }
+
+    private fun setupLoadingMedicalRecord(isLoading: Boolean){
+        if (isLoading){
+            recycler_medical_record.gone()
+            tv_error_medical_record.gone()
+            pb_medical_record.visible()
+        }else{
+            pb_medical_record.gone()
+        }
+    }
+
+    private fun setupLoadingLatestNews(isLoading: Boolean){
+        if ((isLoading)){
+            recycler_news.gone()
+            tv_error_latest_news.gone()
+            pb_latest_news.visible()
+        }else{
+            pb_latest_news.gone()
         }
     }
 

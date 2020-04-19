@@ -110,31 +110,69 @@
                     android:text="@string/label_medical_records"
                     android:layout_marginStart="@dimen/dimens_20dp"
                     android:layout_marginTop="@dimen/dimens_20dp"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_medical_record"
-                    style="@style/RecyclerWrapHeight"
-                    android:clipToPadding="false"
-                    android:layout_marginTop="@dimen/dimens_20dp"
-                    android:paddingEnd="@dimen/dimens_20dp"
-                    tools:listitem="@layout/item_medical_record"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_180dp">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_medical_record"
+                        style="@style/RecyclerWrapHeight"
+                        android:clipToPadding="false"
+                        android:layout_marginTop="@dimen/dimens_20dp"
+                        android:paddingEnd="@dimen/dimens_20dp"
+                        tools:listitem="@layout/item_medical_record"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:visibility="visible"/>
+                    <ProgressBar
+                        android:id="@+id/pb_medical_record"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/tv_error_medical_record"
+                        style="@style/TextBoldNormal"
+                        android:text="@string/error_medical_record_empty"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"/>
+                </RelativeLayout>
 
                 <TextView
                     style="@style/TextBoldBig"
                     android:text="@string/label_latest_news"
                     android:layout_marginStart="@dimen/dimens_20dp"
                     android:layout_marginTop="@dimen/dimens_20dp"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_news"
-                    style="@style/RecyclerWrapHeight"
-                    android:paddingEnd="@dimen/dimens_20dp"
-                    android:clipToPadding="false"
-                    android:layout_marginTop="@dimen/dimens_14dp"
-                    android:layout_marginBottom="@dimen/dimens_40dp"
-                    tools:listitem="@layout/item_news"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="horizontal"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_news"
+                        style="@style/RecyclerWrapHeight"
+                        android:paddingEnd="@dimen/dimens_20dp"
+                        android:clipToPadding="false"
+                        android:layout_marginTop="@dimen/dimens_14dp"
+                        android:layout_marginBottom="@dimen/dimens_40dp"
+                        tools:listitem="@layout/item_news"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        android:visibility="visible"/>
+                    <ProgressBar
+                        android:id="@+id/pb_latest_news"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/tv_error_latest_news"
+                        style="@style/TextBoldNormal"
+                        android:text="@string/error_medical_record_empty"
+                        android:layout_centerInParent="true"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:visibility="gone"/>
+                </RelativeLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -112,5 +112,6 @@
     <string name="toolbar_menstrual_calendar">Menstrual Calendar</string>
     <string name="menu_edit_menstrual">Edit</string>
     <string name="error_edit_after_today">You can only edit event before current month (%1$s)</string>
+    <string name="error_medical_record_empty">You don\'t have any medical record.</string>
     <!--end of image picker dialog-->
 </resources>
