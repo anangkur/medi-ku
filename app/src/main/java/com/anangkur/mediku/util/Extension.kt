@@ -32,6 +32,7 @@ import com.anangkur.mediku.base.BaseSpinnerListener
 import com.anangkur.mediku.data.ViewModelFactory
 import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
 import com.anangkur.mediku.data.model.covid19.Covid19Data
+import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
@@ -758,4 +759,48 @@ fun List<Covid19Data>.createListCovid19DataByCountry(
         }
     }
     return this
+}
+
+fun createMenstrualPeriodResume(
+    selectedCalendar: Calendar?,
+    periodLong: String,
+    maxCycleLong: String,
+    minCycleLong: String,
+    isEdit: Boolean
+): MenstrualPeriodResume {
+
+    val cycleLong: Int = (maxCycleLong.toInt() + minCycleLong.toInt()) / 2
+
+    val dateFormat = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT_NO_TIME, Locale.US)
+
+    val month = SimpleDateFormat("MMMM", Locale.US).format(selectedCalendar?.time?: getTime())
+    val year = SimpleDateFormat("yyyy", Locale.US).format(selectedCalendar?.time?: getTime())
+
+    val firstDayFertile = minCycleLong.toInt() - 18
+    val lastDayFertile = maxCycleLong.toInt() - 11
+
+    val firstDayPeriodString = dateFormat.format(selectedCalendar?.time?: getTime())
+
+    selectedCalendar?.add(Calendar.DAY_OF_MONTH, periodLong.toInt())
+    val lastDayPeriodString = dateFormat.format(selectedCalendar?.time?: getTime())
+
+    selectedCalendar?.add(Calendar.DAY_OF_MONTH, (firstDayFertile - periodLong.toInt()))
+    val firstDayFertileString = dateFormat.format(selectedCalendar?.time?: getTime())
+
+    selectedCalendar?.add(Calendar.DAY_OF_MONTH, (lastDayFertile - firstDayFertile))
+    val lastDayFertileString = dateFormat.format(selectedCalendar?.time?: getTime())
+
+    return MenstrualPeriodResume(
+        year = year,
+        month = month,
+        firstDayFertile = firstDayFertileString,
+        firstDayPeriod = firstDayPeriodString,
+        lastDayFertile = lastDayFertileString,
+        lastDayPeriod = lastDayPeriodString,
+        longCycle = cycleLong,
+        firstDayFertileDay = firstDayFertile,
+        lastDayFertileDay = lastDayFertile,
+        longPeriod = periodLong.toInt(),
+        isEdit = isEdit
+    )
 }

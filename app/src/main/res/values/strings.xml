@@ -75,7 +75,7 @@
     <string name="label_your_country">Your Country</string>
     <string name="label_top_country">Top Country</string>
     <string name="label_other_country">Other Country</string>
-    <string name="urlImageCountryFlag">https://www.countryflags.io/%1$s/flat/64.png</string>
+    <string name="urlImageCountryFlag">https://www.countryflags.io/%1$s/flat/24.png</string>
     <string name="label_data_shown">Data shown are the data as of %1$s</string>
     <string name="btn_covid">See live statistics of Covid-19 cases all over the world</string>
     <string name="toolbar_covid_19">Covid-19</string>
@@ -91,6 +91,7 @@
     <string name="dummy_day">Day 1</string>
     <string name="dummy_date">01 May</string>
     <string name="dummy_status_menstrual">The Period</string>
+    <string name="dummy_status_fertile">Chance to Get Pregnant</string>
     <string name="dummy_next_period">Next Period on 01 Jun</string>
     <string name="label_i_dont_remember">I don’t remember</string>
     <string name="hint_last_period">When did your last period start?</string>
@@ -109,5 +110,12 @@
     <string name="error_cycle_long_less_than_21">Cycle long must not less than 21</string>
     <string name="error_cycle_long_more_than_100">Cycle long must not more than 100</string>
     <string name="toolbar_menstrual_calendar">Menstrual Calendar</string>
+    <string name="menu_edit_menstrual">Edit</string>
+    <string name="error_edit_after_today">You can only edit event before current month (%1$s)</string>
+    <string name="error_medical_record_empty">You don\'t have any medical record.</string>
+    <string name="message_new_version_available">New version available</string>
+    <string name="message_please_update">Please, update app to new version to continue reposting.</string>
+    <string name="btn_update">Update</string>
+    <string name="btn_no_thanks">No, thanks</string>
     <!--end of image picker dialog-->
 </resources>

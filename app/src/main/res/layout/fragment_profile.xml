@@ -80,13 +80,27 @@
             <LinearLayout
                 android:id="@+id/btn_edit_password"
                 style="@style/LinearVerticalWrap"
-                android:foreground="?selectableItemBackground">
+                android:foreground="?selectableItemBackground"
+                android:visibility="gone">
                 <View
                     style="@style/ViewLine"
                     android:layout_width="match_parent"/>
                 <TextView
                     style="@style/TextBoldBig"
                     android:text="@string/label_edit_password"
+                    android:layout_margin="@dimen/dimens_20dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/btn_logout"
+                style="@style/LinearVerticalWrap"
+                android:foreground="?selectableItemBackground"
+                android:visibility="visible">
+                <View
+                    style="@style/ViewLine"
+                    android:layout_width="match_parent"/>
+                <TextView
+                    style="@style/TextBoldBig"
+                    android:text="@string/label_logout"
                     android:layout_margin="@dimen/dimens_20dp"/>
             </LinearLayout>
             <View

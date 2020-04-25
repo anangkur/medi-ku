@@ -37,6 +37,7 @@ class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
         observeViewModel()
         btn_edit_profile.setOnClickListener { this.onClickEditProfile() }
         btn_edit_password.setOnClickListener { this.onClickEditPassword() }
+        btn_logout.setOnClickListener { this.onClickLogout() }
     }
 
     override fun onResume() {
@@ -48,21 +49,6 @@ class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
         (requireActivity() as MainActivity).apply {
             setSupportActionBar(toolbar_profile)
             supportActionBar?.setDisplayShowTitleEnabled(false)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_profile, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
-            R.id.menu_logout -> {
-                this.onClickLogout()
-                true
-            }
-            else -> false
         }
     }
 

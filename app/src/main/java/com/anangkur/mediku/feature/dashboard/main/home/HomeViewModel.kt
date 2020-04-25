@@ -1,5 +1,6 @@
 package com.anangkur.mediku.feature.dashboard.main.home
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -45,6 +46,9 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
                             if (data != null){
                                 listData.add(data)
                             }
+                        }
+                        if (listData.isEmpty()){
+                            errorGetMedicalRecord.postValue("You don't have any medical record.")
                         }
                         successGetMedicalRecord.postValue(listData)
                     }

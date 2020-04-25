@@ -76,10 +76,15 @@ class MainActivity: BaseActivity<ViewModel>(), MainActionListener, ForceUpdateCh
 
     override fun onUpdateNeeded(updateUrl: String?) {
         val dialog: AlertDialog = AlertDialog.Builder(this)
-            .setTitle("New version available")
-            .setMessage("Please, update app to new version to continue reposting.")
-            .setPositiveButton("Update") { dialog, which -> redirectStore(updateUrl) }
-            .setNegativeButton("No, thanks") { dialog, which -> finish() }
+            .setTitle(getString(R.string.message_new_version_available))
+            .setMessage(getString(R.string.message_please_update))
+            .setPositiveButton(getString(R.string.btn_update)) { dialog, which ->
+                dialog.dismiss()
+                redirectStore(updateUrl)
+            }
+            .setNegativeButton(getString(R.string.btn_no_thanks)) { dialog, which ->
+                dialog.dismiss()
+            }
             .create()
         dialog.show()
     }
