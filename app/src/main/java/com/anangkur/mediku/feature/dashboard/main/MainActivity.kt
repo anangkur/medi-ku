@@ -23,6 +23,11 @@ class MainActivity: BaseActivity<ViewModel>(), MainActionListener, ForceUpdateCh
         fun startActivity(context: Context){
             context.startActivity(Intent(context, MainActivity::class.java))
         }
+        fun startActivityClearStack(context: Context){
+            context.startActivity(Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+        }
     }
 
     override val mLayout: Int

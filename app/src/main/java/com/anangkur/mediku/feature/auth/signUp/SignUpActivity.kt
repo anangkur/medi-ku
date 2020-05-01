@@ -70,8 +70,7 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
                 }
             })
             successCreateUser.observe(this@SignUpActivity, Observer {
-                MainActivity.startActivity(this@SignUpActivity)
-                finish()
+                MainActivity.startActivityClearStack(this@SignUpActivity)
             })
             errorSignUpLive.observe(this@SignUpActivity, Observer {
                 showSnackbarLong(it)

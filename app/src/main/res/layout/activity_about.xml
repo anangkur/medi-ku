@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LinearVerticalDefault">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <androidx.core.widget.NestedScrollView
+        style="@style/NestedScrollDefault">
+        <LinearLayout
+            style="@style/LinearVerticalWrap"
+            android:paddingTop="@dimen/dimens_20dp">
+            <LinearLayout
+                style="@style/LinearVerticalWrap"
+                android:gravity="center">
+                <ImageView
+                    style="@style/ImageView80"
+                    android:src="@drawable/ic_mediku_512"/>
+                <TextView
+                    style="@style/TextBoldBig"
+                    android:text="@string/app_name"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:textColor="@color/colorPrimary"/>
+                <TextView
+                    style="@style/TextRegularNormal"
+                    android:text="@string/desc_splash"
+                    android:layout_marginTop="@dimen/dimens_10dp"/>
+                <TextView
+                    style="@style/TextRegularNormal"
+                    android:text="@string/dummy_version"
+                    android:layout_marginTop="@dimen/dimens_10dp"/>
+            </LinearLayout>
+
+            <View
+                style="@style/ViewLine"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dimens_20dp"/>
+
+            <LinearLayout
+                style="@style/LinearVerticalWrap"
+                android:padding="@dimen/dimens_20dp">
+                <TextView
+                    style="@style/TextBoldBig"
+                    android:text="@string/label_feature"/>
+                <TextView
+                    style="@style/TextRegularNormal"
+                    android:text="@string/app_feature"
+                    android:layout_marginTop="@dimen/dimens_10dp"/>
+            </LinearLayout>
+
+            <View
+                style="@style/ViewLine"
+                android:layout_width="match_parent"/>
+
+            <LinearLayout
+                style="@style/LinearVerticalWrap"
+                android:padding="@dimen/dimens_20dp">
+                <TextView
+                    style="@style/TextBoldBig"
+                    android:text="@string/label_api_and_data"/>
+                <TextView
+                    android:id="@+id/tv_covid_19_data"
+                    style="@style/TextRegularNormal"
+                    android:text="- covid19api.com"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:paddingTop="@dimen/dimens_10dp"
+                    android:paddingBottom="@dimen/dimens_10dp"
+                    android:foreground="?selectableItemBackground"/>
+                <TextView
+                    android:id="@+id/tv_news_data"
+                    style="@style/TextRegularNormal"
+                    android:text="- newsapi.org"
+                    android:paddingTop="@dimen/dimens_10dp"
+                    android:paddingBottom="@dimen/dimens_10dp"
+                    android:foreground="?selectableItemBackground"/>
+            </LinearLayout>
+
+            <View
+                style="@style/ViewLine"
+                android:layout_width="match_parent"/>
+
+            <LinearLayout
+                style="@style/LinearVerticalWrap">
+                <TextView
+                    style="@style/TextBoldBig"
+                    android:text="@string/label_resource"
+                    android:layout_marginTop="@dimen/dimens_20dp"
+                    android:layout_marginStart="@dimen/dimens_20dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_resource"
+                    style="@style/RecyclerWrapHeight"
+                    android:paddingBottom="@dimen/dimens_20dp"
+                    android:clipToPadding="false"
+                    tools:listitem="@layout/item_resource_parent"
+                    tools:itemCount="2" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

@@ -78,12 +78,10 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
                 }
             })
             resultSignInLive.observe(this@SignInActivity, Observer {
-                MainActivity.startActivity(this@SignInActivity)
-                finish()
+                MainActivity.startActivityClearStack(this@SignInActivity)
             })
             successCreateUser.observe(this@SignInActivity, Observer {
-                MainActivity.startActivity(this@SignInActivity)
-                finish()
+                MainActivity.startActivityClearStack(this@SignInActivity)
             })
             errorSignInLive.observe(this@SignInActivity, Observer {
                 showSnackbarLong(it)

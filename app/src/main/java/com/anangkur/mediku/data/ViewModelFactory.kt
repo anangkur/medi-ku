@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.anangkur.mediku.data.local.room.AppDatabase
 import com.anangkur.mediku.data.remote.Covid19ApiService
 import com.anangkur.mediku.data.remote.NewCovid19ApiService
+import com.anangkur.mediku.feature.about.AboutViewModel
 import com.anangkur.mediku.feature.medicalRecords.addMedicalRecord.AddMedicalRecordViewModel
 import com.anangkur.mediku.feature.covid.covid19.CovidViewModel
 import com.anangkur.mediku.feature.covid.covid19Detail.Covid19DetailViewModel
@@ -58,6 +59,8 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
 
                 isAssignableFrom(MenstrualViewModel::class.java) -> MenstrualViewModel(repository)
                 isAssignableFrom(MenstrualEditViewModel::class.java) -> MenstrualEditViewModel(repository)
+
+                isAssignableFrom(AboutViewModel::class.java) -> AboutViewModel(repository)
 
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

@@ -57,6 +57,14 @@ import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
+fun Activity.openBrowser(url: String) {
+    val webPage = Uri.parse(url)
+    val intent = Intent(Intent.ACTION_VIEW, webPage)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+    }
+}
+
 fun Activity.showSnackbarLong(message: String){
     Snackbar.make(this.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
 }

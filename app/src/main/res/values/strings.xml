@@ -117,5 +117,11 @@
     <string name="message_please_update">Please, update app to new version to continue reposting.</string>
     <string name="btn_update">Update</string>
     <string name="btn_no_thanks">No, thanks</string>
+    <string name="dummy_version">v2.2</string>
+    <string name="label_feature">Features</string>
+    <string name="app_feature">- Record medical history. \n- See your medical history. \n- Record menstrual period. \n- Predict your menstrual period based on previous data. \n- Read latest health news or articles. \n- All feature build using Firebase.</string>
+    <string name="label_resource">Resources</string>
+    <string name="toolbar_about">About</string>
+    <string name="label_api_and_data">API and data</string>
     <!--end of image picker dialog-->
 </resources>
