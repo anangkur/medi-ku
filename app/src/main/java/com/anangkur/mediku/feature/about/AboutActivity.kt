@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.anangkur.mediku.BuildConfig
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.about.Resource
@@ -41,6 +42,7 @@ class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
         setupAdapter()
         observeViewModel()
         mViewModel.createResourceData()
+        tv_version_number.text = BuildConfig.VERSION_NAME
         tv_covid_19_data.setOnClickListener { this.onClickCovid19Api("https://covid19api.com") }
         tv_news_data.setOnClickListener { this.onClickNewsApi("https://newsapi.org") }
     }

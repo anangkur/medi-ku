@@ -28,6 +28,7 @@
                     android:text="@string/desc_splash"
                     android:layout_marginTop="@dimen/dimens_10dp"/>
                 <TextView
+                    android:id="@+id/tv_version_number"
                     style="@style/TextRegularNormal"
                     android:text="@string/dummy_version"
                     android:layout_marginTop="@dimen/dimens_10dp"/>
