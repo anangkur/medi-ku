@@ -10,7 +10,7 @@ import com.anangkur.mediku.BuildConfig
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.about.Resource
-import com.anangkur.mediku.feature.about.resource.ResourceAdapter
+import com.anangkur.mediku.feature.about.resource.ResourceParentAdapter
 import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.openBrowser
 import com.anangkur.mediku.util.setupRecyclerViewLinear
@@ -34,7 +34,7 @@ class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_about)
 
-    private lateinit var mAdapter: ResourceAdapter
+    private lateinit var mParentAdapter: ResourceParentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +48,9 @@ class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
     }
 
     private fun setupAdapter(){
-        mAdapter = ResourceAdapter(this)
+        mParentAdapter = ResourceParentAdapter(this)
         recycler_resource.apply {
-            adapter = mAdapter
+            adapter = mParentAdapter
             setupRecyclerViewLinear(this@AboutActivity, RecyclerView.VERTICAL)
         }
     }
@@ -58,7 +58,7 @@ class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
     private fun observeViewModel(){
         mViewModel.apply {
             listResourceLive.observe(this@AboutActivity, Observer {
-                mAdapter.setRecyclerData(it)
+                mParentAdapter.setRecyclerData(it)
             })
         }
     }

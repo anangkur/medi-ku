@@ -18,6 +18,6 @@
         android:clipToPadding="false"
         tools:listitem="@layout/item_resource_child"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="4"
+        app:spanCount="6"
         android:orientation="vertical"/>
 </LinearLayout>

@@ -95,7 +95,8 @@
                     android:paddingBottom="@dimen/dimens_20dp"
                     android:clipToPadding="false"
                     tools:listitem="@layout/item_resource_parent"
-                    tools:itemCount="2" />
+                    tools:itemCount="2"
+                    android:nestedScrollingEnabled="false"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

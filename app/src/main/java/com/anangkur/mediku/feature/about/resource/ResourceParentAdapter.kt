@@ -9,7 +9,7 @@ import com.anangkur.mediku.feature.about.AboutActionListener
 import com.anangkur.mediku.util.setupRecyclerViewGrid
 import kotlinx.android.synthetic.main.item_resource_parent.view.*
 
-class ResourceAdapter(private val listener: AboutActionListener): BaseAdapter<Resource>(){
+class ResourceParentAdapter(private val listener: AboutActionListener): BaseAdapter<Resource>(){
 
     override val layout: Int
         get() = R.layout.item_resource_parent
@@ -18,7 +18,7 @@ class ResourceAdapter(private val listener: AboutActionListener): BaseAdapter<Re
 
     override fun bind(data: Resource, itemView: View, position: Int) {
         setupChildAdapter(itemView.recycler_resource_child)
-        itemView.tv_title_resource.text = data.title
+        itemView.tv_title_resource.text = "- ${data.title}"
         childAdapter.setRecyclerData(data.child)
         itemView.tv_title_resource.setOnClickListener { listener.onClickResourceParent(data) }
     }
@@ -27,7 +27,7 @@ class ResourceAdapter(private val listener: AboutActionListener): BaseAdapter<Re
         childAdapter = ResourceChildAdapter(listener)
         recyclerView.apply {
             adapter = childAdapter
-            setupRecyclerViewGrid(recyclerView.context, 4)
+            setupRecyclerViewGrid(recyclerView.context, 6)
         }
     }
 
