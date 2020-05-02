@@ -91,6 +91,19 @@
                     android:layout_margin="@dimen/dimens_20dp"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/btn_about"
+                style="@style/LinearVerticalWrap"
+                android:foreground="?selectableItemBackground"
+                android:visibility="visible">
+                <View
+                    style="@style/ViewLine"
+                    android:layout_width="match_parent"/>
+                <TextView
+                    style="@style/TextBoldBig"
+                    android:text="@string/toolbar_about"
+                    android:layout_margin="@dimen/dimens_20dp"/>
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/btn_logout"
                 style="@style/LinearVerticalWrap"
                 android:foreground="?selectableItemBackground"

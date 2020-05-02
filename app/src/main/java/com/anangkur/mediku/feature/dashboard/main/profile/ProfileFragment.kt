@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseFragment
 import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.feature.about.AboutActivity
 import com.anangkur.mediku.feature.auth.editPassword.EditPasswordActivity
 import com.anangkur.mediku.feature.profile.editProfile.EditProfileActivity
 import com.anangkur.mediku.feature.dashboard.main.MainActivity
@@ -37,6 +38,7 @@ class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
         observeViewModel()
         btn_edit_profile.setOnClickListener { this.onClickEditProfile() }
         btn_edit_password.setOnClickListener { this.onClickEditPassword() }
+        btn_about.setOnClickListener { this.onCLickAbout() }
         btn_logout.setOnClickListener { this.onClickLogout() }
     }
 
@@ -109,6 +111,10 @@ class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
 
     override fun onClickLogout() {
         mViewModel.logout()
+    }
+
+    override fun onCLickAbout() {
+        AboutActivity.startActivity(requireContext())
     }
 
     override fun onClickImage(imageUrl: String) {

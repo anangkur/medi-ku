@@ -49,8 +49,9 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
                         }
                         if (listData.isEmpty()){
                             errorGetMedicalRecord.postValue("You don't have any medical record.")
+                        }else{
+                            successGetMedicalRecord.postValue(listData)
                         }
-                        successGetMedicalRecord.postValue(listData)
                     }
                     .addOnFailureListener {exception ->
                         progressGetMedicalRecord.postValue(false)

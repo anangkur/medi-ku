@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/LinearVerticalWrap"
+    android:layout_marginTop="@dimen/dimens_20dp">
+    <TextView
+        android:id="@+id/tv_title_resource"
+        style="@style/TextBoldNormal"
+        android:text="@string/app_name"
+        android:layout_marginStart="@dimen/dimens_20dp"
+        android:foreground="?selectableItemBackground"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_resource_child"
+        style="@style/RecyclerWrapHeight"
+        android:layout_marginStart="@dimen/dimens_20dp"
+        android:paddingBottom="@dimen/dimens_20dp"
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_resource_child"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="6"
+        android:orientation="vertical"/>
+</LinearLayout>

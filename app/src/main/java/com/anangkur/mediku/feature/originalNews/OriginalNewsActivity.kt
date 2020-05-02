@@ -19,6 +19,7 @@ import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.base.BaseErrorView
 import com.anangkur.mediku.util.gone
 import com.anangkur.mediku.util.obtainViewModel
+import com.anangkur.mediku.util.openBrowser
 import com.anangkur.mediku.util.visible
 import kotlinx.android.synthetic.main.activity_original_news.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -61,11 +62,7 @@ class OriginalNewsActivity: BaseActivity<ViewModel>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId){
             R.id.menu_open_browser -> {
-                val webPage = Uri.parse(url)
-                val intent = Intent(Intent.ACTION_VIEW, webPage)
-                if (intent.resolveActivity(packageManager) != null) {
-                    startActivity(intent)
-                }
+                openBrowser(url)
                 true
             }
             else -> false

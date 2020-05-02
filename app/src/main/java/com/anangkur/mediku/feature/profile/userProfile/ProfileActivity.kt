@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.feature.about.AboutActivity
 import com.anangkur.mediku.feature.auth.editPassword.EditPasswordActivity
 import com.anangkur.mediku.feature.profile.editProfile.EditProfileActivity
 import com.anangkur.mediku.feature.auth.signIn.SignInActivity
@@ -109,6 +110,10 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
 
     override fun onClickLogout() {
         mViewModel.logout()
+    }
+
+    override fun onCLickAbout() {
+        AboutActivity.startActivity(this)
     }
 
     override fun onClickImage(imageUrl: String) {
