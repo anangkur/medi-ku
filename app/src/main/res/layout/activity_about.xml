@@ -32,6 +32,14 @@
                     style="@style/TextRegularNormal"
                     android:text="@string/dummy_version"
                     android:layout_marginTop="@dimen/dimens_10dp"/>
+                <com.anangkur.materialloadingbutton.MaterialLoadingButton
+                    android:id="@+id/btn_rate"
+                    style="@style/ButtonWidth280"
+                    android:layout_marginTop="@dimen/dimens_20dp"
+                    app:mlb_cornerRadius="@dimen/dimens_100dp"
+                    app:mlb_defaultColor="@color/colorPrimary"
+                    app:mlb_textColor="@color/white"
+                    app:mlb_textButton="@string/btn_give_rating"/>
             </LinearLayout>
 
             <View
