@@ -15,7 +15,7 @@ import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.openBrowser
 import com.anangkur.mediku.util.setupRecyclerViewLinear
 import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
 class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
 

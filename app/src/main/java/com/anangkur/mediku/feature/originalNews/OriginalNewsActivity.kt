@@ -22,7 +22,7 @@ import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.openBrowser
 import com.anangkur.mediku.util.visible
 import kotlinx.android.synthetic.main.activity_original_news.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
 class OriginalNewsActivity: BaseActivity<ViewModel>() {
 

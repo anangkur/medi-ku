@@ -17,7 +17,7 @@ import java.util.*
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.util.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
 class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEditActionListener {
 

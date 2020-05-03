@@ -12,7 +12,7 @@ import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.feature.auth.signIn.SignInActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_edit_password.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
 class EditPasswordActivity: BaseActivity<EditPasswordViewModel>(), EditPasswordActionListener {
 

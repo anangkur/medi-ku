@@ -16,7 +16,7 @@ import com.anangkur.mediku.feature.mens.menstrualEdit.MenstrualEditActivity
 import com.anangkur.mediku.util.*
 import com.applandeo.materialcalendarview.EventDay
 import kotlinx.android.synthetic.main.activity_menstrual.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

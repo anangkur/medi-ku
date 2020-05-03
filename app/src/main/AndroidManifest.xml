@@ -16,8 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".feature.about.AboutActivity"/>
+        <activity android:name=".feature.about.AboutActivity" />
         <activity android:name=".feature.mens.menstrualEdit.MenstrualEditActivity" />
         <activity android:name=".feature.mens.menstrual.MenstrualActivity" />
         <activity android:name=".feature.originalNews.OriginalNewsActivity" />
@@ -26,14 +25,13 @@
         <activity android:name=".feature.covid.covid19.CovidActivity" />
         <activity android:name=".feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity" />
         <activity android:name=".feature.medicalRecords.addMedicalRecord.AddMedicalRecordActivity" />
-        <activity android:name="com.anangkur.mediku.feature.medicalRecords.listMedicalRecords.MedicalRecordsActivity" />
+        <activity android:name=".feature.medicalRecords.listMedicalRecords.MedicalRecordsActivity" />
         <activity android:name=".feature.auth.forgotPassword.ForgotPasswordActivity" />
         <activity android:name=".feature.auth.editPassword.EditPasswordActivity" />
         <activity android:name=".feature.profile.editProfile.EditProfileActivity" />
         <activity android:name=".feature.profile.userProfile.ProfileActivity" />
         <activity android:name=".feature.auth.signUp.SignUpActivity" />
         <activity android:name=".feature.auth.signIn.SignInActivity" />
-
         <activity android:name=".feature.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -55,7 +52,6 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>
