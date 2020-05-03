@@ -14,6 +14,9 @@ import retrofit2.http.Path
 
 interface DataSource {
 
+    fun saveFirebaseToken(firebaseToken: String) { throw Exception() }
+    fun loadFirebaseToken(): String { throw Exception() }
+
     suspend fun getTopHeadlinesNews(
         apiKey: String?,
         country: String?,

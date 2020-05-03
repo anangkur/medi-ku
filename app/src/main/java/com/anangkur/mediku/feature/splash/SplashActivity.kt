@@ -2,16 +2,20 @@ package com.anangkur.mediku.feature.splash
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.feature.auth.signIn.SignInActivity
 import com.anangkur.mediku.feature.dashboard.main.MainActivity
-import com.anangkur.mediku.feature.mens.menstrual.MenstrualActivity
-import com.anangkur.mediku.feature.mens.menstrualEdit.MenstrualEditActivity
 import com.anangkur.mediku.util.*
+import com.google.android.gms.tasks.Task
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.iid.InstanceIdResult
 import kotlinx.android.synthetic.main.activity_splash.*
+import java.util.*
+
 
 class SplashActivity: BaseActivity<SplashViewModel>() {
     override val mLayout: Int
@@ -28,6 +32,7 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
 
         observeViewModel()
         mViewModel.saveCountry(getUserCountry(this)?:"id")
+        getTokenFirebase()
         mViewModel.getProfile()
     }
 
@@ -60,5 +65,21 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
                 finish()
             })
         }
+    }
+
+    private fun getTokenFirebase(){
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener { task: Task<InstanceIdResult?> ->
+                if (!task.isSuccessful) {
+                    Log.w("SplashScreenActivity", "getInstanceId failed", task.exception)
+                    return@addOnCompleteListener
+                }
+
+                val token = Objects.requireNonNull(task.result)?.token
+
+                Log.d("SplashScreenActivity", token?:"")
+
+                mViewModel.saveFirebaseToken(token?:"")
+            }
     }
 }

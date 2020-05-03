@@ -111,6 +111,14 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
         return localRepository.loadCountry()
     }
 
+    fun saveFirebaseToken(firebaseToken: String){
+        localRepository.saveFirebaseToken(firebaseToken)
+    }
+
+    fun loadFirebaseToken(): String {
+        return localRepository.loadFirebaseToken()
+    }
+
     companion object{
         @Volatile private var INSTANCE: Repository? = null
         fun getInstance(remoteRepository: RemoteRepository, localRepository: LocalRepository) = INSTANCE ?: synchronized(
