@@ -71,7 +71,7 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                     .get()
                     .addOnSuccessListener {
                         val userFirestore = it.toObject<User>()
-                        if (userFirestore != null){
+                        if (userFirestore != null && it.contains("firebaseToken")){
                             resultSignInLive.postValue(user)
                         }else{
                             val userMap = User(

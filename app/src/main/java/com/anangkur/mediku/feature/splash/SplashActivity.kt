@@ -73,13 +73,11 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
                 if (!task.isSuccessful) {
                     Log.w("SplashScreenActivity", "getInstanceId failed", task.exception)
                     return@addOnCompleteListener
+                }else{
+                    val token = task.result?.token
+                    Log.d("SplashScreenActivity", token?:"empty token")
+                    mViewModel.saveFirebaseToken(token?:"empty token")
                 }
-
-                val token = Objects.requireNonNull(task.result)?.token
-
-                Log.d("SplashScreenActivity", token?:"")
-
-                mViewModel.saveFirebaseToken(token?:"")
             }
     }
 }

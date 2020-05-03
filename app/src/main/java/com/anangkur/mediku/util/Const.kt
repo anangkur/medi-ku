@@ -36,6 +36,7 @@ object Const {
 
     // notification
     const val NOTIFICATION_CHANNEL_ID = "10001"
+    const val NOTIFICATION_TYPE_COVID = "covid"
 
     // storage
     const val STORAGE_PROFILE_PHOTO = "profile_photos"
