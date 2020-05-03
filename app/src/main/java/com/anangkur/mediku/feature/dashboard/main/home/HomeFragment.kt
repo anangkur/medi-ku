@@ -13,10 +13,16 @@ import com.anangkur.mediku.feature.covid.covid19.CovidActivity
 import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity
 import com.anangkur.mediku.feature.dashboard.main.home.adapter.MedicalRecordAdapter
 import com.anangkur.mediku.feature.dashboard.main.home.adapter.NewsAdapter
+import com.anangkur.mediku.feature.medicalRecords.listMedicalRecords.MedicalRecordsActivity
 import com.anangkur.mediku.feature.mens.menstrual.MenstrualActivity
 import com.anangkur.mediku.feature.originalNews.OriginalNewsActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.layout_covid19_alert.*
+import kotlinx.android.synthetic.main.layout_medical_records.*
+import kotlinx.android.synthetic.main.layout_menstrual_period.*
+import kotlinx.android.synthetic.main.layout_menu_dashboard.*
+import kotlinx.android.synthetic.main.layout_news.*
 import kotlinx.android.synthetic.main.layout_welcome.*
 
 class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
@@ -45,8 +51,14 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
             mViewModel.getMedicalRecord()
             swipe_home.isRefreshing = false
         }
+
         card_covid.setOnClickListener { this.onClickCovid19() }
         layout_menstrual_period.setOnClickListener { this.onClickMenstrualPeriod() }
+
+        menu_covid_check.setOnClickListener { this.onClickCovid19Check() }
+        menu_covid_stat.setOnClickListener { this.onClickCovid19() }
+        menu_medical_records.setOnClickListener { this.onClickMedicalRecords() }
+        menu_menstrual_period.setOnClickListener { this.onClickMenstrualPeriod() }
     }
 
     override fun onResume() {
@@ -156,5 +168,13 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
 
     override fun onClickMenstrualPeriod() {
         MenstrualActivity.startActivity(requireContext())
+    }
+
+    override fun onClickCovid19Check() {
+        OriginalNewsActivity.startActivity(requireContext(), "https://www.halodoc.com/tanya-jawab-seputar-virus-corona/")
+    }
+
+    override fun onClickMedicalRecords() {
+        MedicalRecordsActivity.startActivity(requireContext())
     }
 }

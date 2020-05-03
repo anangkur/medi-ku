@@ -18,6 +18,7 @@ import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedi
 import com.anangkur.mediku.feature.profile.userProfile.ProfileActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_medical_records.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
 
 class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRecordsActionListener, ForceUpdateChecker.OnUpdateNeededListener {
@@ -33,9 +34,9 @@ class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRe
     override val mViewModel: MedicalRecordsViewModel
         get() = obtainViewModel(MedicalRecordsViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar_home
+        get() = toolbar
     override val mTitleToolbar: String?
-        get() = null
+        get() = getString(R.string.label_medical_record)
 
     private lateinit var mAdapter: MedicalRecordsAdapter
 
@@ -49,9 +50,7 @@ class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRe
             mAdapter.resetRecyclerData()
             mViewModel.getMedicalRecord()
         }
-        btn_profile.setOnClickListener { this.onClickProfile() }
         btn_add_medical_report.setOnClickListener { this.onClickAddMedicalRecord() }
-        card_covid.setOnClickListener { this.onClickCovid() }
     }
 
     override fun onResume() {
@@ -59,11 +58,6 @@ class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRe
         mAdapter.resetRecyclerData()
         mViewModel.getUserProfile()
         mViewModel.getMedicalRecord()
-    }
-
-    private fun setupToolbar(user: User){
-        iv_toolbar_home.setImageUrl(user.photo)
-        tv_toolbar_home.text = user.name
     }
 
     private fun setupAdapter(){
@@ -86,18 +80,10 @@ class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRe
                 showSnackbarLong(it)
             })
             progressGetProfile.observe(this@MedicalRecordsActivity, Observer {
-                if (it){
-                    iv_toolbar_home.invisible()
-                    tv_toolbar_home.invisible()
-                    pb_toolbar_home.visible()
-                }else{
-                    iv_toolbar_home.visible()
-                    tv_toolbar_home.visible()
-                    pb_toolbar_home.gone()
-                }
+
             })
             successGetProfile.observe(this@MedicalRecordsActivity, Observer {
-                setupToolbar(it)
+                
             })
             errorGetProfile.observe(this@MedicalRecordsActivity, Observer {
                 showSnackbarLong(it)

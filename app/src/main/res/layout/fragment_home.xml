@@ -21,117 +21,21 @@
         <androidx.core.widget.NestedScrollView
             style="@style/NestedScrollDefault">
             <LinearLayout
-                style="@style/LinearVerticalWrap">
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_covid"
-                    style="@style/CardWrapHeight"
-                    app:cardBackgroundColor="#CF4436"
-                    android:layout_margin="@dimen/dimens_20dp">
-                    <TextView
-                        style="@style/TextBoldNormal"
-                        android:text="@string/btn_covid"
-                        android:textColor="@color/white"
-                        android:drawableEnd="@drawable/ic_arrow_right"
-                        android:drawablePadding="@dimen/dimens_10dp"
-                        android:layout_margin="@dimen/dimens_10dp"/>
-                </androidx.cardview.widget.CardView>
+                style="@style/LinearVerticalWrap"
+                android:layout_marginTop="@dimen/dimens_20dp">
+
+                <include layout="@layout/layout_covid19_alert" android:visibility="gone"/>
 
                 <include layout="@layout/layout_welcome"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimens_1dp"
-                    android:background="@color/gray"/>
-                <LinearLayout
-                    android:id="@+id/layout_menstrual_period"
-                    style="@style/LinearHorizontalWrap"
-                    android:padding="@dimen/dimens_20dp"
-                    android:gravity="center"
-                    android:foreground="?selectableItemBackground">
-                    <TextView
-                        style="@style/TextBoldNormal"
-                        android:text="Calculate menstrual period here"/>
-                    <RelativeLayout
-                        style="@style/RelativeWrapH">
-                        <ImageView
-                            style="@style/ImageViewWrapAll"
-                            android:src="@drawable/ic_navigate_next_black_24dp"
-                            android:layout_alignParentEnd="true"/>
-                    </RelativeLayout>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimens_1dp"
-                    android:background="@color/gray"/>
+                <include layout="@layout/layout_menu_dashboard"/>
 
-                <TextView
-                    style="@style/TextBoldBig"
-                    android:text="@string/label_medical_records"
-                    android:layout_marginStart="@dimen/dimens_20dp"
-                    android:layout_marginTop="@dimen/dimens_20dp"/>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimens_180dp">
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_medical_record"
-                        style="@style/RecyclerWrapHeight"
-                        android:clipToPadding="false"
-                        android:layout_marginTop="@dimen/dimens_20dp"
-                        android:paddingEnd="@dimen/dimens_20dp"
-                        tools:listitem="@layout/item_medical_record"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        android:visibility="visible"/>
-                    <ProgressBar
-                        android:id="@+id/pb_medical_record"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:visibility="gone"/>
-                    <TextView
-                        android:id="@+id/tv_error_medical_record"
-                        style="@style/TextBoldNormal"
-                        android:text="@string/error_medical_record_empty"
-                        android:textAlignment="center"
-                        android:gravity="center"
-                        android:layout_centerInParent="true"
-                        android:visibility="gone"/>
-                </RelativeLayout>
+                <include layout="@layout/layout_menstrual_period" android:visibility="gone"/>
 
-                <TextView
-                    style="@style/TextBoldBig"
-                    android:text="@string/label_latest_news"
-                    android:layout_marginStart="@dimen/dimens_20dp"
-                    android:layout_marginTop="@dimen/dimens_20dp"/>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="360dp">
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_news"
-                        style="@style/RecyclerWrapHeight"
-                        android:paddingEnd="@dimen/dimens_20dp"
-                        android:clipToPadding="false"
-                        android:layout_marginTop="@dimen/dimens_14dp"
-                        android:layout_marginBottom="@dimen/dimens_40dp"
-                        tools:listitem="@layout/item_news"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        android:orientation="horizontal"
-                        android:visibility="visible"/>
-                    <ProgressBar
-                        android:id="@+id/pb_latest_news"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:visibility="gone"/>
-                    <TextView
-                        android:id="@+id/tv_error_latest_news"
-                        style="@style/TextBoldNormal"
-                        android:text="@string/error_medical_record_empty"
-                        android:layout_centerInParent="true"
-                        android:textAlignment="center"
-                        android:gravity="center"
-                        android:visibility="gone"/>
-                </RelativeLayout>
+                <include layout="@layout/layout_medical_records" android:visibility="gone"/>
+
+                <include layout="@layout/layout_news"/>
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
