@@ -26,7 +26,7 @@
         <activity android:name=".feature.covid.covid19.CovidActivity" />
         <activity android:name=".feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity" />
         <activity android:name=".feature.medicalRecords.addMedicalRecord.AddMedicalRecordActivity" />
-        <activity android:name=".feature.dashboard.home.HomeActivity" />
+        <activity android:name="com.anangkur.mediku.feature.medicalRecords.listMedicalRecords.MedicalRecordsActivity" />
         <activity android:name=".feature.auth.forgotPassword.ForgotPasswordActivity" />
         <activity android:name=".feature.auth.editPassword.EditPasswordActivity" />
         <activity android:name=".feature.profile.editProfile.EditProfileActivity" />

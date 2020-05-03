@@ -17,6 +17,7 @@ import com.anangkur.mediku.feature.mens.menstrual.MenstrualActivity
 import com.anangkur.mediku.feature.originalNews.OriginalNewsActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.layout_welcome.*
 
 class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
 

@@ -1,4 +1,4 @@
-package com.anangkur.mediku.feature.dashboard.home
+package com.anangkur.mediku.feature.medicalRecords.listMedicalRecords
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val repository: Repository): ViewModel() {
+class MedicalRecordsViewModel(private val repository: Repository): ViewModel() {
 
     val progressGetMedicalRecord = MutableLiveData<Boolean>()
     val successGetMedicalRecord = MutableLiveData<List<MedicalRecord>>()
