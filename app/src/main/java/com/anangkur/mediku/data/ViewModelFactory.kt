@@ -15,7 +15,7 @@ import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedi
 import com.anangkur.mediku.feature.auth.editPassword.EditPasswordViewModel
 import com.anangkur.mediku.feature.profile.editProfile.EditProfileViewModel
 import com.anangkur.mediku.feature.auth.forgotPassword.ForgotPasswordViewModel
-import com.anangkur.mediku.feature.dashboard.home.HomeViewModel
+import com.anangkur.mediku.feature.medicalRecords.listMedicalRecords.MedicalRecordsViewModel
 import com.anangkur.mediku.feature.dashboard.main.home.HomeViewModel as HomeViewModelFragment
 import com.anangkur.mediku.feature.dashboard.main.MainViewModel
 import com.anangkur.mediku.feature.mens.menstrual.MenstrualViewModel
@@ -49,7 +49,7 @@ class ViewModelFactory(private val repository: Repository): ViewModelProvider.Ne
 
                 isAssignableFrom(HomeViewModelFragment::class.java) -> HomeViewModelFragment(repository)
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(repository)
-                isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(repository)
+                isAssignableFrom(MedicalRecordsViewModel::class.java) -> MedicalRecordsViewModel(repository)
 
                 isAssignableFrom(AddMedicalRecordViewModel::class.java) -> AddMedicalRecordViewModel(repository)
                 isAssignableFrom(DetailMedicalRecordViewModel::class.java) -> DetailMedicalRecordViewModel(repository)

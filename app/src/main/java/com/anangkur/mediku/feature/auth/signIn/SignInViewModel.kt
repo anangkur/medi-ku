@@ -71,7 +71,7 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                     .get()
                     .addOnSuccessListener {
                         val userFirestore = it.toObject<User>()
-                        if (userFirestore != null){
+                        if (userFirestore != null && it.contains("firebaseToken")){
                             resultSignInLive.postValue(user)
                         }else{
                             val userMap = User(
@@ -81,7 +81,9 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                                 height = 0,
                                 weight = 0,
                                 photo = user.photoUrl.toString(),
-                                providerName = user.providerData[user.providerData.size-1].providerId)
+                                providerName = user.providerData[user.providerData.size-1].providerId,
+                                firebaseToken = loadFirebaseToken()
+                            )
                             repository.remoteRepository.firestore.collection(Const.COLLECTION_USER)
                                 .document(user.uid)
                                 .set(userMap)
@@ -104,5 +106,9 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                 errorSignInLive.postValue(e.message)
             }
         }
+    }
+
+    private fun loadFirebaseToken(): String {
+        return repository.loadFirebaseToken()
     }
 }

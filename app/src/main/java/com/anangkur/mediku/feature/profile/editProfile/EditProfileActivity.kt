@@ -15,7 +15,7 @@ import com.anangkur.mediku.util.*
 import com.esafirm.imagepicker.features.ImagePicker
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 import java.io.File
 
 class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActionListener {

@@ -8,4 +8,6 @@ interface HomeActionListener {
     fun onClickNews(data: Article)
     fun onClickMedicalRecord(data: MedicalRecord)
     fun onClickMenstrualPeriod()
+    fun onClickCovid19Check()
+    fun onClickMedicalRecords()
 }

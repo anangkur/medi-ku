@@ -1,0 +1,30 @@
+<LinearLayout
+    android:id="@+id/layout_menstrual_period"
+    style="@style/LinearVerticalWrap"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_1dp"
+        android:background="@color/gray"/>
+    <LinearLayout
+        style="@style/LinearHorizontalWrap"
+        android:padding="@dimen/dimens_20dp"
+        android:gravity="center"
+        android:foreground="?selectableItemBackground"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <TextView
+            style="@style/TextBoldNormal"
+            android:text="Calculate menstrual period here"/>
+        <RelativeLayout
+            style="@style/RelativeWrapH">
+            <ImageView
+                style="@style/ImageViewWrapAll"
+                android:src="@drawable/ic_navigate_next_black_24dp"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_1dp"
+        android:background="@color/gray"/>
+</LinearLayout>

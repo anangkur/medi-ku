@@ -14,7 +14,7 @@ import com.anangkur.mediku.feature.covid.covid19.adapter.CovidHorizontalAdapter
 import com.anangkur.mediku.feature.covid.covid19.adapter.CovidVerticalAdapter
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_covid.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 import java.text.SimpleDateFormat
 import java.util.*
 

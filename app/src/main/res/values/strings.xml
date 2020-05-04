@@ -123,5 +123,10 @@
     <string name="label_resource">Resources</string>
     <string name="toolbar_about">About</string>
     <string name="label_api_and_data">API and data</string>
+    <string name="label_medical_record">Medical Records</string>
+    <string name="label_menstrual_period">Menstrual Period</string>
+    <string name="label_covid19_check">Covid-19 Check</string>
+    <string name="label_covid19_stat">Covid-19 Status</string>
+    <string name="btn_give_rating">Give Rating</string>
     <!--end of image picker dialog-->
 </resources>

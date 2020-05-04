@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/LinearVerticalDefault">
 
-    <include layout="@layout/layout_toolbar"/>
+    <include layout="@layout/layout_toolbar_back"/>
 
     <RelativeLayout
         style="@style/RelativeDefault">

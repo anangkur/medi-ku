@@ -14,7 +14,7 @@ import com.anangkur.mediku.feature.profile.editProfile.EditProfileActivity
 import com.anangkur.mediku.feature.auth.signIn.SignInActivity
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
 class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
 

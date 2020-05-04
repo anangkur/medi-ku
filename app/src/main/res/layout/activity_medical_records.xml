@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LinearVerticalDefault">
+
+    <include layout="@layout/layout_toolbar_back"/>
+
+    <RelativeLayout
+        style="@style/RelativeDefault">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_home"
+            style="@style/SwipeRefreshDefault">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_home"
+                style="@style/RecyclerDefault"
+                android:paddingBottom="@dimen/dimens_20dp"
+                android:clipToPadding="false"
+                tools:listitem="@layout/item_home"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <LinearLayout
+            android:id="@+id/btn_add_medical_report"
+            style="@style/LinearHorizontalWrapAll"
+            android:paddingTop="@dimen/dimens_14dp"
+            android:paddingBottom="@dimen/dimens_14dp"
+            android:paddingStart="28dp"
+            android:paddingEnd="28dp"
+            android:layout_marginBottom="@dimen/dimens_20dp"
+            android:background="@drawable/rect_rounded_100dp_solid_white"
+            android:foreground="@drawable/ripple_button_background_light"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:elevation="@dimen/dimens_4dp">
+            <ImageView
+                style="@style/ImageViewWrapAll"
+                android:src="@drawable/ic_add"/>
+            <TextView
+                style="@style/TextBoldNormal"
+                android:text="@string/btn_add_medical_record"
+                android:layout_marginStart="@dimen/dimens_20dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

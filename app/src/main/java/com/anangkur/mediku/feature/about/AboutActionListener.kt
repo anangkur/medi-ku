@@ -7,4 +7,5 @@ interface AboutActionListener {
     fun onClickResourceChild(resourceChild: Resource.ResourceChild)
     fun onClickCovid19Api(url: String)
     fun onClickNewsApi(url: String)
+    fun onClickGiveRating(url: String)
 }

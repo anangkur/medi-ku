@@ -4,8 +4,6 @@ object Const {
     const val PREF_NAME = "PREF_NAME"
     const val DATABASE_NAME = "mediku_database"
 
-    const val EXTRA_COUNTRY = "EXTRA_COUNTRY"
-
     const val PROVIDER_GOOGLE = "google.com"
     const val PROVIDER_FIREBASE = "firebase"
     const val PROVIDER_PASSWORD = "password"
@@ -38,6 +36,7 @@ object Const {
 
     // notification
     const val NOTIFICATION_CHANNEL_ID = "10001"
+    const val NOTIFICATION_TYPE_COVID = "covid"
 
     // storage
     const val STORAGE_PROFILE_PHOTO = "profile_photos"
@@ -64,4 +63,8 @@ object Const {
     const val KEY_OCT = "October"
     const val KEY_NOV = "November"
     const val KEY_DEC = "December"
+
+    // preferences
+    const val PREF_FIREBASE_TOKEN = "PREF_FIREBASE_TOKEN"
+    const val PREF_COUNTRY = "EXTRA_COUNTRY"
 }

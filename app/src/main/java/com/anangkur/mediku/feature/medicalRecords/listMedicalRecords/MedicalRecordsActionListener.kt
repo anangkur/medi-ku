@@ -1,8 +1,8 @@
-package com.anangkur.mediku.feature.dashboard.home
+package com.anangkur.mediku.feature.medicalRecords.listMedicalRecords
 
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 
-interface HomeActionListener {
+interface MedicalRecordsActionListener {
     fun onClickProfile()
     fun onClickAddMedicalRecord()
     fun onClickItem(data: MedicalRecord)

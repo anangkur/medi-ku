@@ -1,22 +1,29 @@
 package com.anangkur.mediku.data.local
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import com.anangkur.mediku.data.DataSource
 import com.anangkur.mediku.data.local.room.AppDao
-import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
 import com.anangkur.mediku.data.model.covid19.Covid19Data
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.model.news.Article
-import com.anangkur.mediku.util.Const.EXTRA_COUNTRY
+import com.anangkur.mediku.util.Const
+import com.anangkur.mediku.util.Const.PREF_COUNTRY
 
 class LocalRepository(
     private val preferences: SharedPreferences,
     private val dao: AppDao
 ): DataSource {
+
+    override fun saveFirebaseToken(firebaseToken: String) {
+        preferences.edit().putString(Const.PREF_FIREBASE_TOKEN, firebaseToken).apply()
+    }
+
+    override fun loadFirebaseToken(): String {
+        return preferences.getString(Const.PREF_FIREBASE_TOKEN, "") ?: ""
+    }
 
     /**
      * News
@@ -87,11 +94,11 @@ class LocalRepository(
      * preferences
      */
     override fun saveCountry(country: String) {
-        preferences.edit().putString(EXTRA_COUNTRY, country).apply()
+        preferences.edit().putString(PREF_COUNTRY, country).apply()
     }
 
     override fun loadCountry(): String {
-        return preferences.getString(EXTRA_COUNTRY, "")?:""
+        return preferences.getString(PREF_COUNTRY, "")?:""
     }
 
     companion object{

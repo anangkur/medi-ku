@@ -1,4 +1,4 @@
-package com.anangkur.mediku.feature.dashboard.home
+package com.anangkur.mediku.feature.medicalRecords.listMedicalRecords
 
 import android.content.Context
 import android.content.Intent
@@ -17,27 +17,28 @@ import com.anangkur.mediku.feature.covid.covid19.CovidActivity
 import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity
 import com.anangkur.mediku.feature.profile.userProfile.ProfileActivity
 import com.anangkur.mediku.util.*
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_medical_records.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
 
-class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener, ForceUpdateChecker.OnUpdateNeededListener {
+class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRecordsActionListener, ForceUpdateChecker.OnUpdateNeededListener {
 
     companion object{
         fun startActivity(context: Context){
-            context.startActivity(Intent(context, HomeActivity::class.java))
+            context.startActivity(Intent(context, MedicalRecordsActivity::class.java))
         }
     }
 
     override val mLayout: Int
-        get() = R.layout.activity_home
-    override val mViewModel: HomeViewModel
-        get() = obtainViewModel(HomeViewModel::class.java)
+        get() = R.layout.activity_medical_records
+    override val mViewModel: MedicalRecordsViewModel
+        get() = obtainViewModel(MedicalRecordsViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar_home
+        get() = toolbar
     override val mTitleToolbar: String?
-        get() = null
+        get() = getString(R.string.label_medical_record)
 
-    private lateinit var mAdapter: HomeAdapter
+    private lateinit var mAdapter: MedicalRecordsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +50,7 @@ class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener, ForceUpda
             mAdapter.resetRecyclerData()
             mViewModel.getMedicalRecord()
         }
-        btn_profile.setOnClickListener { this.onClickProfile() }
         btn_add_medical_report.setOnClickListener { this.onClickAddMedicalRecord() }
-        card_covid.setOnClickListener { this.onClickCovid() }
     }
 
     override fun onResume() {
@@ -61,45 +60,32 @@ class HomeActivity: BaseActivity<HomeViewModel>(), HomeActionListener, ForceUpda
         mViewModel.getMedicalRecord()
     }
 
-    private fun setupToolbar(user: User){
-        iv_toolbar_home.setImageUrl(user.photo)
-        tv_toolbar_home.text = user.name
-    }
-
     private fun setupAdapter(){
-        mAdapter = HomeAdapter(this)
+        mAdapter = MedicalRecordsAdapter(this)
         recycler_home.apply {
             adapter = mAdapter
-            setupRecyclerViewLinear(this@HomeActivity, RecyclerView.VERTICAL)
+            setupRecyclerViewLinear(this@MedicalRecordsActivity, RecyclerView.VERTICAL)
         }
     }
 
     private fun observeViewModel(){
         mViewModel.apply {
-            progressGetMedicalRecord.observe(this@HomeActivity, Observer {
+            progressGetMedicalRecord.observe(this@MedicalRecordsActivity, Observer {
                 swipe_home.isRefreshing = it
             })
-            successGetMedicalRecord.observe(this@HomeActivity, Observer {
+            successGetMedicalRecord.observe(this@MedicalRecordsActivity, Observer {
                 mAdapter.setRecyclerData(it)
             })
-            errorGetMedicalRecord.observe(this@HomeActivity, Observer {
+            errorGetMedicalRecord.observe(this@MedicalRecordsActivity, Observer {
                 showSnackbarLong(it)
             })
-            progressGetProfile.observe(this@HomeActivity, Observer {
-                if (it){
-                    iv_toolbar_home.invisible()
-                    tv_toolbar_home.invisible()
-                    pb_toolbar_home.visible()
-                }else{
-                    iv_toolbar_home.visible()
-                    tv_toolbar_home.visible()
-                    pb_toolbar_home.gone()
-                }
+            progressGetProfile.observe(this@MedicalRecordsActivity, Observer {
+
             })
-            successGetProfile.observe(this@HomeActivity, Observer {
-                setupToolbar(it)
+            successGetProfile.observe(this@MedicalRecordsActivity, Observer {
+                
             })
-            errorGetProfile.observe(this@HomeActivity, Observer {
+            errorGetProfile.observe(this@MedicalRecordsActivity, Observer {
                 showSnackbarLong(it)
             })
         }

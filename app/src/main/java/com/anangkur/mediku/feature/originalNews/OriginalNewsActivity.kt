@@ -8,10 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.R
@@ -22,7 +19,7 @@ import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.openBrowser
 import com.anangkur.mediku.util.visible
 import kotlinx.android.synthetic.main.activity_original_news.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
 class OriginalNewsActivity: BaseActivity<ViewModel>() {
 
@@ -70,7 +67,11 @@ class OriginalNewsActivity: BaseActivity<ViewModel>() {
     }
 
     private fun setupWebView(url: String){
-        wv_original_news.loadUrl(url)
+        wv_original_news.webChromeClient = WebChromeClient()
+        wv_original_news.clearCache(true)
+        wv_original_news.clearHistory()
+        wv_original_news.settings.javaScriptEnabled = true
+        wv_original_news.settings.javaScriptCanOpenWindowsAutomatically = true
         wv_original_news.webViewClient = object: WebViewClient(){
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
@@ -107,5 +108,6 @@ class OriginalNewsActivity: BaseActivity<ViewModel>() {
                 ev_original_news.visible()
             }
         }
+        wv_original_news.loadUrl(url)
     }
 }

@@ -11,16 +11,17 @@ import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.anangkur.mediku.R
+import com.anangkur.mediku.feature.covid.covid19.CovidActivity
 import com.anangkur.mediku.feature.splash.SplashActivity
 import com.anangkur.mediku.util.Const
 
 class NotificationHelper(private val context: Context){
 
-    fun createNotification(title: String, message: String, itemId: Int, bitmap: Bitmap?) {
+    fun createNotification(title: String, message: String, itemId: Int, bitmap: Bitmap?, type: String) {
         if (bitmap != null){
-            showNotification(title, itemId, buildNotification(createIntent(), title, message))
+            showNotification(title, itemId, buildNotification(createIntent(type), title, message))
         }else{
-            showNotification(title, itemId, buildNotificationWithImage(createIntent(), title, message, bitmap))
+            showNotification(title, itemId, buildNotificationWithImage(createIntent(type), title, message, bitmap))
         }
     }
 
@@ -42,8 +43,11 @@ class NotificationHelper(private val context: Context){
         mNotificationManager.notify(itemId, mBuilder.build())
     }
 
-    private fun createIntent(): PendingIntent {
-        val resultIntent = Intent(context, SplashActivity::class.java)
+    private fun createIntent(type: String): PendingIntent {
+        val resultIntent = when (type){
+            Const.NOTIFICATION_TYPE_COVID -> Intent(context, CovidActivity::class.java)
+            else -> Intent(context, SplashActivity::class.java)
+        }
 
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

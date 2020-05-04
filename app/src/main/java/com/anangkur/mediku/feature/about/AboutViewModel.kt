@@ -17,6 +17,7 @@ class AboutViewModel(private val repository: Repository): ViewModel() {
         listResource.add(createResourceGoodWare())
         listResource.add(createResourceNhorPhai())
         listResource.add(createResourceEducalyp())
+        listResource.add(createResourceIconixar())
         listResourceLive.postValue(listResource)
     }
 
@@ -61,6 +62,27 @@ class AboutViewModel(private val repository: Repository): ViewModel() {
                 image = R.drawable.ic_profile_active,
                 name = "Student",
                 link = "https://www.flaticon.com/free-icon/student_167750"
+            )
+        )
+        listResourceChild.add(
+            Resource.ResourceChild(
+                image = R.drawable.ic_medical_records,
+                name = "Prescription",
+                link = "https://www.flaticon.com/free-icon/prescription_2755093"
+            )
+        )
+        listResourceChild.add(
+            Resource.ResourceChild(
+                image = R.drawable.ic_covid_stat,
+                name = "Diagram",
+                link = "https://www.flaticon.com/free-icon/diagram_2585314"
+            )
+        )
+        listResourceChild.add(
+            Resource.ResourceChild(
+                image = R.drawable.ic_covid_check,
+                name = "Medical Report",
+                link = "https://www.flaticon.com/free-icon/medical-report_2718054"
             )
         )
         return Resource(
@@ -153,6 +175,22 @@ class AboutViewModel(private val repository: Repository): ViewModel() {
         return Resource(
             title = "Icon made by Educalyp from www.flaticon.com",
             link = "https://www.flaticon.com/authors/eucalyp",
+            child = listResourceChild
+        )
+    }
+
+    private fun createResourceIconixar(): Resource {
+        val listResourceChild = ArrayList<Resource.ResourceChild>()
+        listResourceChild.add(
+            Resource.ResourceChild(
+                image = R.drawable.ic_menstrual_period,
+                link = "https://www.flaticon.com/free-icon/calendar_2413771",
+                name = "Calendar"
+            )
+        )
+        return Resource(
+            title = "Icon made by Iconixar from www.flaticon.com",
+            link = "https://www.flaticon.com/authors/iconixar",
             child = listResourceChild
         )
     }

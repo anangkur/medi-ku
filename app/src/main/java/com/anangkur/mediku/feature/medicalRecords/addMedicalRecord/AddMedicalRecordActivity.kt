@@ -23,7 +23,7 @@ import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
 import com.esafirm.imagepicker.features.ImagePicker
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_add_medical_record.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*

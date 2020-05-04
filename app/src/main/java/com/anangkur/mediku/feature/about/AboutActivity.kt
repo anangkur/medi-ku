@@ -15,7 +15,7 @@ import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.openBrowser
 import com.anangkur.mediku.util.setupRecyclerViewLinear
 import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
 class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
 
@@ -45,6 +45,7 @@ class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
         tv_version_number.text = BuildConfig.VERSION_NAME
         tv_covid_19_data.setOnClickListener { this.onClickCovid19Api("https://covid19api.com") }
         tv_news_data.setOnClickListener { this.onClickNewsApi("https://newsapi.org") }
+        btn_rate.setOnClickListener { this.onClickGiveRating("https://play.google.com/store/apps/details?id=com.anangkur.mediku") }
     }
 
     private fun setupAdapter(){
@@ -76,6 +77,10 @@ class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
     }
 
     override fun onClickNewsApi(url: String) {
+        openBrowser(url)
+    }
+
+    override fun onClickGiveRating(url: String) {
         openBrowser(url)
     }
 }

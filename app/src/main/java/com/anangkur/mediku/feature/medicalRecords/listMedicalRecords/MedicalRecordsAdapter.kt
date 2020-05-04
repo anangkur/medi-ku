@@ -1,4 +1,4 @@
-package com.anangkur.mediku.feature.dashboard.home
+package com.anangkur.mediku.feature.medicalRecords.listMedicalRecords
 
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -8,7 +8,7 @@ import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.util.*
 import kotlinx.android.synthetic.main.item_home.view.*
 
-class HomeAdapter(private val listener: HomeActionListener): BaseAdapter<MedicalRecord>(){
+class MedicalRecordsAdapter(private val listener: MedicalRecordsActionListener): BaseAdapter<MedicalRecord>(){
 
     override val layout: Int
         get() = R.layout.item_home

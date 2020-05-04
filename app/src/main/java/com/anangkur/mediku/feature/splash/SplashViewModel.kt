@@ -36,4 +36,8 @@ class SplashViewModel(private val repository: Repository): ViewModel(){
         Log.d("saveCountry", country)
         repository.saveCountry(country)
     }
+
+    fun saveFirebaseToken(firebaseToken: String){
+        repository.saveFirebaseToken(firebaseToken)
+    }
 }
