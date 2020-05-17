@@ -23,6 +23,7 @@ interface DataSource {
     suspend fun signInWithGoogle(acct: GoogleSignInAccount?, listener: BaseFirebaseListener<FirebaseUser>) {}
     suspend fun signInEmail(email: String, password: String, listener: BaseFirebaseListener<FirebaseUser?>) {}
     suspend fun signUp(name: String, email: String, password: String, listener: BaseFirebaseListener<FirebaseUser>) {}
+    suspend fun resetPassword(email: String, listener: BaseFirebaseListener<String>){}
 
     /**
      * Preferences

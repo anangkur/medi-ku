@@ -140,6 +140,24 @@ class RemoteRepository(
         }
     }
 
+    override suspend fun resetPassword(email: String, listener: BaseFirebaseListener<String>) {
+        try {
+            listener.onLoading(true)
+            firebaseAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener {
+                    listener.onLoading(false)
+                    if (it.isSuccessful){
+                        listener.onSuccess("Email sent!")
+                    }else{
+                        listener.onFailed(it.exception?.message?:"")
+                    }
+                }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
     /**
      * News
      */

@@ -33,6 +33,10 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
         remoteRepository.signUp(name, email, password, listener)
     }
 
+    suspend fun resetPassword(email: String, listener: BaseFirebaseListener<String>) {
+        remoteRepository.resetPassword(email, listener)
+    }
+
     /**
      * covid 19 data
      */
