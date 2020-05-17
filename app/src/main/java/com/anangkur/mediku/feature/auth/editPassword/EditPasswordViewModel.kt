@@ -2,6 +2,7 @@ package com.anangkur.mediku.feature.auth.editPassword
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.google.firebase.auth.EmailAuthProvider
 import kotlinx.coroutines.CoroutineScope
@@ -13,31 +14,36 @@ class EditPasswordViewModel(private val repository: Repository): ViewModel() {
     val progressEditPassword = MutableLiveData<Boolean>()
     val successEditPassword = MutableLiveData<Boolean>()
     val errorEditPassword = MutableLiveData<String>()
-    val errorAuth = MutableLiveData<String>()
-    fun editPassword(oldPassword: String?, newPassword: String?){
+    private fun editPassword(newPassword: String){
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                progressEditPassword.postValue(true)
-                val user = repository.remoteRepository.firebaseAuth.currentUser
-                val credential = EmailAuthProvider.getCredential(user?.email?:"", oldPassword?:"")
-                user?.reauthenticate(credential)?.addOnCompleteListener {
-                    progressEditPassword.postValue(false)
-                    if (it.isSuccessful){
-                        user.updatePassword(newPassword?:"").addOnCompleteListener {task ->
-                            if (task.isSuccessful){
-                                successEditPassword.postValue(true)
-                            }else{
-                                errorEditPassword.postValue(task.exception?.message)
-                            }
-                        }
-                    }else{
-                        errorAuth.postValue(it.exception?.message)
-                    }
+            repository.editPassword(newPassword, object: BaseFirebaseListener<Boolean>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressEditPassword.postValue(isLoading)
                 }
-            }catch (e: Exception){
-                progressEditPassword.postValue(false)
-                errorEditPassword.postValue(e.message)
-            }
+                override fun onSuccess(data: Boolean) {
+                    successEditPassword.postValue(data)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorEditPassword.postValue(errorMessage)
+                }
+            })
+        }
+    }
+
+    val errorAuth = MutableLiveData<String>()
+    fun reAuthenticate(oldPassword: String, newPassword: String){
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.reAuthenticate(oldPassword, object: BaseFirebaseListener<Boolean>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressEditPassword.postValue(isLoading)
+                }
+                override fun onSuccess(data: Boolean) {
+                    editPassword(newPassword)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorAuth.postValue(errorMessage)
+                }
+            })
         }
     }
 }

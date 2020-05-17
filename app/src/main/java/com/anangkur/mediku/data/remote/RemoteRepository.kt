@@ -11,10 +11,7 @@ import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.data.model.news.GetNewsResponse
 import com.anangkur.mediku.util.Const
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
@@ -152,6 +149,42 @@ class RemoteRepository(
                         listener.onFailed(it.exception?.message?:"")
                     }
                 }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun editPassword(newPassword: String, listener: BaseFirebaseListener<Boolean>) {
+        try {
+            listener.onLoading(true)
+            val user = firebaseAuth.currentUser
+            user?.updatePassword(newPassword)?.addOnCompleteListener {task ->
+                if (task.isSuccessful){
+                    listener.onSuccess(true)
+                }else{
+                    listener.onFailed(task.exception?.message?:"")
+                }
+            }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun reAuthenticate(oldPassword: String, listener: BaseFirebaseListener<Boolean>) {
+        try {
+            listener.onLoading(true)
+            val user = firebaseAuth.currentUser
+            val credential = EmailAuthProvider.getCredential(user?.email?:"", oldPassword)
+            user?.reauthenticate(credential)?.addOnCompleteListener {
+                listener.onLoading(false)
+                if (it.isSuccessful){
+                    listener.onSuccess(true)
+                }else{
+                    listener.onFailed(it.exception?.message?:"")
+                }
+            }
         }catch (e: Exception){
             listener.onLoading(false)
             listener.onFailed(e.message?:"")

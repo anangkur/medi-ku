@@ -71,11 +71,7 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
     private fun observeViewModel(){
         mViewModel.apply {
             progressSignInLive.observe(this@SignInActivity, Observer {
-                if (it){
-                    btn_signin.showProgress()
-                }else{
-                    btn_signin.hideProgress()
-                }
+                setupLoading(it)
             })
             resultSignInLive.observe(this@SignInActivity, Observer {
                 MainActivity.startActivityClearStack(this@SignInActivity)
@@ -87,13 +83,7 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
                 showSnackbarLong(it)
             })
             progressSignInGoogleLive.observe(this@SignInActivity, Observer {
-                if (it){
-                    pb_btn_signin_google.visible()
-                    btn_signin_google.gone()
-                }else{
-                    pb_btn_signin_google.gone()
-                    btn_signin_google.visible()
-                }
+                setupLoadingGoogle(it)
             })
         }
     }
@@ -103,6 +93,24 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
         btn_forgot_password.setOnClickListener { this.onClickForgot() }
         btn_register.setOnClickListener { this.onClickSignUp() }
         btn_signin_google.setOnClickListener { this.onClickGoogle() }
+    }
+
+    private fun setupLoading(isLoading: Boolean){
+        if (isLoading){
+            btn_signin.showProgress()
+        }else{
+            btn_signin.hideProgress()
+        }
+    }
+
+    private fun setupLoadingGoogle(isLoading: Boolean){
+        if (isLoading){
+            pb_btn_signin_google.visible()
+            btn_signin_google.gone()
+        }else{
+            pb_btn_signin_google.gone()
+            btn_signin_google.visible()
+        }
     }
 
     override fun onClickSignIn(email: String?, password: String?) {

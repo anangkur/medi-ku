@@ -37,6 +37,14 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
         remoteRepository.resetPassword(email, listener)
     }
 
+    suspend fun editPassword(newPassword: String, listener: BaseFirebaseListener<Boolean>) {
+        remoteRepository.editPassword(newPassword, listener)
+    }
+
+    suspend fun reAuthenticate(oldPassword: String, listener: BaseFirebaseListener<Boolean>) {
+        remoteRepository.reAuthenticate(oldPassword, listener)
+    }
+
     /**
      * covid 19 data
      */
