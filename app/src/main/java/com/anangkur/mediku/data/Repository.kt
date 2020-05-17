@@ -17,6 +17,10 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
     /**
      * Firebase
      */
+    suspend fun getUser(user: FirebaseUser, listener: BaseFirebaseListener<User?>) {
+        remoteRepository.getUser(user, listener)
+    }
+
     suspend fun createUser(user: FirebaseUser, firebaseToken: String, listener: BaseFirebaseListener<User>){
         remoteRepository.createUser(user, firebaseToken, listener)
     }

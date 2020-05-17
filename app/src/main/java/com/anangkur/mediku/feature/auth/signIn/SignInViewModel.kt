@@ -43,7 +43,7 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                     progressSignInGoogleLive.postValue(isLoading)
                 }
                 override fun onSuccess(data: FirebaseUser) {
-                    createUser(data)
+                    getUser(data)
                 }
                 override fun onFailed(errorMessage: String) {
                     errorSignInLive.postValue(errorMessage)
@@ -61,6 +61,26 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
                 }
                 override fun onSuccess(data: User) {
                     successCreateUser.postValue(data)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorSignInLive.postValue(errorMessage)
+                }
+            })
+        }
+    }
+
+    private fun getUser(user: FirebaseUser){
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.getUser(user, object: BaseFirebaseListener<User?>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressSignInGoogleLive.postValue(isLoading)
+                }
+                override fun onSuccess(data: User?) {
+                    if (data == null){
+                        createUser(user)
+                    }else{
+                        successCreateUser.postValue(data)
+                    }
                 }
                 override fun onFailed(errorMessage: String) {
                     errorSignInLive.postValue(errorMessage)

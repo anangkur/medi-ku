@@ -24,10 +24,7 @@ class RemoteRepository(
     private val newCovid19ApiService: NewCovid19ApiService
 ): DataSource, BaseDataSource() {
 
-    /**
-     * Firebase
-     */
-    override suspend fun createUser(user: FirebaseUser, firebaseToken: String, listener: BaseFirebaseListener<User>) {
+    override suspend fun getUser(user: FirebaseUser, listener: BaseFirebaseListener<User?>) {
         try {
             listener.onLoading(true)
             firestore.collection(Const.COLLECTION_USER)
@@ -38,27 +35,7 @@ class RemoteRepository(
                     if (userFirestore != null && it.contains("firebaseToken")){
                         listener.onSuccess(userFirestore)
                     }else{
-                        val userMap = User(
-                            userId = user.uid,
-                            email = user.email?:"",
-                            name = user.displayName?:"",
-                            height = 0,
-                            weight = 0,
-                            photo = user.photoUrl.toString(),
-                            providerName = user.providerData[user.providerData.size-1].providerId,
-                            firebaseToken = firebaseToken
-                        )
-                        firestore.collection(Const.COLLECTION_USER)
-                            .document(userMap.userId)
-                            .set(userMap)
-                            .addOnSuccessListener { result ->
-                                listener.onLoading(false)
-                                listener.onSuccess(userMap)
-                            }
-                            .addOnFailureListener { exception ->
-                                listener.onLoading(false)
-                                listener.onFailed(exception.message?:"")
-                            }
+                        listener.onSuccess(null)
                     }
                 }
                 .addOnFailureListener {
@@ -71,12 +48,41 @@ class RemoteRepository(
         }
     }
 
+    override suspend fun createUser(user: FirebaseUser, firebaseToken: String, listener: BaseFirebaseListener<User>) {
+        try {
+            listener.onLoading(true)
+            val userMap = User(
+                userId = user.uid,
+                email = user.email?:"",
+                name = user.displayName?:"",
+                height = 0,
+                weight = 0,
+                photo = user.photoUrl.toString(),
+                providerName = user.providerData[user.providerData.size-1].providerId,
+                firebaseToken = firebaseToken
+            )
+            firestore.collection(Const.COLLECTION_USER)
+                .document(userMap.userId)
+                .set(userMap)
+                .addOnSuccessListener { result ->
+                    listener.onLoading(false)
+                    listener.onSuccess(userMap)
+                }
+                .addOnFailureListener { exception ->
+                    listener.onLoading(false)
+                    listener.onFailed(exception.message?:"")
+                }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
     override suspend fun signInWithGoogle(acct: GoogleSignInAccount?, listener: BaseFirebaseListener<FirebaseUser>) {
         try {
             listener.onLoading(true)
             val credential = GoogleAuthProvider.getCredential(acct?.idToken, null)
-            firebaseAuth
-                .signInWithCredential(credential).addOnCompleteListener{ task ->
+            firebaseAuth.signInWithCredential(credential).addOnCompleteListener{ task ->
                     listener.onLoading(false)
                     if (task.isSuccessful) {
                         listener.onSuccess(task.result?.user!!)

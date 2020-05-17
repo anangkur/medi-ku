@@ -19,13 +19,14 @@ interface DataSource {
     /**
      * Firebase
      */
+    suspend fun getUser(user: FirebaseUser, listener: BaseFirebaseListener<User?>) {}
     suspend fun createUser(user: FirebaseUser, firebaseToken: String, listener: BaseFirebaseListener<User>) {}
     suspend fun signInWithGoogle(acct: GoogleSignInAccount?, listener: BaseFirebaseListener<FirebaseUser>) {}
     suspend fun signInEmail(email: String, password: String, listener: BaseFirebaseListener<FirebaseUser?>) {}
     suspend fun signUp(name: String, email: String, password: String, listener: BaseFirebaseListener<FirebaseUser>) {}
-    suspend fun resetPassword(email: String, listener: BaseFirebaseListener<String>){}
-    suspend fun editPassword(newPassword: String, listener: BaseFirebaseListener<Boolean>){}
-    suspend fun reAuthenticate(oldPassword: String, listener: BaseFirebaseListener<Boolean>){}
+    suspend fun resetPassword(email: String, listener: BaseFirebaseListener<String>) {}
+    suspend fun editPassword(newPassword: String, listener: BaseFirebaseListener<Boolean>) {}
+    suspend fun reAuthenticate(oldPassword: String, listener: BaseFirebaseListener<Boolean>) {}
 
     /**
      * Preferences
