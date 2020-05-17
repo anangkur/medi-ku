@@ -6,6 +6,7 @@ import com.anangkur.mediku.data.DataSource
 import com.anangkur.mediku.data.model.BaseResult
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
+import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.data.model.news.GetNewsResponse
@@ -13,6 +14,7 @@ import com.anangkur.mediku.util.Const
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 
@@ -26,6 +28,31 @@ class RemoteRepository(
 
     override suspend fun getUser(user: FirebaseUser, listener: BaseFirebaseListener<User?>) {
         try {
+            listener.onLoading(true)
+            firestore.collection(Const.COLLECTION_USER)
+                .document(user.uid)
+                .get()
+                .addOnSuccessListener {
+                    val userFirestore = it.toObject<User>()
+                    if (userFirestore != null && it.contains("firebaseToken")){
+                        listener.onSuccess(userFirestore)
+                    }else{
+                        listener.onSuccess(null)
+                    }
+                }
+                .addOnFailureListener {
+                    listener.onLoading(false)
+                    listener.onFailed(it.message?:"")
+                }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun getUser(listener: BaseFirebaseListener<User?>) {
+        try {
+            val user = firebaseAuth.currentUser!!
             listener.onLoading(true)
             firestore.collection(Const.COLLECTION_USER)
                 .document(user.uid)
@@ -191,6 +218,53 @@ class RemoteRepository(
                     listener.onFailed(it.exception?.message?:"")
                 }
             }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun logout(listener: BaseFirebaseListener<Boolean>) {
+        try {
+            listener.onLoading(true)
+            firebaseAuth.signOut()
+            listener.onLoading(false)
+            listener.onSuccess(true)
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun getMedicalRecords(listener: BaseFirebaseListener<List<MedicalRecord>>) {
+        try {
+            listener.onLoading(true)
+            val user = firebaseAuth.currentUser
+            firestore
+                .collection(Const.COLLECTION_MEDICAL_RECORD)
+                .document(user?.uid?:"")
+                .collection(Const.COLLECTION_MEDICAL_RECORD)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener {result ->
+                    listener.onLoading(false)
+                    val listData = ArrayList<MedicalRecord>()
+                    for (querySnapshot in result){
+                        val data = querySnapshot.toObject<MedicalRecord>()
+                        if (data != null){
+                            listData.add(data)
+                        }
+                    }
+                    if (listData.isEmpty()){
+                        listener.onFailed("You don't have any medical record.")
+                    }else{
+                        listener.onSuccess(listData)
+                    }
+                }
+                .addOnFailureListener {exception ->
+                    listener.onLoading(false)
+                    listener.onFailed(exception.message?:"")
+                }
         }catch (e: Exception){
             listener.onLoading(false)
             listener.onFailed(e.message?:"")

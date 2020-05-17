@@ -4,6 +4,7 @@ import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.base.resultLiveData
 import com.anangkur.mediku.data.local.LocalRepository
 import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.remote.RemoteRepository
 import com.anangkur.mediku.util.Const
@@ -19,6 +20,10 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
      */
     suspend fun getUser(user: FirebaseUser, listener: BaseFirebaseListener<User?>) {
         remoteRepository.getUser(user, listener)
+    }
+
+    suspend fun getUser(listener: BaseFirebaseListener<User?>) {
+        remoteRepository.getUser(listener)
     }
 
     suspend fun createUser(user: FirebaseUser, firebaseToken: String, listener: BaseFirebaseListener<User>){
@@ -47,6 +52,14 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
 
     suspend fun reAuthenticate(oldPassword: String, listener: BaseFirebaseListener<Boolean>) {
         remoteRepository.reAuthenticate(oldPassword, listener)
+    }
+
+    suspend fun logout(listener: BaseFirebaseListener<Boolean>) {
+        remoteRepository.logout(listener)
+    }
+
+    suspend fun getMedicalRecords(listener: BaseFirebaseListener<List<MedicalRecord>>) {
+        remoteRepository.getMedicalRecords(listener)
     }
 
     /**

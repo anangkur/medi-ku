@@ -3,12 +3,10 @@ package com.anangkur.mediku.feature.dashboard.main.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.medical.MedicalRecord
-import com.anangkur.mediku.util.Const
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,38 +26,17 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
     val errorGetMedicalRecord = MutableLiveData<String>()
     fun getMedicalRecord(){
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                progressGetMedicalRecord.postValue(true)
-                val user = repository.remoteRepository.firebaseAuth.currentUser
-                repository.remoteRepository.firestore
-                    .collection(Const.COLLECTION_MEDICAL_RECORD)
-                    .document(user?.uid?:"")
-                    .collection(Const.COLLECTION_MEDICAL_RECORD)
-                    .orderBy("createdAt", Query.Direction.DESCENDING)
-                    .get()
-                    .addOnSuccessListener {result ->
-                        progressGetMedicalRecord.postValue(false)
-                        val listData = ArrayList<MedicalRecord>()
-                        for (querySnapshot in result){
-                            val data = querySnapshot.toObject<MedicalRecord>()
-                            if (data != null){
-                                listData.add(data)
-                            }
-                        }
-                        if (listData.isEmpty()){
-                            errorGetMedicalRecord.postValue("You don't have any medical record.")
-                        }else{
-                            successGetMedicalRecord.postValue(listData)
-                        }
-                    }
-                    .addOnFailureListener {exception ->
-                        progressGetMedicalRecord.postValue(false)
-                        errorGetMedicalRecord.postValue(exception.message)
-                    }
-            }catch (e: Exception){
-                progressGetMedicalRecord.postValue(false)
-                errorGetMedicalRecord.postValue(e.message)
-            }
+            repository.getMedicalRecords(object: BaseFirebaseListener<List<MedicalRecord>>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressGetMedicalRecord.postValue(isLoading)
+                }
+                override fun onSuccess(data: List<MedicalRecord>) {
+                    successGetMedicalRecord.postValue(data)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorGetMedicalRecord.postValue(errorMessage)
+                }
+            })
         }
     }
 
@@ -68,25 +45,17 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
     val errorGetProfile = MutableLiveData<String>()
     fun getUserProfile(){
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val user = repository.remoteRepository.firebaseAuth.currentUser
-                progressGetProfile.postValue(true)
-                repository.remoteRepository.firestore
-                    .collection(Const.COLLECTION_USER)
-                    .document(user?.uid?:"")
-                    .get()
-                    .addOnSuccessListener { result ->
-                        progressGetProfile.postValue(false)
-                        successGetProfile.postValue(result.toObject<User>())
-                    }
-                    .addOnFailureListener { exception ->
-                        progressGetProfile.postValue(false)
-                        errorGetProfile.postValue(exception.message)
-                    }
-            }catch (e: Exception){
-                progressGetProfile.postValue(false)
-                errorGetProfile.postValue(e.message)
-            }
+            repository.getUser(object: BaseFirebaseListener<User?>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressGetProfile.postValue(isLoading)
+                }
+                override fun onSuccess(data: User?) {
+                    successGetProfile.postValue(data)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorGetProfile.postValue(errorMessage)
+                }
+            })
         }
     }
 }

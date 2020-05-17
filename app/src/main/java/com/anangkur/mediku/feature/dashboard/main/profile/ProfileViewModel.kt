@@ -2,6 +2,7 @@ package com.anangkur.mediku.feature.dashboard.main.profile
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.util.Const
@@ -17,25 +18,17 @@ class ProfileViewModel(private val repository: Repository): ViewModel() {
     val errorGetProfile = MutableLiveData<String>()
     fun getUserProfile(){
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val user = repository.remoteRepository.firebaseAuth.currentUser
-                progressGetProfile.postValue(true)
-                repository.remoteRepository.firestore
-                    .collection(Const.COLLECTION_USER)
-                    .document(user?.uid?:"")
-                    .get()
-                    .addOnSuccessListener { result ->
-                        progressGetProfile.postValue(false)
-                        successGetProfile.postValue(result.toObject<User>())
-                    }
-                    .addOnFailureListener { exception ->
-                        progressGetProfile.postValue(false)
-                        errorGetProfile.postValue(exception.message)
-                    }
-            }catch (e: Exception){
-                progressGetProfile.postValue(false)
-                errorGetProfile.postValue(e.message)
-            }
+            repository.getUser(object: BaseFirebaseListener<User?>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressGetProfile.postValue(isLoading)
+                }
+                override fun onSuccess(data: User?) {
+                    successGetProfile.postValue(data)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorGetProfile.postValue(errorMessage)
+                }
+            })
         }
     }
 
@@ -44,15 +37,17 @@ class ProfileViewModel(private val repository: Repository): ViewModel() {
     val errorLogout = MutableLiveData<String>()
     fun logout(){
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                progressLogout.postValue(true)
-                repository.remoteRepository.firebaseAuth.signOut()
-                progressLogout.postValue(false)
-                successLogout.postValue(true)
-            }catch (e: Exception){
-                progressLogout.postValue(false)
-                errorLogout.postValue(e.message)
-            }
+            repository.logout(object: BaseFirebaseListener<Boolean>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressLogout.postValue(isLoading)
+                }
+                override fun onSuccess(data: Boolean) {
+                    successLogout.postValue(data)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorLogout.postValue(errorMessage)
+                }
+            })
         }
     }
 }

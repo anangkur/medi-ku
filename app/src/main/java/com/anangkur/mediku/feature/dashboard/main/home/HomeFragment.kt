@@ -74,14 +74,10 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
                 setupLoadingMedicalRecord(it)
             })
             successGetMedicalRecord.observe(this@HomeFragment, Observer {
-                recycler_medical_record.visible()
-                tv_error_medical_record.gone()
-                medicalRecordAdapter.setRecyclerData(it)
+                setupShowMedicalRecord(it)
             })
             errorGetMedicalRecord.observe(this@HomeFragment, Observer {
-                recycler_medical_record.gone()
-                tv_error_medical_record.visible()
-                tv_error_medical_record.text = it
+                setupErrorMedicalRecord(it)
             })
             progressGetProfile.observe(this@HomeFragment, Observer {
 
@@ -98,20 +94,14 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
                     BaseResult.Status.SUCCESS -> {
                         setupLoadingLatestNews(false)
                         if (it.data.isNullOrEmpty()){
-                            recycler_news.gone()
-                            tv_error_latest_news.visible()
-                            tv_error_latest_news.text = "There's something happen with our data."
+                            setupErrorLatestNews("There's something happen with our data.")
                         }else{
-                            recycler_news.visible()
-                            tv_error_latest_news.gone()
-                            newsAdapter.setRecyclerData(it.data)
+                            setupShowLatestNews(it.data)
                         }
                     }
                     BaseResult.Status.ERROR -> {
                         setupLoadingLatestNews(false)
-                        recycler_news.gone()
-                        tv_error_latest_news.visible()
-                        tv_error_latest_news.text = it.message
+                        setupErrorLatestNews(it.message?:"")
                     }
                 }
             })
@@ -152,6 +142,30 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
         }else{
             pb_latest_news.gone()
         }
+    }
+
+    private fun setupErrorLatestNews(errorMessage: String){
+        recycler_news.gone()
+        tv_error_latest_news.visible()
+        tv_error_latest_news.text = errorMessage
+    }
+
+    private fun setupShowLatestNews(data: List<Article>){
+        recycler_news.visible()
+        tv_error_latest_news.gone()
+        newsAdapter.setRecyclerData(data)
+    }
+
+    private fun setupShowMedicalRecord(data: List<MedicalRecord>){
+        recycler_medical_record.visible()
+        tv_error_medical_record.gone()
+        medicalRecordAdapter.setRecyclerData(data)
+    }
+
+    private fun setupErrorMedicalRecord(errorMessage: String){
+        recycler_medical_record.gone()
+        tv_error_medical_record.visible()
+        tv_error_medical_record.text = errorMessage
     }
 
     override fun onClickCovid19() {

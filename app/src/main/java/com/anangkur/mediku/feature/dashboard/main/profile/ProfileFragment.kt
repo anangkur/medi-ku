@@ -57,23 +57,16 @@ class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
     private fun observeViewModel(){
         mViewModel.apply {
             progressGetProfile.observe(this@ProfileFragment, Observer {
-                if (it){
-                    pb_profile.visible()
-                    layout_profile.invisible()
-                }else{
-                    pb_profile.gone()
-                    layout_profile.visible()
-                }
+                setupProgressProfile(it)
             })
             successGetProfile.observe(this@ProfileFragment, Observer {
-                layout_profile.visible()
                 setupView(it)
             })
             errorGetProfile.observe(this@ProfileFragment, Observer {
                 requireActivity().showSnackbarLong(it)
             })
             progressLogout.observe(this@ProfileFragment, Observer {
-
+                setupProgressLogout(it)
             })
             successLogout.observe(this@ProfileFragment, Observer {
                 SignInActivity.startActivityClearStack(requireContext())
@@ -85,6 +78,7 @@ class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
     }
 
     private fun setupView(data: User){
+        layout_profile.visible()
         tv_name.text = data.name
         tv_email.text = data.email
         tv_height_weight.text = "Height: ${data.height}cm | Weight: ${data.weight}kg"
@@ -98,6 +92,26 @@ class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
             Const.PROVIDER_FIREBASE -> { }
             Const.PROVIDER_GOOGLE -> { btn_edit_password.gone() }
             Const.PROVIDER_PASSWORD -> { btn_edit_password.visible() }
+        }
+    }
+
+    private fun setupProgressProfile(isLoading: Boolean){
+        if (isLoading){
+            pb_profile.visible()
+            layout_profile.invisible()
+        }else{
+            pb_profile.gone()
+            layout_profile.visible()
+        }
+    }
+
+    private fun setupProgressLogout(isLoading: Boolean){
+        if (isLoading){
+            pb_btn_logout.visible()
+            btn_logout.gone()
+        }else{
+            pb_btn_logout.gone()
+            btn_logout.visible()
         }
     }
 
