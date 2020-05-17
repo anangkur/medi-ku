@@ -2,6 +2,7 @@ package com.anangkur.mediku.data.remote
 
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
+import com.anangkur.mediku.util.Const
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -30,16 +31,13 @@ interface NewCovid19ApiService {
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .addInterceptor { chain ->
-                        val request =
-                            chain.request()
-                                .newBuilder()
-                                .build()
+                        val request = chain.request().newBuilder().build()
                         chain.proceed(request)
                     }
                     .build()
 
             val mRetrofit = Retrofit.Builder()
-                .baseUrl("https://api.covid19api.com/")
+                .baseUrl(Const.URL_NEW_COVID19_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(mClient)
                 .build()

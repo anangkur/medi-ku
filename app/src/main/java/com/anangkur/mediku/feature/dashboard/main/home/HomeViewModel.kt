@@ -1,6 +1,5 @@
 package com.anangkur.mediku.feature.dashboard.main.home
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -16,12 +15,12 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: Repository): ViewModel() {
 
-    private val triggerGetNews = MutableLiveData<Boolean>()
+    private val triggerGetNews = MutableLiveData<String>()
     val healthNewsLive = Transformations.switchMap(triggerGetNews){
-        repository.getHealthNews()
+        repository.getHealthNewsByCountry(it)
     }
     fun getNews(){
-        triggerGetNews.postValue(true)
+        triggerGetNews.postValue(repository.loadCountry())
     }
 
     val progressGetMedicalRecord = MutableLiveData<Boolean>()

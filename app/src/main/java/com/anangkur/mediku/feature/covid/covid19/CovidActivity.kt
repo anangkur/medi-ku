@@ -186,7 +186,7 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
             e.printStackTrace()
             date
         }
-        tv_data_shown.text = getString(R.string.label_data_shown, "$dateFormatted GMT")
+        tv_data_shown.text = getString(R.string.label_data_shown, dateFormatted)
     }
 
     private fun setupLoadingYourCountry(isLoading: Boolean){

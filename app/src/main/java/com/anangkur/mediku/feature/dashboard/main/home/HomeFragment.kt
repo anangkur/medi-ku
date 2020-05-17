@@ -171,7 +171,7 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
     }
 
     override fun onClickCovid19Check() {
-        OriginalNewsActivity.startActivity(requireContext(), "https://www.halodoc.com/tanya-jawab-seputar-virus-corona/")
+        OriginalNewsActivity.startActivity(requireContext(), Const.URL_COVID19_CHECKUP)
     }
 
     override fun onClickMedicalRecords() {

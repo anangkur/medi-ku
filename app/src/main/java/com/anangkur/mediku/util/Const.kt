@@ -1,13 +1,22 @@
 package com.anangkur.mediku.util
 
 object Const {
+    // url
+    const val URL_COVID19_CHECKUP = "https://www.halodoc.com/tanya-jawab-seputar-virus-corona/"
+    const val URL_COVID19_API = "https://pomber.github.io/"
+    const val URL_NEW_COVID19_API = "https://api.covid19api.com/"
+    const val URL_NEWS_API = "https://newsapi.org/v2/"
+
+    // database
     const val PREF_NAME = "PREF_NAME"
     const val DATABASE_NAME = "mediku_database"
 
+    // provider
     const val PROVIDER_GOOGLE = "google.com"
     const val PROVIDER_FIREBASE = "firebase"
     const val PROVIDER_PASSWORD = "password"
 
+    // image compress
     const val MAX_IMAGE_SIZE = 500.0
     const val COMPRESS_QUALITY = 95
     const val SAMPLE_SIZE = 2

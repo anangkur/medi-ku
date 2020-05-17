@@ -1,6 +1,7 @@
 package com.anangkur.mediku.data.remote
 
 import com.anangkur.mediku.data.model.news.GetNewsResponse
+import com.anangkur.mediku.util.Const
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -30,17 +31,13 @@ interface NewsApiService {
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .addInterceptor { chain ->
-                        val request =
-                            chain.request()
-                                .newBuilder()
-                                .addHeader("User-Agent", "UANGKERJA-MOBILE")
-                                .build()
+                        val request = chain.request().newBuilder().build()
                         chain.proceed(request)
                     }
                     .build()
 
             val mRetrofit = Retrofit.Builder()
-                .baseUrl("https://newsapi.org/v2/")
+                .baseUrl(Const.URL_NEWS_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(mClient)
                 .build()
