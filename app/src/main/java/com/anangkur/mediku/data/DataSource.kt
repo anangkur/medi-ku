@@ -22,6 +22,7 @@ interface DataSource {
     suspend fun createUser(user: FirebaseUser, firebaseToken: String, listener: BaseFirebaseListener<User>) {}
     suspend fun signInWithGoogle(acct: GoogleSignInAccount?, listener: BaseFirebaseListener<FirebaseUser>) {}
     suspend fun signInEmail(email: String, password: String, listener: BaseFirebaseListener<FirebaseUser?>) {}
+    suspend fun signUp(name: String, email: String, password: String, listener: BaseFirebaseListener<FirebaseUser>) {}
 
     /**
      * Preferences

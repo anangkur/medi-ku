@@ -29,6 +29,10 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
         remoteRepository.signInEmail(email, password, listener)
     }
 
+    suspend fun signUp(name: String, email: String, password: String, listener: BaseFirebaseListener<FirebaseUser>){
+        remoteRepository.signUp(name, email, password, listener)
+    }
+
     /**
      * covid 19 data
      */

@@ -14,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
@@ -101,6 +102,34 @@ class RemoteRepository(
                     listener.onLoading(false)
                     if (it.isSuccessful){
                         listener.onSuccess(it.result?.user)
+                    }else{
+                        listener.onFailed(it.exception?.message?:"")
+                    }
+                }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun signUp(name: String, email: String, password: String, listener: BaseFirebaseListener<FirebaseUser>) {
+        try {
+            listener.onLoading(true)
+            FirebaseAuth.getInstance()
+                .createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener {
+                    listener.onLoading(false)
+                    if (it.isSuccessful){
+                        val profileUpdate = UserProfileChangeRequest.Builder()
+                            .setDisplayName(name)
+                            .build()
+                        it.result?.user?.updateProfile(profileUpdate)?.addOnCompleteListener {updateProfile ->
+                            if (updateProfile.isSuccessful){
+                                listener.onSuccess(it.result?.user!!)
+                            }else{
+                                listener.onFailed(updateProfile.exception?.message?:"")
+                            }
+                        }
                     }else{
                         listener.onFailed(it.exception?.message?:"")
                     }
