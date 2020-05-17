@@ -1,5 +1,6 @@
 package com.anangkur.mediku.data
 
+import android.net.Uri
 import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.base.resultLiveData
 import com.anangkur.mediku.data.local.LocalRepository
@@ -60,6 +61,14 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
 
     suspend fun getMedicalRecords(listener: BaseFirebaseListener<List<MedicalRecord>>) {
         remoteRepository.getMedicalRecords(listener)
+    }
+
+    suspend fun addMedicalRecord(medicalRecord: MedicalRecord, listener: BaseFirebaseListener<MedicalRecord>) {
+        remoteRepository.addMedicalRecord(medicalRecord, listener)
+    }
+
+    suspend fun uploadDocument(document: Uri, listener: BaseFirebaseListener<Uri>) {
+        remoteRepository.uploadDocument(document, listener)
     }
 
     /**

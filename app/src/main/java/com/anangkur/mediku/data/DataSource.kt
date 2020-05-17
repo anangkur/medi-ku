@@ -1,5 +1,6 @@
 package com.anangkur.mediku.data
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.model.BaseResult
@@ -34,6 +35,8 @@ interface DataSource {
 
     // medicalRecord
     suspend fun getMedicalRecords(listener: BaseFirebaseListener<List<MedicalRecord>>) {}
+    suspend fun addMedicalRecord(medicalRecord: MedicalRecord, listener: BaseFirebaseListener<MedicalRecord>) {}
+    suspend fun uploadDocument(document: Uri, listener: BaseFirebaseListener<Uri>) {}
 
     /**
      * Preferences

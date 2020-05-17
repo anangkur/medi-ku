@@ -1,5 +1,6 @@
 package com.anangkur.mediku.data.remote
 
+import android.net.Uri
 import com.anangkur.mediku.base.BaseDataSource
 import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.DataSource
@@ -11,6 +12,7 @@ import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.data.model.news.GetNewsResponse
 import com.anangkur.mediku.util.Const
+import com.anangkur.mediku.util.getCurrentTimeStamp
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
@@ -264,6 +266,61 @@ class RemoteRepository(
                 .addOnFailureListener {exception ->
                     listener.onLoading(false)
                     listener.onFailed(exception.message?:"")
+                }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun addMedicalRecord(medicalRecord: MedicalRecord, listener: BaseFirebaseListener<MedicalRecord>) {
+        try {
+            listener.onLoading(true)
+            val user = firebaseAuth.currentUser
+            firestore.collection(Const.COLLECTION_MEDICAL_RECORD)
+                .document(user?.uid?:"")
+                .collection(Const.COLLECTION_MEDICAL_RECORD)
+                .document(medicalRecord.createdAt)
+                .set(medicalRecord)
+                .addOnSuccessListener {
+                    listener.onLoading(false)
+                    listener.onSuccess(medicalRecord)
+                }
+                .addOnFailureListener { exception ->
+                    listener.onLoading(false)
+                    listener.onFailed(exception.message?:"")
+                }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun uploadDocument(document: Uri, listener: BaseFirebaseListener<Uri>) {
+        try {
+            listener.onLoading(true)
+            val fileName = document.lastPathSegment?:""
+            val extension = fileName.substring(fileName.lastIndexOf("."))
+            val user = firebaseAuth.currentUser
+            val storageReference = storage.reference
+                .child(Const.COLLECTION_MEDICAL_RECORD)
+                .child(user?.uid?:"")
+                .child("${user?.uid}_${getCurrentTimeStamp() ?:"1990-01-01 00:00:00"}$extension")
+            storageReference.putFile(document)
+                .addOnProgressListener {
+                    listener.onLoading(true)
+                }.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        throw task.exception!!
+                    }
+                    storageReference.downloadUrl
+                }.addOnSuccessListener {
+                    listener.onLoading(false)
+                    listener.onSuccess(it)
+                }
+                .addOnFailureListener {
+                    listener.onLoading(false)
+                    listener.onFailed(it.message?:"")
                 }
         }catch (e: Exception){
             listener.onLoading(false)
