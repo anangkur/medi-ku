@@ -101,7 +101,7 @@ class MenstrualViewModel(private val repository: Repository): ViewModel() {
         val month = SimpleDateFormat("MMMM", Locale.US).format(date)
         addMenstrualResumeDataMonth(month, menstrualPeriodResume)
         CoroutineScope(Dispatchers.IO).launch {
-            repository.addMenstrualPeriod(menstrualPeriodResume, date, object: BaseFirebaseListener<MenstrualPeriodResume>{
+            repository.addMenstrualPeriod(menstrualPeriodResume, object: BaseFirebaseListener<MenstrualPeriodResume>{
                 override fun onLoading(isLoading: Boolean) {
                     progressAddMenstrualRecord.postValue(isLoading)
                 }

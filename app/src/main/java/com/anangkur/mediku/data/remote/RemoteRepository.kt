@@ -375,7 +375,7 @@ class RemoteRepository(
         }
     }
 
-    override suspend fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResume, date: Date, listener: BaseFirebaseListener<MenstrualPeriodResume>) {
+    override suspend fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResume, listener: BaseFirebaseListener<MenstrualPeriodResume>) {
         try {
             listener.onLoading(true)
             val user = firebaseAuth.currentUser

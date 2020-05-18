@@ -43,7 +43,7 @@ interface DataSource {
 
     // menstrualPeriod
     suspend fun getMenstrualPeriod(year: String, listener: BaseFirebaseListener<MenstrualPeriodMonthly>) {}
-    suspend fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResume, date: Date, listener: BaseFirebaseListener<MenstrualPeriodResume>) {}
+    suspend fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResume, listener: BaseFirebaseListener<MenstrualPeriodResume>) {}
 
     /**
      * Preferences

@@ -78,8 +78,8 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
         remoteRepository.getMenstrualPeriod(year, listener)
     }
 
-    suspend fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResume, date: Date, listener: BaseFirebaseListener<MenstrualPeriodResume>) {
-        remoteRepository.addMenstrualPeriod(menstrualPeriodResume, date, listener)
+    suspend fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResume, listener: BaseFirebaseListener<MenstrualPeriodResume>) {
+        remoteRepository.addMenstrualPeriod(menstrualPeriodResume, listener)
     }
 
     /**
