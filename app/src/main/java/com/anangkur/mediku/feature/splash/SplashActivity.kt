@@ -51,11 +51,7 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
     private fun observeViewModel(){
         mViewModel.apply {
             progressGetProfile.observe(this@SplashActivity, Observer {
-                if (it){
-                    pb_splash.visible()
-                }else{
-                    pb_splash.gone()
-                }
+                setupLoading(it)
             })
             successGetProfile.observe(this@SplashActivity, Observer {
                 openActivity(it)
@@ -64,6 +60,14 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
                 showToastShort(it)
                 finish()
             })
+        }
+    }
+
+    private fun setupLoading(isLoading: Boolean){
+        if (isLoading){
+            pb_splash.visible()
+        }else{
+            pb_splash.gone()
         }
     }
 
