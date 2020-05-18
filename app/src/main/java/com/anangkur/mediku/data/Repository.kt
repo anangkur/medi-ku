@@ -6,6 +6,8 @@ import com.anangkur.mediku.base.resultLiveData
 import com.anangkur.mediku.data.local.LocalRepository
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
+import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.remote.RemoteRepository
 import com.anangkur.mediku.util.Const
@@ -13,6 +15,7 @@ import com.anangkur.mediku.util.createCompleteData
 import com.anangkur.mediku.util.extractAllData
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
+import java.util.*
 
 class Repository(val remoteRepository: RemoteRepository, private val localRepository: LocalRepository) {
 
@@ -69,6 +72,14 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
 
     suspend fun uploadDocument(document: Uri, listener: BaseFirebaseListener<Uri>) {
         remoteRepository.uploadDocument(document, listener)
+    }
+
+    suspend fun getMenstrualPeriod(year: String, listener: BaseFirebaseListener<MenstrualPeriodMonthly>) {
+        remoteRepository.getMenstrualPeriod(year, listener)
+    }
+
+    suspend fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResume, date: Date, listener: BaseFirebaseListener<MenstrualPeriodResume>) {
+        remoteRepository.addMenstrualPeriod(menstrualPeriodResume, date, listener)
     }
 
     /**

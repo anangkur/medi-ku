@@ -8,6 +8,8 @@ import com.anangkur.mediku.data.model.BaseResult
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
+import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.data.model.news.GetNewsResponse
@@ -19,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RemoteRepository(
     val firebaseAuth: FirebaseAuth,
@@ -321,6 +325,72 @@ class RemoteRepository(
                 .addOnFailureListener {
                     listener.onLoading(false)
                     listener.onFailed(it.message?:"")
+                }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun getMenstrualPeriod(year: String, listener: BaseFirebaseListener<MenstrualPeriodMonthly>) {
+        try {
+            listener.onLoading(true)
+            val user = firebaseAuth.currentUser
+            firestore
+                .collection(Const.COLLECTION_MENSTRUAL_PERIOD)
+                .document(user?.uid?:"")
+                .collection(year)
+                .get()
+                .addOnSuccessListener {result ->
+                    val menstrualPeriodMonthly = MenstrualPeriodMonthly()
+                    if (!result.isEmpty){
+                        for (querySnapshot in result){
+                            val data = querySnapshot?.toObject<MenstrualPeriodResume>()
+                            when (querySnapshot.id){
+                                Const.KEY_JAN -> { menstrualPeriodMonthly.jan = data }
+                                Const.KEY_FEB -> { menstrualPeriodMonthly.feb = data }
+                                Const.KEY_MAR -> { menstrualPeriodMonthly.mar = data }
+                                Const.KEY_APR -> { menstrualPeriodMonthly.apr = data }
+                                Const.KEY_MAY -> { menstrualPeriodMonthly.may = data }
+                                Const.KEY_JUN -> { menstrualPeriodMonthly.jun = data }
+                                Const.KEY_JUL -> { menstrualPeriodMonthly.jul = data }
+                                Const.KEY_AUG -> { menstrualPeriodMonthly.aug = data }
+                                Const.KEY_SEP -> { menstrualPeriodMonthly.sep = data }
+                                Const.KEY_OCT -> { menstrualPeriodMonthly.oct = data }
+                                Const.KEY_NOV -> { menstrualPeriodMonthly.nov = data }
+                                Const.KEY_DEC -> { menstrualPeriodMonthly.dec = data }
+                            }
+                        }
+                    }
+                    listener.onLoading(false)
+                    listener.onSuccess(menstrualPeriodMonthly)
+                }
+                .addOnFailureListener {exception ->
+                    listener.onLoading(false)
+                    listener.onFailed(exception.message?:"")
+                }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResume, date: Date, listener: BaseFirebaseListener<MenstrualPeriodResume>) {
+        try {
+            listener.onLoading(true)
+            val user = firebaseAuth.currentUser
+            firestore.collection(Const.COLLECTION_MENSTRUAL_PERIOD)
+                .document(user?.uid?:"")
+                .collection(menstrualPeriodResume.year)
+                .document(menstrualPeriodResume.month)
+                .set(menstrualPeriodResume)
+                .addOnSuccessListener {
+                    listener.onLoading(false)
+                    listener.onSuccess(menstrualPeriodResume)
+                }
+                .addOnFailureListener { exception ->
+                    listener.onLoading(false)
+                    listener.onFailed(exception.message?:"")
                 }
         }catch (e: Exception){
             listener.onLoading(false)

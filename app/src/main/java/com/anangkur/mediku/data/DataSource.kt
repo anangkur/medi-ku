@@ -8,6 +8,8 @@ import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
 import com.anangkur.mediku.data.model.covid19.Covid19Data
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
+import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
@@ -15,6 +17,7 @@ import com.anangkur.mediku.data.model.news.Article
 import com.anangkur.mediku.data.model.news.GetNewsResponse
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
+import java.util.*
 
 interface DataSource {
 
@@ -37,6 +40,10 @@ interface DataSource {
     suspend fun getMedicalRecords(listener: BaseFirebaseListener<List<MedicalRecord>>) {}
     suspend fun addMedicalRecord(medicalRecord: MedicalRecord, listener: BaseFirebaseListener<MedicalRecord>) {}
     suspend fun uploadDocument(document: Uri, listener: BaseFirebaseListener<Uri>) {}
+
+    // menstrualPeriod
+    suspend fun getMenstrualPeriod(year: String, listener: BaseFirebaseListener<MenstrualPeriodMonthly>) {}
+    suspend fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResume, date: Date, listener: BaseFirebaseListener<MenstrualPeriodResume>) {}
 
     /**
      * Preferences
