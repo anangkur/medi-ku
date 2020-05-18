@@ -14,7 +14,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
 import kotlinx.android.synthetic.main.activity_splash.*
-import java.util.*
 
 
 class SplashActivity: BaseActivity<SplashViewModel>() {
@@ -33,7 +32,7 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
         observeViewModel()
         mViewModel.saveCountry(getUserCountry(this)?:"id")
         getTokenFirebase()
-        mViewModel.getProfile()
+        mViewModel.checkLogin()
     }
 
     private fun openActivity(isLoggedIn: Boolean){

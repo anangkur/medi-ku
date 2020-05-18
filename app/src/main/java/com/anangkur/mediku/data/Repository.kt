@@ -90,6 +90,10 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
         remoteRepository.uploadImage(image, listener)
     }
 
+    suspend fun checkUserLogin(listener: BaseFirebaseListener<Boolean>){
+        remoteRepository.checkUserLogin(listener)
+    }
+
     /**
      * covid 19 data
      */

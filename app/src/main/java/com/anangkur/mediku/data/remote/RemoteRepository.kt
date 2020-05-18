@@ -47,10 +47,12 @@ class RemoteRepository(
                     }
                 }
                 .addOnFailureListener {
+                    it.printStackTrace()
                     listener.onLoading(false)
                     listener.onFailed(it.message?:"")
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -72,10 +74,12 @@ class RemoteRepository(
                     }
                 }
                 .addOnFailureListener {
+                    it.printStackTrace()
                     listener.onLoading(false)
                     listener.onFailed(it.message?:"")
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -102,10 +106,12 @@ class RemoteRepository(
                     listener.onSuccess(userMap)
                 }
                 .addOnFailureListener { exception ->
+                    exception.printStackTrace()
                     listener.onLoading(false)
                     listener.onFailed(exception.message?:"")
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -120,10 +126,12 @@ class RemoteRepository(
                     if (task.isSuccessful) {
                         listener.onSuccess(task.result?.user!!)
                     } else {
+                        task.exception?.printStackTrace()
                         listener.onFailed(task.exception?.message?:"")
                     }
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -139,10 +147,12 @@ class RemoteRepository(
                     if (it.isSuccessful){
                         listener.onSuccess(it.result?.user)
                     }else{
+                        it.exception?.printStackTrace()
                         listener.onFailed(it.exception?.message?:"")
                     }
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -167,10 +177,12 @@ class RemoteRepository(
                             }
                         }
                     }else{
+                        it.exception?.printStackTrace()
                         listener.onFailed(it.exception?.message?:"")
                     }
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -185,10 +197,12 @@ class RemoteRepository(
                     if (it.isSuccessful){
                         listener.onSuccess("Email sent!")
                     }else{
+                        it.exception?.printStackTrace()
                         listener.onFailed(it.exception?.message?:"")
                     }
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -202,10 +216,12 @@ class RemoteRepository(
                 if (task.isSuccessful){
                     listener.onSuccess(true)
                 }else{
+                    task.exception?.printStackTrace()
                     listener.onFailed(task.exception?.message?:"")
                 }
             }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -221,10 +237,12 @@ class RemoteRepository(
                 if (it.isSuccessful){
                     listener.onSuccess(true)
                 }else{
+                    it.exception?.printStackTrace()
                     listener.onFailed(it.exception?.message?:"")
                 }
             }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -237,6 +255,7 @@ class RemoteRepository(
             listener.onLoading(false)
             listener.onSuccess(true)
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -268,10 +287,12 @@ class RemoteRepository(
                     }
                 }
                 .addOnFailureListener {exception ->
+                    exception.printStackTrace()
                     listener.onLoading(false)
                     listener.onFailed(exception.message?:"")
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -291,10 +312,12 @@ class RemoteRepository(
                     listener.onSuccess(medicalRecord)
                 }
                 .addOnFailureListener { exception ->
+                    exception.printStackTrace()
                     listener.onLoading(false)
                     listener.onFailed(exception.message?:"")
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -323,10 +346,12 @@ class RemoteRepository(
                     listener.onSuccess(it)
                 }
                 .addOnFailureListener {
+                    it.printStackTrace()
                     listener.onLoading(false)
                     listener.onFailed(it.message?:"")
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -366,10 +391,12 @@ class RemoteRepository(
                     listener.onSuccess(menstrualPeriodMonthly)
                 }
                 .addOnFailureListener {exception ->
+                    exception.printStackTrace()
                     listener.onLoading(false)
                     listener.onFailed(exception.message?:"")
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -389,10 +416,12 @@ class RemoteRepository(
                     listener.onSuccess(menstrualPeriodResume)
                 }
                 .addOnFailureListener { exception ->
+                    exception.printStackTrace()
                     listener.onLoading(false)
                     listener.onFailed(exception.message?:"")
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -411,10 +440,12 @@ class RemoteRepository(
                     listener.onSuccess(user)
                 }
                 .addOnFailureListener { exeption ->
+                    exeption.printStackTrace()
                     listener.onLoading(false)
                     listener.onFailed(exeption.message?:"")
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
             listener.onFailed(e.message?:"")
         }
@@ -443,11 +474,28 @@ class RemoteRepository(
                     listener.onSuccess(it)
                 }
                 .addOnFailureListener {
+                    it.printStackTrace()
                     listener.onLoading(false)
                     listener.onFailed(it.message?:"")
                 }
         }catch (e: Exception){
+            e.printStackTrace()
             listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun checkUserLogin(listener: BaseFirebaseListener<Boolean>) {
+        try {
+            listener.onLoading(true)
+            val user = firebaseAuth.currentUser
+            if (user == null){
+                listener.onSuccess(false)
+            }else{
+                listener.onSuccess(true)
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
             listener.onFailed(e.message?:"")
         }
     }
