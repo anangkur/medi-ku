@@ -80,26 +80,15 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
         mViewModel.apply {
             // get profile
             progressGetProfile.observe(this@EditProfileActivity, Observer {
-                if (it){
-                    layout_profile.gone()
-                }else{
-                }
+                setupLoadingProfile(it)
             })
             successGetProfile.observe(this@EditProfileActivity, Observer {
-                layout_profile.visible()
                 setupView(it)
-            })
-            errorGetProfile.observe(this@EditProfileActivity, Observer {
-                showSnackbarLong(it)
             })
 
             // edit profile
             progressEditProfile.observe(this@EditProfileActivity, Observer {
-                if (it){
-                    btn_save.showProgress()
-                }else{
-                    btn_save.hideProgress()
-                }
+                setupLoadingEditProfile(it)
             })
             successEditProfile.observe(this@EditProfileActivity, Observer {
                 showSnackbarShort(getString(R.string.message_success_edit_profile))
@@ -110,25 +99,48 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
 
             // upload image
             progressUploadImage.observe(this@EditProfileActivity, Observer {
-                if (it){
-                    pb_image_profile.visible()
-                }else{
-                    pb_image_profile.gone()
-                }
+                setupLoadingUploadImage(it)
             })
             successUploadImage.observe(this@EditProfileActivity, Observer {
                 editProfile(user!!.apply { photo = it.toString() })
-                iv_profile.setImageUrl(it.toString())
+                setupImage(it)
             })
         }
     }
 
     private fun setupView(data: User){
+        layout_profile.visible()
         mViewModel.user = data
         et_name.setText(data.name)
         et_height.setText(data.height.toString())
         et_weight.setText(data.weight.toString())
         iv_profile.setImageUrl(data.photo)
+    }
+
+    private fun setupLoadingProfile(isLoading: Boolean){
+        if (isLoading){
+            layout_profile.gone()
+        }else{ }
+    }
+
+    private fun setupLoadingEditProfile(isLoading: Boolean){
+        if (isLoading){
+            btn_save.showProgress()
+        }else{
+            btn_save.hideProgress()
+        }
+    }
+
+    private fun setupLoadingUploadImage(isLoading: Boolean){
+        if (isLoading){
+            pb_image_profile.visible()
+        }else{
+            pb_image_profile.gone()
+        }
+    }
+
+    private fun setupImage(image: Uri){
+        iv_profile.setImageUrl(image.toString())
     }
 
     private fun setupTextWatcher(){

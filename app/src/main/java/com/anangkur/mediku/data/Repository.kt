@@ -82,6 +82,14 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
         remoteRepository.addMenstrualPeriod(menstrualPeriodResume, listener)
     }
 
+    suspend fun editProfile(user: User, listener: BaseFirebaseListener<User>) {
+        remoteRepository.editProfile(user, listener)
+    }
+
+    suspend fun uploadImage(image: Uri, listener: BaseFirebaseListener<Uri>) {
+        remoteRepository.uploadImage(image, listener)
+    }
+
     /**
      * covid 19 data
      */

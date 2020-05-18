@@ -398,6 +398,60 @@ class RemoteRepository(
         }
     }
 
+    override suspend fun editProfile(user: User, listener: BaseFirebaseListener<User>) {
+        try {
+            listener.onLoading(true)
+            val userFirebase = firebaseAuth.currentUser
+            firestore
+                .collection(Const.COLLECTION_USER)
+                .document(userFirebase?.uid?:"")
+                .set(user)
+                .addOnSuccessListener { result ->
+                    listener.onLoading(false)
+                    listener.onSuccess(user)
+                }
+                .addOnFailureListener { exeption ->
+                    listener.onLoading(false)
+                    listener.onFailed(exeption.message?:"")
+                }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
+    override suspend fun uploadImage(image: Uri, listener: BaseFirebaseListener<Uri>) {
+        try {
+            listener.onLoading(true)
+            val fileName = image.lastPathSegment?:""
+            val extension = fileName.substring(fileName.lastIndexOf("."))
+            val user = firebaseAuth.currentUser
+            val storageReference = storage.reference
+                .child(Const.STORAGE_PROFILE_PHOTO)
+                .child(user?.uid?:"")
+                .child("${user?.uid}$extension")
+            storageReference.putFile(image)
+                .addOnProgressListener {
+                    listener.onLoading(true)
+                }.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        throw task.exception!!
+                    }
+                    storageReference.downloadUrl
+                }.addOnSuccessListener {
+                    listener.onLoading(false)
+                    listener.onSuccess(it)
+                }
+                .addOnFailureListener {
+                    listener.onLoading(false)
+                    listener.onFailed(it.message?:"")
+                }
+        }catch (e: Exception){
+            listener.onLoading(false)
+            listener.onFailed(e.message?:"")
+        }
+    }
+
     /**
      * News
      */
