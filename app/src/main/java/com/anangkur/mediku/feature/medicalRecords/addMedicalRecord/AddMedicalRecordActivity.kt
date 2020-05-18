@@ -95,25 +95,13 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
     private fun observeViewModel(){
         mViewModel.apply {
             progressAddMedicalRecord.observe(this@AddMedicalRecordActivity, Observer {
-                if (it){
-                    btn_save.showProgress()
-                }else{
-                    btn_save.hideProgress()
-                }
+                setupProgressAddMedicalRecord(it)
             })
             progressUploadDocument.observe(this@AddMedicalRecordActivity, Observer {
-                if (it){
-                    pb_document.visible()
-                    iv_camera.gone()
-                }else{
-                    pb_document.gone()
-                    iv_camera.visible()
-                }
+                setupProgressUploadDocument(it)
             })
             successUploadDocument.observe(this@AddMedicalRecordActivity, Observer {
-                document = it.toString()
-                iv_document.setImageUrl(it.toString())
-                iv_camera.gone()
+                setupDocument(it)
             })
             successAddMedicalRecord.observe(this@AddMedicalRecordActivity, Observer {
                 showToastShort(getString(R.string.message_success_add_medical_report))
@@ -146,6 +134,30 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
             et_temperature.setText(data.bodyTemperature.toString())
             et_heart_rate.setText(data.heartRate.toString())
         }
+    }
+
+    private fun setupProgressAddMedicalRecord(isLoading: Boolean){
+        if (isLoading){
+            btn_save.showProgress()
+        }else{
+            btn_save.hideProgress()
+        }
+    }
+
+    private fun setupProgressUploadDocument(isLoading: Boolean){
+        if (isLoading){
+            pb_document.visible()
+            iv_camera.gone()
+        }else{
+            pb_document.gone()
+            iv_camera.visible()
+        }
+    }
+
+    private fun setupDocument(data: Uri){
+        mViewModel.document = data.toString()
+        iv_document.setImageUrl(data.toString())
+        iv_camera.gone()
     }
 
     override fun onClickSave(

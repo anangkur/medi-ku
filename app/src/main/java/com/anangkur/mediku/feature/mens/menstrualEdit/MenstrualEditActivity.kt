@@ -66,11 +66,7 @@ class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEd
     fun observeViewModel(){
         mViewModel.apply {
             progressAddMenstrualRecord.observe(this@MenstrualEditActivity, Observer {
-                if (it){
-                    btn_save.showProgress()
-                }else{
-                    btn_save.hideProgress()
-                }
+                setupLoading(it)
             })
             successAddMenstrualRecord.observe(this@MenstrualEditActivity, Observer {
                 showToastShort(getString(R.string.message_success_save_menstrual_period))
@@ -137,5 +133,13 @@ class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEd
         et_last_period.setText(data.firstDayPeriod)
         et_long_cycle.setText(data.longCycle.toString())
         et_long_period.setText(data.longPeriod.toString())
+    }
+
+    private fun setupLoading(isLoading: Boolean){
+        if (isLoading){
+            btn_save.showProgress()
+        }else{
+            btn_save.hideProgress()
+        }
     }
 }

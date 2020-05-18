@@ -2,6 +2,7 @@ package com.anangkur.mediku.feature.auth.signIn
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.util.Const
@@ -20,91 +21,71 @@ class SignInViewModel(private val repository: Repository): ViewModel() {
     val errorSignInLive = MutableLiveData<String>()
     fun firebaseSignIn(email: String, password: String){
         CoroutineScope(Dispatchers.IO).launch{
-            try {
-                progressSignInLive.postValue(true)
-                repository.remoteRepository.firebaseAuth
-                    .signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener {
-                        progressSignInLive.postValue(false)
-                        if (it.isSuccessful){
-                            resultSignInLive.postValue(it.result?.user)
-                        }else{
-                            errorSignInLive.postValue(it.exception?.message)
-                        }
-                    }
-            }catch (e: Exception){
-                progressSignInLive.postValue(false)
-                errorSignInLive.postValue(e.message)
-            }
+            repository.signInWithEmail(email, password, object: BaseFirebaseListener<FirebaseUser?>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressSignInLive.postValue(isLoading)
+                }
+                override fun onSuccess(data: FirebaseUser?) {
+                    resultSignInLive.postValue(data)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorSignInLive.postValue(errorMessage)
+                }
+            })
         }
     }
 
     val progressSignInGoogleLive = MutableLiveData<Boolean>()
     fun firebaseSignInWithGoogle(acct: GoogleSignInAccount?) {
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                progressSignInGoogleLive.postValue(true)
-                val credential = GoogleAuthProvider.getCredential(acct?.idToken, null)
-                repository.remoteRepository.firebaseAuth
-                    .signInWithCredential(credential).addOnCompleteListener{ task ->
-                        progressSignInGoogleLive.postValue(false)
-                        if (task.isSuccessful) {
-                            createUser(task.result?.user!!)
-                        } else {
-                            errorSignInLive.postValue(task.exception?.message)
-                        }
-                    }
-            }catch (e: Exception){
-                progressSignInGoogleLive.postValue(false)
-                errorSignInLive.postValue(e.message)
-            }
+            repository.signInWithGoogle(acct, object: BaseFirebaseListener<FirebaseUser>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressSignInGoogleLive.postValue(isLoading)
+                }
+                override fun onSuccess(data: FirebaseUser) {
+                    getUser(data)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorSignInLive.postValue(errorMessage)
+                }
+            })
         }
     }
 
-    val successCreateUser = MutableLiveData<Void>()
+    val successCreateUser = MutableLiveData<User>()
     private fun createUser(user: FirebaseUser){
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                progressSignInGoogleLive.postValue(true)
-                repository.remoteRepository.firestore.collection(Const.COLLECTION_USER)
-                    .document(user.uid)
-                    .get()
-                    .addOnSuccessListener {
-                        val userFirestore = it.toObject<User>()
-                        if (userFirestore != null && it.contains("firebaseToken")){
-                            resultSignInLive.postValue(user)
-                        }else{
-                            val userMap = User(
-                                userId = user.uid,
-                                email = user.email?:"",
-                                name = user.displayName?:"",
-                                height = 0,
-                                weight = 0,
-                                photo = user.photoUrl.toString(),
-                                providerName = user.providerData[user.providerData.size-1].providerId,
-                                firebaseToken = loadFirebaseToken()
-                            )
-                            repository.remoteRepository.firestore.collection(Const.COLLECTION_USER)
-                                .document(user.uid)
-                                .set(userMap)
-                                .addOnSuccessListener { result ->
-                                    progressSignInGoogleLive.postValue(false)
-                                    successCreateUser.postValue(result)
-                                }
-                                .addOnFailureListener { exception ->
-                                    progressSignInGoogleLive.postValue(false)
-                                    errorSignInLive.postValue(exception.message)
-                                }
-                        }
+            repository.createUser(user, loadFirebaseToken(), object: BaseFirebaseListener<User>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressSignInGoogleLive.postValue(isLoading)
+                }
+                override fun onSuccess(data: User) {
+                    successCreateUser.postValue(data)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorSignInLive.postValue(errorMessage)
+                }
+            })
+        }
+    }
+
+    private fun getUser(user: FirebaseUser){
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.getUser(user, object: BaseFirebaseListener<User?>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressSignInGoogleLive.postValue(isLoading)
+                }
+                override fun onSuccess(data: User?) {
+                    if (data == null){
+                        createUser(user)
+                    }else{
+                        successCreateUser.postValue(data)
                     }
-                    .addOnFailureListener {
-                        progressSignInGoogleLive.postValue(false)
-                        errorSignInLive.postValue(it.message)
-                    }
-            }catch (e: Exception){
-                progressSignInGoogleLive.postValue(false)
-                errorSignInLive.postValue(e.message)
-            }
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorSignInLive.postValue(errorMessage)
+                }
+            })
         }
     }
 

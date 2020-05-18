@@ -1,6 +1,7 @@
 package com.anangkur.mediku.data.remote
 
 import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
+import com.anangkur.mediku.util.Const
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -24,16 +25,13 @@ interface Covid19ApiService {
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .addInterceptor { chain ->
-                        val request =
-                            chain.request()
-                                .newBuilder()
-                                .build()
+                        val request = chain.request().newBuilder().build()
                         chain.proceed(request)
                     }
                     .build()
 
             val mRetrofit = Retrofit.Builder()
-                .baseUrl("https://pomber.github.io/")
+                .baseUrl(Const.URL_COVID19_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(mClient)
                 .build()

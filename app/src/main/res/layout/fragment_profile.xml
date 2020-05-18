@@ -103,19 +103,30 @@
                     android:text="@string/toolbar_about"
                     android:layout_margin="@dimen/dimens_20dp"/>
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/btn_logout"
-                style="@style/LinearVerticalWrap"
-                android:foreground="?selectableItemBackground"
-                android:visibility="visible">
-                <View
-                    style="@style/ViewLine"
-                    android:layout_width="match_parent"/>
-                <TextView
-                    style="@style/TextBoldBig"
-                    android:text="@string/label_logout"
-                    android:layout_margin="@dimen/dimens_20dp"/>
-            </LinearLayout>
+            <RelativeLayout
+                style="@style/RelativeWrapH">
+                <LinearLayout
+                    android:id="@+id/btn_logout"
+                    style="@style/LinearVerticalWrap"
+                    android:foreground="?selectableItemBackground"
+                    android:visibility="visible">
+                    <View
+                        style="@style/ViewLine"
+                        android:layout_width="match_parent"/>
+                    <TextView
+                        style="@style/TextBoldBig"
+                        android:text="@string/label_logout"
+                        android:layout_margin="@dimen/dimens_20dp"/>
+                </LinearLayout>
+                <ProgressBar
+                    android:id="@+id/pb_btn_logout"
+                    style="?android:progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/dimens_20dp"
+                    android:visibility="gone"/>
+            </RelativeLayout>
             <View
                 style="@style/ViewLine"
                 android:layout_width="match_parent"/>

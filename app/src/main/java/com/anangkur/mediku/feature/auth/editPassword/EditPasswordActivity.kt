@@ -46,11 +46,7 @@ class EditPasswordActivity: BaseActivity<EditPasswordViewModel>(), EditPasswordA
     private fun observeViewModel(){
         mViewModel.apply {
             progressEditPassword.observe(this@EditPasswordActivity, Observer {
-                if (it){
-                    btn_save.showProgress()
-                }else{
-                    btn_save.hideProgress()
-                }
+                setupLoading(it)
             })
             successEditPassword.observe(this@EditPasswordActivity, Observer {
                 showToastShort(getString(R.string.message_success_edit_password))
@@ -63,6 +59,14 @@ class EditPasswordActivity: BaseActivity<EditPasswordViewModel>(), EditPasswordA
                 showToastShort(it)
                 SignInActivity.startActivityClearStack(this@EditPasswordActivity)
             })
+        }
+    }
+
+    private fun setupLoading(isLoading: Boolean){
+        if (isLoading){
+            btn_save.showProgress()
+        }else{
+            btn_save.hideProgress()
         }
     }
 
@@ -93,7 +97,7 @@ class EditPasswordActivity: BaseActivity<EditPasswordViewModel>(), EditPasswordA
                 til_password_confirm.error = getString(R.string.error_password_confirm_not_valid)
             }
             else -> {
-                mViewModel.editPassword(oldPassword, newPassword)
+                mViewModel.reAuthenticate(oldPassword, newPassword)
             }
         }
     }

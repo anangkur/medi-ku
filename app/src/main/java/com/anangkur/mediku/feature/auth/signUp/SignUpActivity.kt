@@ -63,11 +63,7 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
     private fun observeViewModel(){
         mViewModel.apply {
             progressSignUpLive.observe(this@SignUpActivity, Observer {
-                if (it){
-                    btn_signup.showProgress()
-                }else{
-                    btn_signup.hideProgress()
-                }
+                setupLoadingSignup(it)
             })
             successCreateUser.observe(this@SignUpActivity, Observer {
                 MainActivity.startActivityClearStack(this@SignUpActivity)
@@ -76,13 +72,7 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
                 showSnackbarLong(it)
             })
             progressSignUpGoogleLive.observe(this@SignUpActivity, Observer {
-                if (it){
-                    pb_btn_signup_google.visible()
-                    btn_signin_google.gone()
-                }else{
-                    pb_btn_signup_google.gone()
-                    btn_signin_google.visible()
-                }
+                setupLoadingSignupGoogle(it)
             })
         }
     }
@@ -104,6 +94,24 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
                 .requestEmail()
                 .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+    }
+
+    private fun setupLoadingSignupGoogle(isLoading: Boolean){
+        if (isLoading){
+            pb_btn_signup_google.visible()
+            btn_signin_google.gone()
+        }else{
+            pb_btn_signup_google.gone()
+            btn_signin_google.visible()
+        }
+    }
+
+    private fun setupLoadingSignup(isLoading: Boolean){
+        if (isLoading){
+            btn_signup.showProgress()
+        }else{
+            btn_signup.hideProgress()
+        }
     }
 
     override fun onClickSignUp(

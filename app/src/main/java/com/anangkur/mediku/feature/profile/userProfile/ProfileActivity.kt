@@ -50,29 +50,16 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
     private fun observeViewModel(){
         mViewModel.apply {
             progressGetProfile.observe(this@ProfileActivity, Observer {
-                if (it){
-                    pb_profile.visible()
-                    layout_profile.invisible()
-                }else{
-                    pb_profile.gone()
-                    layout_profile.visible()
-                }
+                setupProgressGetProfile(it)
             })
             successGetProfile.observe(this@ProfileActivity, Observer {
-                layout_profile.visible()
                 setupView(it)
             })
             errorGetProfile.observe(this@ProfileActivity, Observer {
                 showSnackbarLong(it)
             })
             progressLogout.observe(this@ProfileActivity, Observer {
-                if (it){
-                    tv_logout.gone()
-                    pb_logout.visible()
-                }else{
-                    tv_logout.visible()
-                    pb_logout.gone()
-                }
+                setupProgressLogout(it)
             })
             successLogout.observe(this@ProfileActivity, Observer {
                 SignInActivity.startActivityClearStack(this@ProfileActivity)
@@ -84,12 +71,33 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
     }
 
     private fun setupView(data: User){
+        layout_profile.visible()
         tv_name.text = data.name
         tv_email.text = data.email
         tv_height_weight.text = "Height: ${data.height}cm | Weight: ${data.weight}kg"
         iv_profile.setImageUrl(data.photo)
         iv_profile.setOnClickListener { this.onClickImage(data.photo) }
         setupEditPassword(data.providerName)
+    }
+
+    private fun setupProgressGetProfile(isLoading: Boolean){
+        if (isLoading){
+            pb_profile.visible()
+            layout_profile.invisible()
+        }else{
+            pb_profile.gone()
+            layout_profile.visible()
+        }
+    }
+
+    private fun setupProgressLogout(isLoading: Boolean){
+        if (isLoading){
+            tv_logout.gone()
+            pb_logout.visible()
+        }else{
+            tv_logout.visible()
+            pb_logout.gone()
+        }
     }
 
     private fun setupEditPassword(providerId: String){

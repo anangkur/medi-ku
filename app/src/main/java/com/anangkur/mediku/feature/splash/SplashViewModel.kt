@@ -1,10 +1,10 @@
 package com.anangkur.mediku.feature.splash
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
-import com.google.firebase.auth.FirebaseAuth
+import com.anangkur.mediku.data.model.auth.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,24 +16,21 @@ class SplashViewModel(private val repository: Repository): ViewModel(){
     val errorGetProfile = MutableLiveData<String>()
     fun getProfile(){
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                progressGetProfile.postValue(true)
-                val user = repository.remoteRepository.firebaseAuth.currentUser
-                if (user != null){
-                    successGetProfile.postValue(true)
-                }else{
-                    successGetProfile.postValue(false)
+            repository.getUser(object: BaseFirebaseListener<User?>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressGetProfile.postValue(isLoading)
                 }
-                progressGetProfile.postValue(false)
-            }catch (e: Exception){
-                progressGetProfile.postValue(false)
-                errorGetProfile.postValue(e.message?:"")
-            }
+                override fun onSuccess(data: User?) {
+                    successGetProfile.postValue(true)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorGetProfile.postValue(errorMessage)
+                }
+            })
         }
     }
 
     fun saveCountry(country: String){
-        Log.d("saveCountry", country)
         repository.saveCountry(country)
     }
 

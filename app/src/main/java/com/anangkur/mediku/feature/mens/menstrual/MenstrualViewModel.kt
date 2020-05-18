@@ -2,19 +2,17 @@ package com.anangkur.mediku.feature.mens.menstrual
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
-import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.util.Const
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MenstrualViewModel(private val repository: Repository): ViewModel() {
 
@@ -30,7 +28,7 @@ class MenstrualViewModel(private val repository: Repository): ViewModel() {
     val progressGetMenstrualRecord = MutableLiveData<Boolean>()
     val successGetMenstrualRecord = MutableLiveData<MenstrualPeriodMonthly>()
     val errorGetMenstrualRecord = MutableLiveData<String>()
-    fun getMedicalRecord(year: String){
+    fun getMenstrualPeriod(year: String){
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 progressGetMenstrualRecord.postValue(true)
@@ -103,26 +101,17 @@ class MenstrualViewModel(private val repository: Repository): ViewModel() {
         val month = SimpleDateFormat("MMMM", Locale.US).format(date)
         addMenstrualResumeDataMonth(month, menstrualPeriodResume)
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                progressAddMenstrualRecord.postValue(true)
-                val user = repository.remoteRepository.firebaseAuth.currentUser
-                repository.remoteRepository.firestore.collection(Const.COLLECTION_MENSTRUAL_PERIOD)
-                    .document(user?.uid?:"")
-                    .collection(menstrualPeriodResume.year)
-                    .document(menstrualPeriodResume.month)
-                    .set(menstrualPeriodResume)
-                    .addOnSuccessListener {
-                        progressAddMenstrualRecord.postValue(false)
-                        successAddMenstrualRecord.postValue(menstrualPeriodResume)
-                    }
-                    .addOnFailureListener { exception ->
-                        progressAddMenstrualRecord.postValue(false)
-                        errorAddMenstrualRecord.postValue(exception.message)
-                    }
-            }catch (e: Exception){
-                progressAddMenstrualRecord.postValue(false)
-                errorAddMenstrualRecord.postValue(e.message)
-            }
+            repository.addMenstrualPeriod(menstrualPeriodResume, object: BaseFirebaseListener<MenstrualPeriodResume>{
+                override fun onLoading(isLoading: Boolean) {
+                    progressAddMenstrualRecord.postValue(isLoading)
+                }
+                override fun onSuccess(data: MenstrualPeriodResume) {
+                    successAddMenstrualRecord.postValue(data)
+                }
+                override fun onFailed(errorMessage: String) {
+                    errorAddMenstrualRecord.postValue(errorMessage)
+                }
+            })
         }
     }
 

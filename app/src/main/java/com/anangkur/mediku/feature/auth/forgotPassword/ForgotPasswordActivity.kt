@@ -43,11 +43,7 @@ class ForgotPasswordActivity: BaseActivity<ForgotPasswordViewModel>(), ForgotPas
     private fun observeViewModel(){
         mViewModel.apply {
             progressForgotPassword.observe(this@ForgotPasswordActivity, Observer {
-                if (it){
-                    btn_signin.showProgress()
-                }else{
-                    btn_signin.hideProgress()
-                }
+                setupLoading(it)
             })
             successForgotPassword.observe(this@ForgotPasswordActivity, Observer {
                 showToastShort(it)
@@ -87,6 +83,14 @@ class ForgotPasswordActivity: BaseActivity<ForgotPasswordViewModel>(), ForgotPas
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+    }
+
+    private fun setupLoading(isLoading: Boolean){
+        if (isLoading){
+            btn_signin.showProgress()
+        }else{
+            btn_signin.hideProgress()
+        }
     }
 
     override fun onClickSendEmail(email: String?) {

@@ -45,7 +45,7 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
         setupCalendarListener()
         calendar_menstrual.setDate(Calendar.getInstance())
         val year = SimpleDateFormat("yyyy").format(calendar_menstrual.currentPageDate.time)
-        mViewModel.getMedicalRecord(year)
+        mViewModel.getMenstrualPeriod(year)
         showEventData(null)
     }
 
@@ -55,7 +55,7 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
         if (requestCode == MenstrualEditActivity.REQ_CODE_EDIT){
             if (resultCode == MenstrualEditActivity.RES_CODE_EDIT){
                 val year = SimpleDateFormat("yyyy").format(calendar_menstrual.currentPageDate.time)
-                mViewModel.getMedicalRecord(year)
+                mViewModel.getMenstrualPeriod(year)
             }else{
                 finish()
             }
@@ -238,7 +238,7 @@ class MenstrualActivity: BaseActivity<MenstrualViewModel>() {
         }
         showEventData(null)
         if (currentYear != mViewModel.activeYear){
-            mViewModel.getMedicalRecord(currentYear)
+            mViewModel.getMenstrualPeriod(currentYear)
         }
     }
 
