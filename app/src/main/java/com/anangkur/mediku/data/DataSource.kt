@@ -37,6 +37,7 @@ interface DataSource {
     suspend fun logout(listener: BaseFirebaseListener<Boolean>) {}
     suspend fun editProfile(user: User, listener: BaseFirebaseListener<User>) {}
     suspend fun uploadImage(image: Uri, listener: BaseFirebaseListener<Uri>) {}
+    suspend fun checkUserLogin(listener: BaseFirebaseListener<Boolean>) {}
 
     // medicalRecord
     suspend fun getMedicalRecords(listener: BaseFirebaseListener<List<MedicalRecord>>) {}
