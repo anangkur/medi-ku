@@ -39,6 +39,7 @@ class RemoteRepository(
                 .document(user.uid)
                 .get()
                 .addOnSuccessListener {
+                    listener.onLoading(false)
                     val userFirestore = it.toObject<User>()
                     if (userFirestore != null && it.contains("firebaseToken")){
                         listener.onSuccess(userFirestore)
@@ -66,6 +67,7 @@ class RemoteRepository(
                 .document(user.uid)
                 .get()
                 .addOnSuccessListener {
+                    listener.onLoading(false)
                     val userFirestore = it.toObject<User>()
                     if (userFirestore != null && it.contains("firebaseToken")){
                         listener.onSuccess(userFirestore)
@@ -213,6 +215,7 @@ class RemoteRepository(
             listener.onLoading(true)
             val user = firebaseAuth.currentUser
             user?.updatePassword(newPassword)?.addOnCompleteListener {task ->
+                listener.onLoading(false)
                 if (task.isSuccessful){
                     listener.onSuccess(true)
                 }else{
