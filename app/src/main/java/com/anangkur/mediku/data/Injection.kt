@@ -1,11 +1,10 @@
 package com.anangkur.mediku.data
 
-import android.content.Context
 import android.content.SharedPreferences
 import com.anangkur.mediku.data.local.LocalRepository
 import com.anangkur.mediku.data.local.room.AppDao
-import com.anangkur.mediku.data.remote.Covid19ApiService
-import com.anangkur.mediku.data.remote.NewCovid19ApiService
+import com.anangkur.mediku.data.remote.service.Covid19ApiService
+import com.anangkur.mediku.data.remote.service.NewCovid19ApiService
 import com.anangkur.mediku.data.remote.RemoteRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore

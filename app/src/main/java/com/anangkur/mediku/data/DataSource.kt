@@ -14,10 +14,8 @@ import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.data.model.news.Article
-import com.anangkur.mediku.data.model.news.GetNewsResponse
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
-import java.util.*
 
 interface DataSource {
 
@@ -87,7 +85,7 @@ interface DataSource {
      * Retrofit
      */
     // news
-    suspend fun getTopHeadlinesNews(apiKey: String?, country: String?, category: String?, sources: String?, q: String?): BaseResult<GetNewsResponse> { throw Exception() }
+    suspend fun getTopHeadlinesNews(apiKey: String?, country: String?, category: String?, sources: String?, q: String?): BaseResult<List<Article>?> { throw Exception() }
 
     // Covid19
     suspend fun getCovid19StatData(): BaseResult<Covid19ApiResponse> { throw Exception() }

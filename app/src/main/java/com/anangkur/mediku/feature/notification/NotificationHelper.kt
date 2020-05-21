@@ -11,8 +11,8 @@ import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.anangkur.mediku.R
-import com.anangkur.mediku.feature.covid.covid19.CovidActivity
-import com.anangkur.mediku.feature.splash.SplashActivity
+import com.anangkur.mediku.feature.view.covid.covid19.CovidActivity
+import com.anangkur.mediku.feature.view.splash.SplashActivity
 import com.anangkur.mediku.util.Const
 
 class NotificationHelper(private val context: Context){

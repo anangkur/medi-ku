@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.anangkur.mediku.data.local.model.ArticleLocalModel
 import com.anangkur.mediku.data.model.covid19.Covid19Data
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
-import com.anangkur.mediku.data.model.news.Article
 import com.anangkur.mediku.util.Const
 
 @Database(
@@ -15,9 +15,9 @@ import com.anangkur.mediku.util.Const
         Covid19Data::class,
         NewCovid19Summary::class,
         NewCovid19DataCountry::class,
-        Article::class
+        ArticleLocalModel::class
     ],
-    version = 4
+    version = 5
 )
 abstract class AppDatabase: RoomDatabase(){
 

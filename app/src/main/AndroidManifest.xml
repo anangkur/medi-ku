@@ -16,23 +16,23 @@
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".feature.about.AboutActivity" />
-        <activity android:name=".feature.mens.menstrualEdit.MenstrualEditActivity" />
-        <activity android:name=".feature.mens.menstrual.MenstrualActivity" />
-        <activity android:name=".feature.originalNews.OriginalNewsActivity" />
-        <activity android:name=".feature.dashboard.main.MainActivity" />
-        <activity android:name=".feature.covid.covid19Detail.Covid19DetailActivity" />
-        <activity android:name=".feature.covid.covid19.CovidActivity" />
-        <activity android:name=".feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity" />
-        <activity android:name=".feature.medicalRecords.addMedicalRecord.AddMedicalRecordActivity" />
-        <activity android:name=".feature.medicalRecords.listMedicalRecords.MedicalRecordsActivity" />
-        <activity android:name=".feature.auth.forgotPassword.ForgotPasswordActivity" />
-        <activity android:name=".feature.auth.editPassword.EditPasswordActivity" />
-        <activity android:name=".feature.profile.editProfile.EditProfileActivity" />
-        <activity android:name=".feature.profile.userProfile.ProfileActivity" />
-        <activity android:name=".feature.auth.signUp.SignUpActivity" />
-        <activity android:name=".feature.auth.signIn.SignInActivity" />
-        <activity android:name=".feature.splash.SplashActivity">
+        <activity android:name="com.anangkur.mediku.feature.view.about.AboutActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.mens.menstrualEdit.MenstrualEditActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.mens.menstrual.MenstrualActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.originalNews.OriginalNewsActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.dashboard.main.MainActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.covid.covid19Detail.Covid19DetailActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.covid.covid19.CovidActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.medicalRecords.addMedicalRecord.AddMedicalRecordActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.medicalRecords.listMedicalRecords.MedicalRecordsActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.auth.forgotPassword.ForgotPasswordActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.auth.editPassword.EditPasswordActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.profile.editProfile.EditProfileActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.profile.userProfile.ProfileActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.auth.signUp.SignUpActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.auth.signIn.SignInActivity" />
+        <activity android:name="com.anangkur.mediku.feature.view.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,7 +44,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
 
         <service
-            android:name=".feature.notification.MessagingService"
+            android:name="com.anangkur.mediku.feature.notification.MessagingService"
             android:permission="com.google.android.c2dm.permission.SEND"
             android:stopWithTask="false">
             <intent-filter>

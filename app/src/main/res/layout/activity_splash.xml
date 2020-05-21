@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ConstraintDefault"
-    tools:context=".feature.splash.SplashActivity">
+    tools:context=".feature.view.splash.SplashActivity">
 
     <ImageView
         android:id="@+id/iv_splash"

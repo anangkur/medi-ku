@@ -3,7 +3,9 @@ package com.anangkur.mediku.data.local
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.anangkur.mediku.data.DataSource
+import com.anangkur.mediku.data.local.mapper.ArticleMapper
 import com.anangkur.mediku.data.local.room.AppDao
 import com.anangkur.mediku.data.model.covid19.Covid19Data
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
@@ -13,6 +15,7 @@ import com.anangkur.mediku.util.Const
 import com.anangkur.mediku.util.Const.PREF_COUNTRY
 
 class LocalRepository(
+    private val mapper: ArticleMapper,
     private val preferences: SharedPreferences,
     private val dao: AppDao
 ): DataSource {
@@ -28,10 +31,10 @@ class LocalRepository(
     /**
      * News
      */
-    override suspend fun insertDataNews(data: List<Article>) { dao.insertDataNews(data) }
+    override suspend fun insertDataNews(data: List<Article>) { dao.insertDataNews(data.map { mapper.mapToLocal(it) }) }
 
     override fun getAllDataByCategory(category: String): LiveData<List<Article>> {
-        return dao.getAllDataByCategory(category)
+        return dao.getAllDataByCategory(category).map { list -> list.map { mapper.mapFromLocal(it) } }
     }
 
     /**
@@ -107,6 +110,6 @@ class LocalRepository(
         fun getInstance(
             preferences: SharedPreferences,
             dao: AppDao
-        ) = INSTANCE ?: LocalRepository(preferences, dao)
+        ) = INSTANCE ?: LocalRepository(ArticleMapper(), preferences, dao)
     }
 }

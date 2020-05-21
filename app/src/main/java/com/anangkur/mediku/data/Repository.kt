@@ -156,12 +156,12 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
             null)
         },
         saveCallResult = {
-            localRepository.insertDataNews(it.articles.map {article ->
-                article.copy(
-                    id = "${article.publishedAt}_${article.title}",
-                    category = Const.NEWS_HEALTH
-                )
-            })
+            it?.let { localRepository.insertDataNews(it.map {article ->
+                article.apply {
+                    this.id = "${article.publishedAt}_${article.title}"
+                    this.category = Const.NEWS_HEALTH
+                }
+            }) }
         }
     )
 
@@ -175,12 +175,13 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
             null)
         },
         saveCallResult = {
-            localRepository.insertDataNews(it.articles.map {article ->
-                article.copy(
-                    id = "${article.publishedAt}_${article.title}",
-                    category = Const.NEWS_HEALTH,
-                    country = country)
-            })
+            it?.let { localRepository.insertDataNews(it.map {article ->
+                article.apply {
+                    this.id = "${article.publishedAt}_${article.title}"
+                    this.category = Const.NEWS_HEALTH
+                    this.country = country
+                }
+            }) }
         }
     )
 

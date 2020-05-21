@@ -5,10 +5,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.anangkur.mediku.data.local.model.ArticleLocalModel
 import com.anangkur.mediku.data.model.covid19.Covid19Data
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
-import com.anangkur.mediku.data.model.news.Article
 
 @Dao
 interface AppDao {
@@ -50,8 +50,8 @@ interface AppDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDataNews(data: List<Article>)
+    suspend fun insertDataNews(data: List<ArticleLocalModel>)
 
-    @Query("SELECT * FROM Article WHERE category = :category")
-    fun getAllDataByCategory(category: String): LiveData<List<Article>>
+    @Query("SELECT * FROM ArticleLocalModel WHERE category = :category")
+    fun getAllDataByCategory(category: String): LiveData<List<ArticleLocalModel>>
 }

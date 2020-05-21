@@ -12,7 +12,11 @@ import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
-import com.anangkur.mediku.data.model.news.GetNewsResponse
+import com.anangkur.mediku.data.model.news.Article
+import com.anangkur.mediku.data.remote.mapper.ArticleMapper
+import com.anangkur.mediku.data.remote.service.Covid19ApiService
+import com.anangkur.mediku.data.remote.service.NewCovid19ApiService
+import com.anangkur.mediku.data.remote.service.NewsApiService
 import com.anangkur.mediku.util.Const
 import com.anangkur.mediku.util.getCurrentTimeStamp
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -21,13 +25,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
-import java.util.*
 import kotlin.collections.ArrayList
 
 class RemoteRepository(
+    private val mapper: ArticleMapper,
     val firebaseAuth: FirebaseAuth,
     val firestore: FirebaseFirestore,
-    val storage: FirebaseStorage,
+    private val storage: FirebaseStorage,
     private val covid19ApiService: Covid19ApiService,
     private val newCovid19ApiService: NewCovid19ApiService
 ): DataSource, BaseDataSource() {
@@ -512,8 +516,8 @@ class RemoteRepository(
         category: String?,
         sources: String?,
         q: String?
-    ): BaseResult<GetNewsResponse> {
-        return getResult {
+    ): BaseResult<List<Article>?> {
+        val baseResult = getResult {
             NewsApiService.getApiService.getTopHeadlinesNews(
                 apiKey,
                 country,
@@ -521,6 +525,11 @@ class RemoteRepository(
                 sources,
                 q
             )
+        }
+        return if (baseResult.status == BaseResult.Status.SUCCESS){
+            BaseResult.success(baseResult.data?.articles?.map { mapper.mapFromRemote(it) })
+        }else{
+            BaseResult.error(baseResult.message?:"")
         }
     }
 
@@ -550,6 +559,6 @@ class RemoteRepository(
             storage: FirebaseStorage,
             covid19ApiService: Covid19ApiService,
             newCovid19ApiService: NewCovid19ApiService
-        ) = INSTANCE ?: RemoteRepository(firebaseAuth, firestore, storage, covid19ApiService, newCovid19ApiService)
+        ) = INSTANCE ?: RemoteRepository(ArticleMapper.getInstance(), firebaseAuth, firestore, storage, covid19ApiService, newCovid19ApiService)
     }
 }
