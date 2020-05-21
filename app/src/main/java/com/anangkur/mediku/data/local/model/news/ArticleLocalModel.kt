@@ -1,4 +1,4 @@
-package com.anangkur.mediku.data.local.model
+package com.anangkur.mediku.data.local.model.news
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

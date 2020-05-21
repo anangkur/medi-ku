@@ -1,6 +1,6 @@
 package com.anangkur.mediku.data.local.mapper
 
-import com.anangkur.mediku.data.local.model.ArticleLocalModel
+import com.anangkur.mediku.data.local.model.news.ArticleLocalModel
 import com.anangkur.mediku.data.model.news.Article
 
 class ArticleMapper: LocalMapper<ArticleLocalModel, Article> {
