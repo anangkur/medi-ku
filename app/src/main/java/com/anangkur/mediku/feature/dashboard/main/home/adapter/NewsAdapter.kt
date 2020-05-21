@@ -20,7 +20,10 @@ class NewsAdapter(private val listener: HomeActionListener): BaseAdapter<ItemNew
     override fun bind(data: Article, itemView: ItemNewsBinding, position: Int) {
         itemView.ivItemRegular.setImageUrl(data.urlToImage?:"")
         itemView.tvItemRegular.text = data.title
+        itemView.tvNewsSource.text = data.country
+
         itemView.root.setOnClickListener { listener.onClickNews(data) }
+
         val dateParsed = try {
             SimpleDateFormat(Const.DATE_FORMAT_NEW_COVID19_2, Locale.US).parse(data.publishedAt)
         }catch (e: Exception){
@@ -30,6 +33,7 @@ class NewsAdapter(private val listener: HomeActionListener): BaseAdapter<ItemNew
                 null
             }
         }
+
         val dateFormatted = try {
             SimpleDateFormat(Const.DATE_NEWS_SHOWN, Locale.US).format(dateParsed)
         }catch (e: Exception){

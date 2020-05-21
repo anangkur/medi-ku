@@ -1,8 +1,6 @@
 package com.anangkur.mediku.data.model.news
 
-import com.anangkur.mediku.data.model.news.Article
 import com.google.gson.annotations.SerializedName
-
 
 data class GetNewsResponse(
     @SerializedName("status")
