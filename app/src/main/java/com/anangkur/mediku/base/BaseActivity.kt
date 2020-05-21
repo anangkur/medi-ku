@@ -29,6 +29,7 @@ abstract class BaseActivity<V: ViewBinding, T: ViewModel?>: AppCompatActivity(){
         toolbar?.let {
             setSupportActionBar(it)
             title = mTitleToolbar
+            it.setNavigationOnClickListener { onBackPressed() }
         }
     }
 }
