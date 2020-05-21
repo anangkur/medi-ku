@@ -1,10 +1,10 @@
 package com.anangkur.mediku.feature.view.about
 
-import com.anangkur.mediku.data.model.about.Resource
+import com.anangkur.mediku.feature.model.ResourceIntent
 
 interface AboutActionListener {
-    fun onClickResourceParent(resourceParent: Resource)
-    fun onClickResourceChild(resourceChild: Resource.ResourceChild)
+    fun onClickResourceParent(resourceParent: ResourceIntent)
+    fun onClickResourceChild(resourceChild: ResourceIntent.ResourceChild)
     fun onClickCovid19Api(url: String)
     fun onClickNewsApi(url: String)
     fun onClickGiveRating(url: String)

@@ -1,6 +1,6 @@
-package com.anangkur.mediku.data.model.about
+package com.anangkur.mediku.feature.model
 
-data class Resource(
+data class ResourceIntent(
     val title: String,
     val child: List<ResourceChild>,
     val link: String

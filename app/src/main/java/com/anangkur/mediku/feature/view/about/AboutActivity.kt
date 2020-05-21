@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anangkur.mediku.BuildConfig
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
-import com.anangkur.mediku.data.model.about.Resource
+import com.anangkur.mediku.feature.model.ResourceIntent
 import com.anangkur.mediku.databinding.ActivityAboutBinding
 import com.anangkur.mediku.feature.view.about.resource.ResourceParentAdapter
 import com.anangkur.mediku.util.obtainViewModel
@@ -65,11 +65,11 @@ class AboutActivity: BaseActivity<ActivityAboutBinding, AboutViewModel>(), About
         }
     }
 
-    override fun onClickResourceParent(resourceParent: Resource) {
+    override fun onClickResourceParent(resourceParent: ResourceIntent) {
         openBrowser(resourceParent.link)
     }
 
-    override fun onClickResourceChild(resourceChild: Resource.ResourceChild) {
+    override fun onClickResourceChild(resourceChild: ResourceIntent.ResourceChild) {
         openBrowser(resourceChild.link)
     }
 
