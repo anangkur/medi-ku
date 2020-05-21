@@ -67,7 +67,9 @@ class CovidActivity : BaseActivity<ActivityCovidBinding, CovidViewModel>() {
                     }
                     BaseResult.Status.SUCCESS -> {
                         setupLoadingGeneral(false)
-                        setupShownDate(it.data?.get(0)?.date)
+                        if (!it.data.isNullOrEmpty()){
+                            setupShownDate(it.data[0].date)
+                        }
                         mLayout.tvDataShown.visible()
                         setupDataOtherCountryToView(it.data!!.subList(1, it.data.size))
                         getCovid19DataOnYourCountry(country.convertCoutryCodeIsoToCountryName())
