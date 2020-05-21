@@ -13,6 +13,8 @@ import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.data.model.news.Article
 import com.anangkur.mediku.data.remote.mapper.ArticleMapper
+import com.anangkur.mediku.data.remote.mapper.UserMapper
+import com.anangkur.mediku.data.remote.model.auth.UserRemoteModel
 import com.anangkur.mediku.data.remote.service.NewCovid19ApiService
 import com.anangkur.mediku.data.remote.service.NewsApiService
 import com.anangkur.mediku.util.Const
@@ -28,12 +30,25 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlin.collections.ArrayList
 
 class RemoteRepository(
-    private val mapper: ArticleMapper,
+    private val articleMapper: ArticleMapper,
+    private val userMapper: UserMapper,
     val firebaseAuth: FirebaseAuth,
     val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage,
     private val newCovid19ApiService: NewCovid19ApiService
 ): DataSource, BaseDataSource() {
+
+    companion object{
+        private var INSTANCE: RemoteRepository? = null
+        fun getInstance() = INSTANCE ?: RemoteRepository(
+            ArticleMapper.getInstance(),
+            UserMapper.getInstance(),
+            FirebaseAuth.getInstance(),
+            Firebase.firestore,
+            FirebaseStorage.getInstance(),
+            NewCovid19ApiService.getCovid19ApiService
+        )
+    }
 
     override suspend fun getUser(user: FirebaseUser, listener: BaseFirebaseListener<User?>) {
         try {
@@ -43,9 +58,9 @@ class RemoteRepository(
                 .get()
                 .addOnSuccessListener {
                     listener.onLoading(false)
-                    val userFirestore = it.toObject<User>()
+                    val userFirestore = it.toObject<UserRemoteModel>()
                     if (userFirestore != null && it.contains("firebaseToken")){
-                        listener.onSuccess(userFirestore)
+                        listener.onSuccess(userMapper.mapFromRemote(userFirestore))
                     }else{
                         listener.onSuccess(null)
                     }
@@ -71,9 +86,9 @@ class RemoteRepository(
                 .get()
                 .addOnSuccessListener {
                     listener.onLoading(false)
-                    val userFirestore = it.toObject<User>()
+                    val userFirestore = it.toObject<UserRemoteModel>()
                     if (userFirestore != null && it.contains("firebaseToken")){
-                        listener.onSuccess(userFirestore)
+                        listener.onSuccess(userMapper.mapFromRemote(userFirestore))
                     }else{
                         listener.onSuccess(null)
                     }
@@ -93,7 +108,7 @@ class RemoteRepository(
     override suspend fun createUser(user: FirebaseUser, firebaseToken: String, listener: BaseFirebaseListener<User>) {
         try {
             listener.onLoading(true)
-            val userMap = User(
+            val userMap = UserRemoteModel(
                 userId = user.uid,
                 email = user.email?:"",
                 name = user.displayName?:"",
@@ -106,9 +121,9 @@ class RemoteRepository(
             firestore.collection(Const.COLLECTION_USER)
                 .document(userMap.userId)
                 .set(userMap)
-                .addOnSuccessListener { result ->
+                .addOnSuccessListener {
                     listener.onLoading(false)
-                    listener.onSuccess(userMap)
+                    listener.onSuccess(userMapper.mapFromRemote(userMap))
                 }
                 .addOnFailureListener { exception ->
                     exception.printStackTrace()
@@ -440,8 +455,8 @@ class RemoteRepository(
             firestore
                 .collection(Const.COLLECTION_USER)
                 .document(userFirebase?.uid?:"")
-                .set(user)
-                .addOnSuccessListener { result ->
+                .set(userMapper.mapToRemote(user))
+                .addOnSuccessListener {
                     listener.onLoading(false)
                     listener.onSuccess(user)
                 }
@@ -526,7 +541,7 @@ class RemoteRepository(
             )
         }
         return if (baseResult.status == BaseResult.Status.SUCCESS){
-            BaseResult.success(baseResult.data?.articles?.map { mapper.mapFromRemote(it) })
+            BaseResult.success(baseResult.data?.articles?.map { articleMapper.mapFromRemote(it) })
         }else{
             BaseResult.error(baseResult.message?:"")
         }
@@ -541,16 +556,5 @@ class RemoteRepository(
 
     override suspend fun getSummary(): BaseResult<NewCovid19SummaryResponse> {
         return getResult { newCovid19ApiService.getSummary() }
-    }
-
-    companion object{
-        private var INSTANCE: RemoteRepository? = null
-        fun getInstance() = INSTANCE ?: RemoteRepository(
-            ArticleMapper.getInstance(),
-            FirebaseAuth.getInstance(),
-            Firebase.firestore,
-            FirebaseStorage.getInstance(),
-            NewCovid19ApiService.getCovid19ApiService
-        )
     }
 }

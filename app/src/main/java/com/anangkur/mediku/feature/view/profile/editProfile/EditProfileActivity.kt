@@ -10,8 +10,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
-import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.databinding.ActivityEditProfileBinding
+import com.anangkur.mediku.feature.model.UserIntent
 import com.anangkur.mediku.util.*
 import com.esafirm.imagepicker.features.ImagePicker
 import com.theartofdev.edmodo.cropper.CropImage
@@ -109,7 +109,7 @@ class EditProfileActivity: BaseActivity<ActivityEditProfileBinding, EditProfileV
         }
     }
 
-    private fun setupView(data: User){
+    private fun setupView(data: UserIntent){
         mLayout.layoutProfile.visible()
         mViewModel.user = data
         mLayout.etName.setText(data.name)

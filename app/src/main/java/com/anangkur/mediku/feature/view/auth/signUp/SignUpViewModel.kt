@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.feature.mapper.UserMapper
+import com.anangkur.mediku.feature.model.UserIntent
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineScope
@@ -12,6 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(private val repository: Repository): ViewModel() {
+
+    private val userMapper = UserMapper.getInstance()
 
     val progressSignUpLive = MutableLiveData<Boolean>()
     val errorSignUpLive = MutableLiveData<String>()
@@ -48,7 +52,7 @@ class SignUpViewModel(private val repository: Repository): ViewModel() {
         }
     }
 
-    val successCreateUser = MutableLiveData<User>()
+    val successCreateUser = MutableLiveData<UserIntent>()
     private fun createUser(user: FirebaseUser, isPassword: Boolean){
         CoroutineScope(Dispatchers.IO).launch {
             repository.createUser(user, loadFirebaseToken(), object: BaseFirebaseListener<User>{
@@ -60,7 +64,7 @@ class SignUpViewModel(private val repository: Repository): ViewModel() {
                     }
                 }
                 override fun onSuccess(data: User) {
-                    successCreateUser.postValue(data)
+                    successCreateUser.postValue(userMapper.mapToIntent(data))
                 }
                 override fun onFailed(errorMessage: String) {
                     errorSignUpLive.postValue(errorMessage)
@@ -83,7 +87,7 @@ class SignUpViewModel(private val repository: Repository): ViewModel() {
                     if (data == null){
                         createUser(user, isPassword)
                     }else{
-                        successCreateUser.postValue(data)
+                        successCreateUser.postValue(userMapper.mapToIntent(data))
                     }
                 }
                 override fun onFailed(errorMessage: String) {

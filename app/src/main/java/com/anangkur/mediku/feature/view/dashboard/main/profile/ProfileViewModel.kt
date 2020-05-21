@@ -5,14 +5,18 @@ import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.feature.mapper.UserMapper
+import com.anangkur.mediku.feature.model.UserIntent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val repository: Repository): ViewModel() {
 
+    private val userMapper = UserMapper.getInstance()
+
     val progressGetProfile = MutableLiveData<Boolean>()
-    val successGetProfile = MutableLiveData<User>()
+    val successGetProfile = MutableLiveData<UserIntent>()
     val errorGetProfile = MutableLiveData<String>()
     fun getUserProfile(){
         CoroutineScope(Dispatchers.IO).launch {
@@ -21,7 +25,7 @@ class ProfileViewModel(private val repository: Repository): ViewModel() {
                     progressGetProfile.postValue(isLoading)
                 }
                 override fun onSuccess(data: User?) {
-                    successGetProfile.postValue(data)
+                    successGetProfile.postValue(data?.let { userMapper.mapToIntent(it) })
                 }
                 override fun onFailed(errorMessage: String) {
                     errorGetProfile.postValue(errorMessage)

@@ -7,11 +7,15 @@ import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.feature.mapper.UserMapper
+import com.anangkur.mediku.feature.model.UserIntent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: Repository): ViewModel() {
+
+    private val userMapper = UserMapper.getInstance()
 
     private val triggerGetNews = MutableLiveData<String>()
     val healthNewsLive = Transformations.switchMap(triggerGetNews){
@@ -41,7 +45,7 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
     }
 
     val progressGetProfile = MutableLiveData<Boolean>()
-    val successGetProfile = MutableLiveData<User>()
+    val successGetProfile = MutableLiveData<UserIntent>()
     val errorGetProfile = MutableLiveData<String>()
     fun getUserProfile(){
         CoroutineScope(Dispatchers.IO).launch {
@@ -50,7 +54,7 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
                     progressGetProfile.postValue(isLoading)
                 }
                 override fun onSuccess(data: User?) {
-                    successGetProfile.postValue(data)
+                    successGetProfile.postValue(data?.let { userMapper.mapToIntent(it) })
                 }
                 override fun onFailed(errorMessage: String) {
                     errorGetProfile.postValue(errorMessage)

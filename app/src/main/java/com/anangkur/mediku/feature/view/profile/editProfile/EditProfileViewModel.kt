@@ -6,25 +6,29 @@ import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.feature.mapper.UserMapper
+import com.anangkur.mediku.feature.model.UserIntent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class EditProfileViewModel(private val repository: Repository): ViewModel() {
 
-    var user: User? = null
+    private val userMapper = UserMapper.getInstance()
+
+    var user: UserIntent? = null
 
     val progressEditProfile = MutableLiveData<Boolean>()
-    val successEditProfile = MutableLiveData<User>()
+    val successEditProfile = MutableLiveData<UserIntent>()
     val errorEditProfile = MutableLiveData<String>()
-    fun editProfile(user: User){
+    fun editProfile(user: UserIntent){
         CoroutineScope(Dispatchers.IO).launch {
-            repository.editProfile(user, object: BaseFirebaseListener<User>{
+            repository.editProfile(userMapper.mapFromIntent(user), object: BaseFirebaseListener<User>{
                 override fun onLoading(isLoading: Boolean) {
                     progressEditProfile.postValue(isLoading)
                 }
                 override fun onSuccess(data: User) {
-                    successEditProfile.postValue(data)
+                    successEditProfile.postValue(userMapper.mapToIntent(data))
                 }
                 override fun onFailed(errorMessage: String) {
                     errorEditProfile.postValue(errorMessage)
@@ -34,7 +38,7 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
     }
 
     val progressGetProfile = MutableLiveData<Boolean>()
-    val successGetProfile = MutableLiveData<User>()
+    val successGetProfile = MutableLiveData<UserIntent>()
     fun getUserProfile(){
         CoroutineScope(Dispatchers.IO).launch {
             repository.getUser(object: BaseFirebaseListener<User?>{
@@ -42,7 +46,7 @@ class EditProfileViewModel(private val repository: Repository): ViewModel() {
                     progressGetProfile.postValue(isLoading)
                 }
                 override fun onSuccess(data: User?) {
-                    successGetProfile.postValue(data)
+                    successGetProfile.postValue(data?.let { userMapper.mapToIntent(it) })
                 }
                 override fun onFailed(errorMessage: String) {
                     errorEditProfile.postValue(errorMessage)

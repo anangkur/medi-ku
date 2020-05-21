@@ -7,8 +7,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
-import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.databinding.ActivityProfileBinding
+import com.anangkur.mediku.feature.model.UserIntent
 import com.anangkur.mediku.feature.view.about.AboutActivity
 import com.anangkur.mediku.feature.view.auth.editPassword.EditPasswordActivity
 import com.anangkur.mediku.feature.view.profile.editProfile.EditProfileActivity
@@ -71,7 +71,7 @@ class ProfileActivity: BaseActivity<ActivityProfileBinding, ProfileViewModel>(),
         }
     }
 
-    private fun setupView(data: User){
+    private fun setupView(data: UserIntent){
         mLayout.layoutProfile.visible()
         mLayout.tvName.text = data.name
         mLayout.tvEmail.text = data.email
