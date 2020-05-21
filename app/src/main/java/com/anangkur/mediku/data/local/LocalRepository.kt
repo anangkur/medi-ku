@@ -1,13 +1,14 @@
 package com.anangkur.mediku.data.local
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.anangkur.mediku.data.DataSource
 import com.anangkur.mediku.data.local.mapper.ArticleMapper
 import com.anangkur.mediku.data.local.room.AppDao
-import com.anangkur.mediku.data.model.covid19.Covid19Data
+import com.anangkur.mediku.data.local.room.AppDatabase
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.model.news.Article
@@ -35,32 +36,6 @@ class LocalRepository(
 
     override fun getAllDataByCategory(category: String): LiveData<List<Article>> {
         return dao.getAllDataByCategory(category).map { list -> list.map { mapper.mapFromLocal(it) } }
-    }
-
-    /**
-     * covid 19 data
-     */
-    override suspend fun insertData(data: List<Covid19Data>) {
-        dao.insertData(data)
-    }
-
-    override fun getAllDataByDate(date: String): LiveData<List<Covid19Data>> {
-        return dao.getAllDataByDate(date)
-    }
-
-    override fun getAllDataByCountry(country: String): LiveData<List<Covid19Data>> {
-        return dao.getAllDataByCountry(country)
-    }
-
-    override fun getTopDataByDate(date: String): LiveData<List<Covid19Data>> {
-        return dao.getTopDataByDate(date)
-    }
-
-    override fun getDataByCountryAndDate(
-        country: String,
-        date: String
-    ): LiveData<List<Covid19Data>> {
-        return dao.getDataByCountryAndDate(country, date)
     }
 
     /**
@@ -107,9 +82,10 @@ class LocalRepository(
     companion object{
         @SuppressLint("StaticFieldLeak")
         private var INSTANCE: LocalRepository? = null
-        fun getInstance(
-            preferences: SharedPreferences,
-            dao: AppDao
-        ) = INSTANCE ?: LocalRepository(ArticleMapper(), preferences, dao)
+        fun getInstance(context: Context) = INSTANCE ?: LocalRepository(
+            ArticleMapper.getInstance(),
+            context.getSharedPreferences(Const.PREF_NAME, Context.MODE_PRIVATE),
+            AppDatabase.getDatabase(context).getDao()
+        )
     }
 }

@@ -4,6 +4,12 @@ import com.anangkur.mediku.data.local.model.ArticleLocalModel
 import com.anangkur.mediku.data.model.news.Article
 
 class ArticleMapper: LocalMapper<ArticleLocalModel, Article> {
+
+    companion object{
+        private var INSTANCE: ArticleMapper? = null
+        fun getInstance() = INSTANCE ?: ArticleMapper()
+    }
+
     override fun mapToLocal(data: Article): ArticleLocalModel {
         return ArticleLocalModel(
             id = data.id,
