@@ -1,8 +1,8 @@
 package com.anangkur.mediku.feature.view.medicalRecords.detailMedicalRecord
 
-import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.feature.model.medical.MedicalRecordIntent
 
 interface DetailMedicalRecordActionListener {
-    fun onClickEdit(data: MedicalRecord)
+    fun onClickEdit(data: MedicalRecordIntent)
     fun onCLickImage(imageUrl: String)
 }

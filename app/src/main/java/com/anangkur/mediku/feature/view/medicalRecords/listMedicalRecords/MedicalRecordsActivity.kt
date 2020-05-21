@@ -8,8 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
-import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.databinding.ActivityMedicalRecordsBinding
+import com.anangkur.mediku.feature.model.medical.MedicalRecordIntent
 import com.anangkur.mediku.feature.view.covid.covid19.CovidActivity
 import com.anangkur.mediku.feature.view.medicalRecords.addMedicalRecord.AddMedicalRecordActivity
 import com.anangkur.mediku.feature.view.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity
@@ -82,7 +82,7 @@ class MedicalRecordsActivity: BaseActivity<ActivityMedicalRecordsBinding, Medica
         AddMedicalRecordActivity.startActivity(this)
     }
 
-    override fun onClickItem(data: MedicalRecord) {
+    override fun onClickItem(data: MedicalRecordIntent) {
         DetailMedicalRecordActivity.startActivity(this, data)
     }
 

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.feature.mapper.MedicalRecordMapper
+import com.anangkur.mediku.feature.model.medical.MedicalRecordIntent
 import com.anangkur.mediku.util.Const
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,22 +15,24 @@ import kotlinx.coroutines.launch
 
 class AddMedicalRecordViewModel(private val repository: Repository): ViewModel() {
 
+    private val medicalRecordMapper = MedicalRecordMapper.getInstance()
+
     var selectedCategory: String? = null
     var selectedDate: String? = null
-    var medicalRecord: MedicalRecord? = null
+    var medicalRecord: MedicalRecordIntent? = null
     var document: String? = null
 
     val progressAddMedicalRecord = MutableLiveData<Boolean>()
-    val successAddMedicalRecord = MutableLiveData<MedicalRecord>()
+    val successAddMedicalRecord = MutableLiveData<MedicalRecordIntent>()
     val errorAddMedicalRecord = MutableLiveData<String>()
-    fun addMedicalRecord(medicalRecord: MedicalRecord){
+    fun addMedicalRecord(medicalRecord: MedicalRecordIntent){
         CoroutineScope(Dispatchers.IO).launch {
-            repository.addMedicalRecord(medicalRecord, object: BaseFirebaseListener<MedicalRecord>{
+            repository.addMedicalRecord(medicalRecordMapper.mapFromIntent(medicalRecord), object: BaseFirebaseListener<MedicalRecord>{
                 override fun onLoading(isLoading: Boolean) {
                     progressAddMedicalRecord.postValue(isLoading)
                 }
                 override fun onSuccess(data: MedicalRecord) {
-                    successAddMedicalRecord.postValue(data)
+                    successAddMedicalRecord.postValue(medicalRecordMapper.mapToIntent(data))
                 }
                 override fun onFailed(errorMessage: String) {
                     errorAddMedicalRecord.postValue(errorMessage)

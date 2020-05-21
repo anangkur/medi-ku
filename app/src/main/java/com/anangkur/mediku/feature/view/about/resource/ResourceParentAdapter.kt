@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.anangkur.mediku.base.BaseAdapter
-import com.anangkur.mediku.feature.model.ResourceIntent
+import com.anangkur.mediku.feature.model.about.ResourceIntent
 import com.anangkur.mediku.databinding.ItemResourceParentBinding
 import com.anangkur.mediku.feature.view.about.AboutActionListener
 import com.anangkur.mediku.util.setupRecyclerViewGrid

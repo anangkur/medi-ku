@@ -7,8 +7,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
-import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.databinding.ActivityDetailMedicalRecordBinding
+import com.anangkur.mediku.feature.model.medical.MedicalRecordIntent
 import com.anangkur.mediku.feature.view.medicalRecords.addMedicalRecord.AddMedicalRecordActivity
 import com.anangkur.mediku.feature.view.medicalRecords.addMedicalRecord.AddMedicalRecordActivity.Companion.REQ_EDIT
 import com.anangkur.mediku.feature.view.medicalRecords.addMedicalRecord.AddMedicalRecordActivity.Companion.RES_EDIT
@@ -20,7 +20,7 @@ class DetailMedicalRecordActivity: BaseActivity<ActivityDetailMedicalRecordBindi
 
     companion object{
         const val EXTRA_DETAIL_MEDICAL_RECORD = "EXTRA_DETAIL_MEDICAL_RECORD"
-        fun startActivity(context: Context, data: MedicalRecord){
+        fun startActivity(context: Context, data: MedicalRecordIntent){
             context.startActivity(Intent(context, DetailMedicalRecordActivity::class.java)
                 .putExtra(EXTRA_DETAIL_MEDICAL_RECORD, data))
         }
@@ -50,7 +50,7 @@ class DetailMedicalRecordActivity: BaseActivity<ActivityDetailMedicalRecordBindi
 
         when {
             resultCode == RES_EDIT && requestCode == REQ_EDIT -> {
-                val medicalRecord = data?.getParcelableExtra<MedicalRecord>(EXTRA_DETAIL_MEDICAL_RECORD)
+                val medicalRecord = data?.getParcelableExtra<MedicalRecordIntent>(EXTRA_DETAIL_MEDICAL_RECORD)
                 if (medicalRecord != null){
                     setupDataToView(medicalRecord)
                 }
@@ -64,7 +64,7 @@ class DetailMedicalRecordActivity: BaseActivity<ActivityDetailMedicalRecordBindi
         }
     }
 
-    private fun setupDataToView(data: MedicalRecord){
+    private fun setupDataToView(data: MedicalRecordIntent){
         val date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).parse(data.createdAt)
         val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(date)
         mLayout.tvDate.text = dateShow
@@ -104,7 +104,7 @@ class DetailMedicalRecordActivity: BaseActivity<ActivityDetailMedicalRecordBindi
         }
     }
 
-    override fun onClickEdit(data: MedicalRecord) {
+    override fun onClickEdit(data: MedicalRecordIntent) {
         AddMedicalRecordActivity.startActivity(this,this,  data)
     }
 

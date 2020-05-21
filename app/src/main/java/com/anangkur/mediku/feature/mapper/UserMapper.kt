@@ -1,7 +1,7 @@
 package com.anangkur.mediku.feature.mapper
 
 import com.anangkur.mediku.data.model.auth.User
-import com.anangkur.mediku.feature.model.UserIntent
+import com.anangkur.mediku.feature.model.auth.UserIntent
 
 class UserMapper: IntentMapper<UserIntent, User> {
 

@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.databinding.ActivityEditProfileBinding
-import com.anangkur.mediku.feature.model.UserIntent
+import com.anangkur.mediku.feature.model.auth.UserIntent
 import com.anangkur.mediku.util.*
 import com.esafirm.imagepicker.features.ImagePicker
 import com.theartofdev.edmodo.cropper.CropImage

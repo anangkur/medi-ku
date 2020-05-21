@@ -1,6 +1,6 @@
 package com.anangkur.mediku.feature.view.about
 
-import com.anangkur.mediku.feature.model.ResourceIntent
+import com.anangkur.mediku.feature.model.about.ResourceIntent
 
 interface AboutActionListener {
     fun onClickResourceParent(resourceParent: ResourceIntent)

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.anangkur.mediku.base.BaseAdapter
 import com.anangkur.mediku.databinding.ItemNewsBinding
-import com.anangkur.mediku.feature.model.ArticleIntent
+import com.anangkur.mediku.feature.model.news.ArticleIntent
 import com.anangkur.mediku.feature.view.dashboard.main.home.HomeActionListener
 import com.anangkur.mediku.util.Const
 import com.anangkur.mediku.util.setImageUrl

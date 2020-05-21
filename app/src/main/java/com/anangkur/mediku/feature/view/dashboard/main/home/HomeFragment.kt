@@ -8,10 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.anangkur.mediku.base.BaseFragment
 import com.anangkur.mediku.data.model.BaseResult
-import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.databinding.FragmentHomeBinding
 import com.anangkur.mediku.feature.mapper.ArticleMapper
-import com.anangkur.mediku.feature.model.ArticleIntent
+import com.anangkur.mediku.feature.model.medical.MedicalRecordIntent
+import com.anangkur.mediku.feature.model.news.ArticleIntent
 import com.anangkur.mediku.feature.view.covid.covid19.CovidActivity
 import com.anangkur.mediku.feature.view.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity
 import com.anangkur.mediku.feature.view.dashboard.main.home.adapter.MedicalRecordAdapter
@@ -156,7 +156,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding, HomeViewModel>(), HomeActi
         newsAdapter.setRecyclerData(data)
     }
 
-    private fun setupShowMedicalRecord(data: List<MedicalRecord>){
+    private fun setupShowMedicalRecord(data: List<MedicalRecordIntent>){
         mLayout.includeLayoutMedicalRecords.recyclerMedicalRecord.visible()
         mLayout.includeLayoutMedicalRecords.tvErrorMedicalRecord.gone()
         medicalRecordAdapter.setRecyclerData(data)
@@ -176,7 +176,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding, HomeViewModel>(), HomeActi
         OriginalNewsActivity.startActivity(requireContext(), data.url?:"")
     }
 
-    override fun onClickMedicalRecord(data: MedicalRecord) {
+    override fun onClickMedicalRecord(data: MedicalRecordIntent) {
         DetailMedicalRecordActivity.startActivity(requireContext(), data)
     }
 

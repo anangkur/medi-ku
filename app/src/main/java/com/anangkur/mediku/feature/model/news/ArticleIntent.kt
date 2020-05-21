@@ -1,4 +1,4 @@
-package com.anangkur.mediku.feature.model
+package com.anangkur.mediku.feature.model.news
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -3,7 +3,7 @@ package com.anangkur.mediku.feature.view.about.resource
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.anangkur.mediku.base.BaseAdapter
-import com.anangkur.mediku.feature.model.ResourceIntent
+import com.anangkur.mediku.feature.model.about.ResourceIntent
 import com.anangkur.mediku.databinding.ItemResourceChildBinding
 import com.anangkur.mediku.feature.view.about.AboutActionListener
 

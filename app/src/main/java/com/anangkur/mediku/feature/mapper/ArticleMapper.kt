@@ -1,7 +1,7 @@
 package com.anangkur.mediku.feature.mapper
 
 import com.anangkur.mediku.data.model.news.Article
-import com.anangkur.mediku.feature.model.ArticleIntent
+import com.anangkur.mediku.feature.model.news.ArticleIntent
 
 class ArticleMapper: IntentMapper<ArticleIntent, Article> {
 

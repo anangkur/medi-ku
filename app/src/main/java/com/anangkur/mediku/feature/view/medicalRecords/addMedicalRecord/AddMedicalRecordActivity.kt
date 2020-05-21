@@ -13,8 +13,8 @@ import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.base.BaseSpinnerListener
-import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.databinding.ActivityAddMedicalRecordBinding
+import com.anangkur.mediku.feature.model.medical.MedicalRecordIntent
 import com.anangkur.mediku.feature.view.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity.Companion.EXTRA_DETAIL_MEDICAL_RECORD
 import com.anangkur.mediku.util.*
 import com.annimon.stream.Stream
@@ -35,7 +35,7 @@ class   AddMedicalRecordActivity: BaseActivity<ActivityAddMedicalRecordBinding, 
         fun startActivity(context: Context){
             context.startActivity(Intent(context, AddMedicalRecordActivity::class.java))
         }
-        fun startActivity(activity: AppCompatActivity, context: Context, data: MedicalRecord){
+        fun startActivity(activity: AppCompatActivity, context: Context, data: MedicalRecordIntent){
             activity.startActivityForResult(Intent(context, AddMedicalRecordActivity::class.java)
                 .putExtra(EXTRA_DETAIL_MEDICAL_RECORD, data), REQ_EDIT)
         }
@@ -123,7 +123,7 @@ class   AddMedicalRecordActivity: BaseActivity<ActivityAddMedicalRecordBinding, 
         }
     }
 
-    private fun setupDataToView(data: MedicalRecord?){
+    private fun setupDataToView(data: MedicalRecordIntent?){
         if (data != null){
             val date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).parse(data.createdAt)
             val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(date!!)
@@ -237,7 +237,7 @@ class   AddMedicalRecordActivity: BaseActivity<ActivityAddMedicalRecordBinding, 
                 mLayout.tilDate.setErrorMessage(getString(R.string.error_date_empty))
             }
             else -> {
-                mViewModel.addMedicalRecord(MedicalRecord(
+                mViewModel.addMedicalRecord(MedicalRecordIntent(
                     category = category,
                     bloodPressure = bloodPressure.toInt(),
                     bodyTemperature = bodyTemperature.toInt(),

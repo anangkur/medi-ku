@@ -6,7 +6,7 @@ import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.feature.mapper.UserMapper
-import com.anangkur.mediku.feature.model.UserIntent
+import com.anangkur.mediku.feature.model.auth.UserIntent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

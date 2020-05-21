@@ -1,4 +1,4 @@
-package com.anangkur.mediku.feature.model
+package com.anangkur.mediku.feature.model.about
 
 data class ResourceIntent(
     val title: String,

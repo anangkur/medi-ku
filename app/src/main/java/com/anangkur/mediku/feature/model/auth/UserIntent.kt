@@ -1,4 +1,4 @@
-package com.anangkur.mediku.feature.model
+package com.anangkur.mediku.feature.model.auth
 
 data class UserIntent(
     var userId: String = "",

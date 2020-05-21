@@ -5,18 +5,18 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseAdapter
-import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.databinding.ItemMedicalRecordBinding
+import com.anangkur.mediku.feature.model.medical.MedicalRecordIntent
 import com.anangkur.mediku.feature.view.dashboard.main.home.HomeActionListener
 import com.anangkur.mediku.util.*
 
-class MedicalRecordAdapter(private val listener: HomeActionListener): BaseAdapter<ItemMedicalRecordBinding, MedicalRecord>(){
+class MedicalRecordAdapter(private val listener: HomeActionListener): BaseAdapter<ItemMedicalRecordBinding, MedicalRecordIntent>(){
 
     override fun bindView(parent: ViewGroup): ItemMedicalRecordBinding {
         return ItemMedicalRecordBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     }
 
-    override fun bind(data: MedicalRecord, itemView: ItemMedicalRecordBinding, position: Int) {
+    override fun bind(data: MedicalRecordIntent, itemView: ItemMedicalRecordBinding, position: Int) {
         val resource = when (data.category){
             Const.CATEGORY_SICK -> {
                 Pair(R.drawable.ic_pills, R.drawable.rect_rounded_4dp_gradient_blue)

@@ -13,8 +13,10 @@ import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.data.model.news.Article
 import com.anangkur.mediku.data.remote.mapper.ArticleMapper
+import com.anangkur.mediku.data.remote.mapper.MedicalRecordMapper
 import com.anangkur.mediku.data.remote.mapper.UserMapper
 import com.anangkur.mediku.data.remote.model.auth.UserRemoteModel
+import com.anangkur.mediku.data.remote.model.medical.MedicalRecordRemoteModel
 import com.anangkur.mediku.data.remote.service.NewCovid19ApiService
 import com.anangkur.mediku.data.remote.service.NewsApiService
 import com.anangkur.mediku.util.Const
@@ -32,6 +34,7 @@ import kotlin.collections.ArrayList
 class RemoteRepository(
     private val articleMapper: ArticleMapper,
     private val userMapper: UserMapper,
+    private val medicalRecordMapper: MedicalRecordMapper,
     val firebaseAuth: FirebaseAuth,
     val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage,
@@ -43,6 +46,7 @@ class RemoteRepository(
         fun getInstance() = INSTANCE ?: RemoteRepository(
             ArticleMapper.getInstance(),
             UserMapper.getInstance(),
+            MedicalRecordMapper.getInstance(),
             FirebaseAuth.getInstance(),
             Firebase.firestore,
             FirebaseStorage.getInstance(),
@@ -296,9 +300,9 @@ class RemoteRepository(
                     listener.onLoading(false)
                     val listData = ArrayList<MedicalRecord>()
                     for (querySnapshot in result){
-                        val data = querySnapshot.toObject<MedicalRecord>()
+                        val data = querySnapshot.toObject<MedicalRecordRemoteModel>()
                         if (data != null){
-                            listData.add(data)
+                            listData.add(medicalRecordMapper.mapFromRemote(data))
                         }
                     }
                     if (listData.isEmpty()){
@@ -327,7 +331,7 @@ class RemoteRepository(
                 .document(user?.uid?:"")
                 .collection(Const.COLLECTION_MEDICAL_RECORD)
                 .document(medicalRecord.createdAt)
-                .set(medicalRecord)
+                .set(medicalRecordMapper.mapToRemote(medicalRecord))
                 .addOnSuccessListener {
                     listener.onLoading(false)
                     listener.onSuccess(medicalRecord)

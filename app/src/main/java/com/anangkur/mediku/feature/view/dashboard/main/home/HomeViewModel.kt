@@ -7,8 +7,10 @@ import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
 import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.feature.mapper.MedicalRecordMapper
 import com.anangkur.mediku.feature.mapper.UserMapper
-import com.anangkur.mediku.feature.model.UserIntent
+import com.anangkur.mediku.feature.model.auth.UserIntent
+import com.anangkur.mediku.feature.model.medical.MedicalRecordIntent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,6 +18,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(private val repository: Repository): ViewModel() {
 
     private val userMapper = UserMapper.getInstance()
+    private val medicalRecordMapper = MedicalRecordMapper.getInstance()
 
     private val triggerGetNews = MutableLiveData<String>()
     val healthNewsLive = Transformations.switchMap(triggerGetNews){
@@ -26,7 +29,7 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
     }
 
     val progressGetMedicalRecord = MutableLiveData<Boolean>()
-    val successGetMedicalRecord = MutableLiveData<List<MedicalRecord>>()
+    val successGetMedicalRecord = MutableLiveData<List<MedicalRecordIntent>>()
     val errorGetMedicalRecord = MutableLiveData<String>()
     fun getMedicalRecord(){
         CoroutineScope(Dispatchers.IO).launch {
@@ -35,7 +38,7 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
                     progressGetMedicalRecord.postValue(isLoading)
                 }
                 override fun onSuccess(data: List<MedicalRecord>) {
-                    successGetMedicalRecord.postValue(data)
+                    successGetMedicalRecord.postValue(data.map { medicalRecordMapper.mapToIntent(it) })
                 }
                 override fun onFailed(errorMessage: String) {
                     errorGetMedicalRecord.postValue(errorMessage)

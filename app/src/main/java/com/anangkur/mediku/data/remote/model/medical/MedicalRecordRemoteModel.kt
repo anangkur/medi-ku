@@ -1,6 +1,6 @@
-package com.anangkur.mediku.data.model.medical
+package com.anangkur.mediku.data.remote.model.medical
 
-data class MedicalRecord(
+data class MedicalRecordRemoteModel(
     val category: String = "",
     val diagnosis: String = "",
     val bloodPressure: Int = 0,

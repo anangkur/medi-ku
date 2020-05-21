@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.R
 import com.anangkur.mediku.data.Repository
-import com.anangkur.mediku.feature.model.ResourceIntent
+import com.anangkur.mediku.feature.model.about.ResourceIntent
 
 class AboutViewModel(private val repository: Repository): ViewModel() {
 
