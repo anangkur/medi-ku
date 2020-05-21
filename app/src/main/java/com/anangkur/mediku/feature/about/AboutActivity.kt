@@ -10,14 +10,13 @@ import com.anangkur.mediku.BuildConfig
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.about.Resource
+import com.anangkur.mediku.databinding.ActivityAboutBinding
 import com.anangkur.mediku.feature.about.resource.ResourceParentAdapter
 import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.openBrowser
 import com.anangkur.mediku.util.setupRecyclerViewLinear
-import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
-class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
+class AboutActivity: BaseActivity<ActivityAboutBinding, AboutViewModel>(), AboutActionListener {
 
     companion object{
         fun startActivity(context: Context){
@@ -25,12 +24,10 @@ class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_about
     override val mViewModel: AboutViewModel
         get() = obtainViewModel(AboutViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar
+        get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_about)
 
@@ -42,15 +39,19 @@ class AboutActivity: BaseActivity<AboutViewModel>(), AboutActionListener {
         setupAdapter()
         observeViewModel()
         mViewModel.createResourceData()
-        tv_version_number.text = BuildConfig.VERSION_NAME
-        tv_covid_19_data.setOnClickListener { this.onClickCovid19Api("https://covid19api.com") }
-        tv_news_data.setOnClickListener { this.onClickNewsApi("https://newsapi.org") }
-        btn_rate.setOnClickListener { this.onClickGiveRating("https://play.google.com/store/apps/details?id=com.anangkur.mediku") }
+        mLayout.tvVersionNumber.text = BuildConfig.VERSION_NAME
+        mLayout.tvCovid19Data.setOnClickListener { this.onClickCovid19Api("https://covid19api.com") }
+        mLayout.tvNewsData.setOnClickListener { this.onClickNewsApi("https://newsapi.org") }
+        mLayout.btnRate.setOnClickListener { this.onClickGiveRating("https://play.google.com/store/apps/details?id=com.anangkur.mediku") }
+    }
+
+    override fun setupView(): ActivityAboutBinding {
+        return ActivityAboutBinding.inflate(layoutInflater)
     }
 
     private fun setupAdapter(){
         mParentAdapter = ResourceParentAdapter(this)
-        recycler_resource.apply {
+        mLayout.recyclerResource.apply {
             adapter = mParentAdapter
             setupRecyclerViewLinear(this@AboutActivity, RecyclerView.VERTICAL)
         }

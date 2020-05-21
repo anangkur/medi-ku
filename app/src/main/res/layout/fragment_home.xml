@@ -24,17 +24,32 @@
                 style="@style/LinearVerticalWrap"
                 android:layout_marginTop="@dimen/dimens_20dp">
 
-                <include layout="@layout/layout_covid19_alert" android:visibility="gone"/>
+                <include
+                    android:id="@+id/card_covid"
+                    layout="@layout/layout_covid19_alert"
+                    android:visibility="gone"/>
 
-                <include layout="@layout/layout_welcome"/>
+                <include
+                    android:id="@+id/include_layout_welcome"
+                    layout="@layout/layout_welcome"/>
 
-                <include layout="@layout/layout_menu_dashboard"/>
+                <include
+                    android:id="@+id/include_layout_menu_dashboard"
+                    layout="@layout/layout_menu_dashboard"/>
 
-                <include layout="@layout/layout_menstrual_period" android:visibility="gone"/>
+                <include
+                    android:id="@+id/layout_menstrual_period"
+                    layout="@layout/layout_menstrual_period"
+                    android:visibility="gone"/>
 
-                <include layout="@layout/layout_medical_records" android:visibility="gone"/>
+                <include
+                    android:id="@+id/include_layout_medical_records"
+                    layout="@layout/layout_medical_records"
+                    android:visibility="gone"/>
 
-                <include layout="@layout/layout_news"/>
+                <include
+                    android:id="@+id/include_layout_news"
+                    layout="@layout/layout_news"/>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

@@ -3,25 +3,21 @@ package com.anangkur.mediku.feature.originalNews
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.webkit.*
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.base.BaseErrorView
+import com.anangkur.mediku.databinding.ActivityOriginalNewsBinding
 import com.anangkur.mediku.util.gone
-import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.openBrowser
 import com.anangkur.mediku.util.visible
-import kotlinx.android.synthetic.main.activity_original_news.*
-import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
-class OriginalNewsActivity: BaseActivity<ViewModel>() {
+class OriginalNewsActivity: BaseActivity<ActivityOriginalNewsBinding, Nothing?>() {
 
     companion object {
         const val EXTRA_URL = "EXTRA_URL"
@@ -31,12 +27,10 @@ class OriginalNewsActivity: BaseActivity<ViewModel>() {
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_original_news
-    override val mViewModel: ViewModel
-        get() = obtainViewModel(ViewModel::class.java)
+    override val mViewModel: Nothing?
+        get() = null
     override val mToolbar: Toolbar?
-        get() = toolbar
+        get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = null
 
@@ -48,6 +42,10 @@ class OriginalNewsActivity: BaseActivity<ViewModel>() {
 
         url = intent?.getStringExtra(EXTRA_URL)?:""
         setupWebView(url)
+    }
+
+    override fun setupView(): ActivityOriginalNewsBinding {
+        return ActivityOriginalNewsBinding.inflate(layoutInflater)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -67,26 +65,26 @@ class OriginalNewsActivity: BaseActivity<ViewModel>() {
     }
 
     private fun setupWebView(url: String){
-        wv_original_news.webChromeClient = WebChromeClient()
-        wv_original_news.clearCache(true)
-        wv_original_news.clearHistory()
-        wv_original_news.settings.javaScriptEnabled = true
-        wv_original_news.settings.javaScriptCanOpenWindowsAutomatically = true
-        wv_original_news.webViewClient = object: WebViewClient(){
+        mLayout.wvOriginalNews.webChromeClient = WebChromeClient()
+        mLayout.wvOriginalNews.clearCache(true)
+        mLayout.wvOriginalNews.clearHistory()
+        mLayout.wvOriginalNews.settings.javaScriptEnabled = true
+        mLayout.wvOriginalNews.settings.javaScriptCanOpenWindowsAutomatically = true
+        mLayout.wvOriginalNews.webViewClient = object: WebViewClient(){
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 isSuccessLoadUrl = true
-                wv_original_news.gone()
-                ev_original_news.showProgress()
-                ev_original_news.visible()
+                mLayout.wvOriginalNews.gone()
+                mLayout.evOriginalNews.showProgress()
+                mLayout.evOriginalNews.visible()
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 if (isSuccessLoadUrl){
-                    wv_original_news.visible()
-                    ev_original_news.gone()
-                    ev_original_news.endProgress()
+                    mLayout.wvOriginalNews.visible()
+                    mLayout.evOriginalNews.gone()
+                    mLayout.evOriginalNews.endProgress()
                 }
             }
 
@@ -96,18 +94,18 @@ class OriginalNewsActivity: BaseActivity<ViewModel>() {
                 error: WebResourceError?
             ) {
                 isSuccessLoadUrl = false
-                wv_original_news.gone()
-                ev_original_news.showError(
+                mLayout.wvOriginalNews.gone()
+                mLayout.evOriginalNews.showError(
                     errorMessage = getString(R.string.error_default),
                     errorType = BaseErrorView.ERROR_GENERAL,
                     buttonErrorString = ""
                 )
-                ev_original_news.setRetryClickListener {
+                mLayout.evOriginalNews.setRetryClickListener {
                     view?.reload()
                 }
-                ev_original_news.visible()
+                mLayout.evOriginalNews.visible()
             }
         }
-        wv_original_news.loadUrl(url)
+        mLayout.wvOriginalNews.loadUrl(url)
     }
 }

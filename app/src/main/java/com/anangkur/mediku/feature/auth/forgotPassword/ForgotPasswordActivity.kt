@@ -9,13 +9,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.databinding.ActivityForgotPasswordBinding
 import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.showSnackbarLong
 import com.anangkur.mediku.util.showToastShort
 import com.anangkur.mediku.util.validateEmail
-import kotlinx.android.synthetic.main.activity_forgot_password.*
 
-class ForgotPasswordActivity: BaseActivity<ForgotPasswordViewModel>(), ForgotPasswordActionListener {
+class ForgotPasswordActivity: BaseActivity<ActivityForgotPasswordBinding, ForgotPasswordViewModel>(), ForgotPasswordActionListener {
 
     companion object{
         fun startActivity(context: Context){
@@ -23,8 +23,6 @@ class ForgotPasswordActivity: BaseActivity<ForgotPasswordViewModel>(), ForgotPas
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_forgot_password
     override val mViewModel: ForgotPasswordViewModel
         get() = obtainViewModel(ForgotPasswordViewModel::class.java)
     override val mToolbar: Toolbar?
@@ -37,7 +35,11 @@ class ForgotPasswordActivity: BaseActivity<ForgotPasswordViewModel>(), ForgotPas
 
         setupTextWatcher()
         observeViewModel()
-        btn_signin.setOnClickListener { this.onClickSendEmail(et_email.text.toString()) }
+        mLayout.btnSignin.setOnClickListener { this.onClickSendEmail(mLayout.etEmail.text.toString()) }
+    }
+
+    override fun setupView(): ActivityForgotPasswordBinding {
+        return ActivityForgotPasswordBinding.inflate(layoutInflater)
     }
 
     private fun observeViewModel(){
@@ -58,12 +60,12 @@ class ForgotPasswordActivity: BaseActivity<ForgotPasswordViewModel>(), ForgotPas
     private fun validateInput(email: String?){
         when {
             email.isNullOrEmpty() -> {
-                til_email.isErrorEnabled = true
-                til_email.error = getString(R.string.error_email_empty)
+                mLayout.tilEmail.isErrorEnabled = true
+                mLayout.tilEmail.error = getString(R.string.error_email_empty)
             }
             !email.validateEmail() -> {
-                til_email.isErrorEnabled = true
-                til_email.error = getString(R.string.error_email_not_valid)
+                mLayout.tilEmail.isErrorEnabled = true
+                mLayout.tilEmail.error = getString(R.string.error_email_not_valid)
             }
             else -> {
                 mViewModel.sendResetEmail(email)
@@ -72,11 +74,11 @@ class ForgotPasswordActivity: BaseActivity<ForgotPasswordViewModel>(), ForgotPas
     }
 
     private fun setupTextWatcher(){
-        et_email.addTextChangedListener(object: TextWatcher{
+        mLayout.etEmail.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 when {
                     !s.isNullOrEmpty() || s.toString().validateEmail() -> {
-                        til_email.isErrorEnabled = false
+                        mLayout.tilEmail.isErrorEnabled = false
                     }
                 }
             }
@@ -87,9 +89,9 @@ class ForgotPasswordActivity: BaseActivity<ForgotPasswordViewModel>(), ForgotPas
 
     private fun setupLoading(isLoading: Boolean){
         if (isLoading){
-            btn_signin.showProgress()
+            mLayout.btnSignin.showProgress()
         }else{
-            btn_signin.hideProgress()
+            mLayout.btnSignin.hideProgress()
         }
     }
 

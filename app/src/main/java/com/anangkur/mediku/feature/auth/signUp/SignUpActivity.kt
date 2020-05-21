@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.databinding.ActivitySignUpBinding
 import com.anangkur.mediku.feature.dashboard.main.MainActivity
 import com.anangkur.mediku.feature.auth.signIn.SignInActivity
 import com.anangkur.mediku.util.*
@@ -16,9 +17,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
-class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
+class SignUpActivity: BaseActivity<ActivitySignUpBinding, SignUpViewModel>(), SignUpActionListener {
 
     companion object{
         fun startActivity(context: Context){
@@ -26,8 +26,6 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_sign_up
     override val mViewModel: SignUpViewModel
         get() = obtainViewModel(SignUpViewModel::class.java)
     override val mToolbar: Toolbar?
@@ -41,9 +39,13 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
         super.onCreate(savedInstanceState)
 
         setupGoogleSignIn()
-        setupView()
+        setupView(mLayout)
         setuptextWatcher()
         observeViewModel()
+    }
+
+    override fun setupView(): ActivitySignUpBinding {
+        return ActivitySignUpBinding.inflate(layoutInflater)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -77,14 +79,14 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
         }
     }
 
-    private fun setupView(){
-        btn_signin.setOnClickListener { this.onClickSignIn() }
-        btn_signin_google.setOnClickListener { this.onClickSignUpGoogle() }
-        btn_signup.setOnClickListener { this.onClickSignUp(
-            name = et_name.text.toString(),
-            confirmPassword = et_password_confirm.text.toString(),
-            email = et_email.text.toString(),
-            password = et_password.text.toString()) }
+    private fun setupView(mLayout: ActivitySignUpBinding){
+        mLayout.btnSignin.setOnClickListener { this.onClickSignIn() }
+        mLayout.btnSigninGoogle.setOnClickListener { this.onClickSignUpGoogle() }
+        mLayout.btnSignup.setOnClickListener { this.onClickSignUp(
+            name = mLayout.etName.text.toString(),
+            confirmPassword = mLayout.etPasswordConfirm.text.toString(),
+            email = mLayout.etEmail.text.toString(),
+            password = mLayout.etPassword.text.toString()) }
     }
 
     private fun setupGoogleSignIn(){
@@ -98,19 +100,19 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
 
     private fun setupLoadingSignupGoogle(isLoading: Boolean){
         if (isLoading){
-            pb_btn_signup_google.visible()
-            btn_signin_google.gone()
+            mLayout.pbBtnSignupGoogle.visible()
+            mLayout.btnSigninGoogle.gone()
         }else{
-            pb_btn_signup_google.gone()
-            btn_signin_google.visible()
+            mLayout.pbBtnSignupGoogle.gone()
+            mLayout.btnSigninGoogle.visible()
         }
     }
 
     private fun setupLoadingSignup(isLoading: Boolean){
         if (isLoading){
-            btn_signup.showProgress()
+            mLayout.btnSignup.showProgress()
         }else{
-            btn_signup.hideProgress()
+            mLayout.btnSignup.hideProgress()
         }
     }
 
@@ -122,32 +124,32 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
     ) {
         when {
             name.isNullOrEmpty() -> {
-                til_name.isErrorEnabled = true
-                til_name.error = getString(R.string.error_name_empty)
+                mLayout.tilName.isErrorEnabled = true
+                mLayout.tilName.error = getString(R.string.error_name_empty)
             }
             email.isNullOrEmpty() -> {
-                til_email.isErrorEnabled = true
-                til_email.error = getString(R.string.error_email_empty)
+                mLayout.tilEmail.isErrorEnabled = true
+                mLayout.tilEmail.error = getString(R.string.error_email_empty)
             }
             !email.validateEmail() -> {
-                til_email.isErrorEnabled = false
-                til_email.error = getString(R.string.error_email_not_valid)
+                mLayout.tilEmail.isErrorEnabled = false
+                mLayout.tilEmail.error = getString(R.string.error_email_not_valid)
             }
             password.isNullOrEmpty() -> {
-                til_password.isErrorEnabled = true
-                til_password.error = getString(R.string.error_password_empty)
+                mLayout.tilPassword.isErrorEnabled = true
+                mLayout.tilPassword.error = getString(R.string.error_password_empty)
             }
             !password.validatePassword() -> {
-                til_password.isErrorEnabled = true
-                til_password.error = getString(R.string.error_password_not_valid)
+                mLayout.tilPassword.isErrorEnabled = true
+                mLayout.tilPassword.error = getString(R.string.error_password_not_valid)
             }
             confirmPassword.isNullOrEmpty() -> {
-                til_password_confirm.isErrorEnabled = true
-                til_password_confirm.error = getString(R.string.error_confirm_password_empty)
+                mLayout.tilPasswordConfirm.isErrorEnabled = true
+                mLayout.tilPasswordConfirm.error = getString(R.string.error_confirm_password_empty)
             }
             !confirmPassword.validatePasswordConfirm(password) -> {
-                til_password_confirm.isErrorEnabled = true
-                til_password_confirm.error = getString(R.string.error_password_confirm_not_valid)
+                mLayout.tilPasswordConfirm.isErrorEnabled = true
+                mLayout.tilPasswordConfirm.error = getString(R.string.error_password_confirm_not_valid)
             }
             else -> {
                 mViewModel.firebaseSignUp(name, email, password)
@@ -156,37 +158,37 @@ class SignUpActivity: BaseActivity<SignUpViewModel>(), SignUpActionListener {
     }
 
     private fun setuptextWatcher(){
-        et_name.addTextChangedListener(object: TextWatcher{
+        mLayout.etName.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()){
-                    til_name.isErrorEnabled = false
+                    mLayout.tilName.isErrorEnabled = false
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        et_email.addTextChangedListener(object: TextWatcher{
+        mLayout.etEmail.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty() || s.toString().validateEmail()){
-                    til_email.isErrorEnabled = false
+                    mLayout.tilEmail.isErrorEnabled = false
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        et_password.addTextChangedListener(object: TextWatcher{
+        mLayout.etPassword.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty() || s.toString().validatePassword()){
-                    til_password.isErrorEnabled = false
+                    mLayout.tilPassword.isErrorEnabled = false
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        et_password_confirm.addTextChangedListener(object: TextWatcher{
+        mLayout.etPasswordConfirm.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
-                if (!s.isNullOrEmpty() || s.toString().validatePasswordConfirm(et_password.text.toString())){
-                    til_password_confirm.isErrorEnabled = false
+                if (!s.isNullOrEmpty() || s.toString().validatePasswordConfirm(mLayout.etPassword.text.toString())){
+                    mLayout.tilPasswordConfirm.isErrorEnabled = false
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

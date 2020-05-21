@@ -8,15 +8,14 @@ import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.databinding.ActivityProfileBinding
 import com.anangkur.mediku.feature.about.AboutActivity
 import com.anangkur.mediku.feature.auth.editPassword.EditPasswordActivity
 import com.anangkur.mediku.feature.profile.editProfile.EditProfileActivity
 import com.anangkur.mediku.feature.auth.signIn.SignInActivity
 import com.anangkur.mediku.util.*
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
-class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
+class ProfileActivity: BaseActivity<ActivityProfileBinding, ProfileViewModel>(), ProfileActionListener {
 
     companion object{
         fun startActivity(context: Context){
@@ -24,12 +23,10 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_profile
     override val mViewModel: ProfileViewModel
         get() = obtainViewModel(ProfileViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar
+        get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_profile)
 
@@ -37,9 +34,13 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
         super.onCreate(savedInstanceState)
 
         observeViewModel()
-        btn_logout.setOnClickListener { this.onClickLogout() }
-        btn_edit_profile.setOnClickListener { this.onClickEditProfile() }
-        btn_edit_password.setOnClickListener { this.onClickEditPassword() }
+        mLayout.btnLogout.setOnClickListener { this.onClickLogout() }
+        mLayout.btnEditProfile.setOnClickListener { this.onClickEditProfile() }
+        mLayout.btnEditPassword.setOnClickListener { this.onClickEditPassword() }
+    }
+
+    override fun setupView(): ActivityProfileBinding {
+        return ActivityProfileBinding.inflate(layoutInflater)
     }
 
     override fun onResume() {
@@ -71,40 +72,40 @@ class ProfileActivity: BaseActivity<ProfileViewModel>(), ProfileActionListener {
     }
 
     private fun setupView(data: User){
-        layout_profile.visible()
-        tv_name.text = data.name
-        tv_email.text = data.email
-        tv_height_weight.text = "Height: ${data.height}cm | Weight: ${data.weight}kg"
-        iv_profile.setImageUrl(data.photo)
-        iv_profile.setOnClickListener { this.onClickImage(data.photo) }
+        mLayout.layoutProfile.visible()
+        mLayout.tvName.text = data.name
+        mLayout.tvEmail.text = data.email
+        mLayout.tvHeightWeight.text = "Height: ${data.height}cm | Weight: ${data.weight}kg"
+        mLayout.ivProfile.setImageUrl(data.photo)
+        mLayout.ivProfile.setOnClickListener { this.onClickImage(data.photo) }
         setupEditPassword(data.providerName)
     }
 
     private fun setupProgressGetProfile(isLoading: Boolean){
         if (isLoading){
-            pb_profile.visible()
-            layout_profile.invisible()
+            mLayout.pbProfile.visible()
+            mLayout.layoutProfile.invisible()
         }else{
-            pb_profile.gone()
-            layout_profile.visible()
+            mLayout.pbProfile.gone()
+            mLayout.layoutProfile.visible()
         }
     }
 
     private fun setupProgressLogout(isLoading: Boolean){
         if (isLoading){
-            tv_logout.gone()
-            pb_logout.visible()
+            mLayout.tvLogout.gone()
+            mLayout.pbLogout.visible()
         }else{
-            tv_logout.visible()
-            pb_logout.gone()
+            mLayout.tvLogout.visible()
+            mLayout.pbLogout.gone()
         }
     }
 
     private fun setupEditPassword(providerId: String){
         when (providerId){
             Const.PROVIDER_FIREBASE -> { }
-            Const.PROVIDER_GOOGLE -> { btn_edit_password.gone() }
-            Const.PROVIDER_PASSWORD -> { btn_edit_password.visible() }
+            Const.PROVIDER_GOOGLE -> { mLayout.btnEditPassword.gone() }
+            Const.PROVIDER_PASSWORD -> { mLayout.btnEditPassword.visible() }
         }
     }
 

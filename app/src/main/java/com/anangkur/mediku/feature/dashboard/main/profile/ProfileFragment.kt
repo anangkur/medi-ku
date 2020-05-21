@@ -3,9 +3,9 @@ package com.anangkur.mediku.feature.dashboard.main.profile
 import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
-import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseFragment
 import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.databinding.FragmentProfileBinding
 import com.anangkur.mediku.feature.about.AboutActivity
 import com.anangkur.mediku.feature.auth.editPassword.EditPasswordActivity
 import com.anangkur.mediku.feature.profile.editProfile.EditProfileActivity
@@ -13,20 +13,25 @@ import com.anangkur.mediku.feature.dashboard.main.MainActivity
 import com.anangkur.mediku.feature.profile.userProfile.ProfileActionListener
 import com.anangkur.mediku.feature.auth.signIn.SignInActivity
 import com.anangkur.mediku.util.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 
-class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
+class ProfileFragment: BaseFragment<FragmentProfileBinding, ProfileViewModel>(), ProfileActionListener {
 
     companion object{
         fun newInstance() = ProfileFragment()
     }
 
-    override val mLayout: Int
-        get() = R.layout.fragment_profile
     override val mViewModel: ProfileViewModel
         get() = obtainViewModel(ProfileViewModel::class.java)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun setupView(container: ViewGroup?): FragmentProfileBinding {
+        return FragmentProfileBinding.inflate(LayoutInflater.from(requireContext()), container, false)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -36,10 +41,10 @@ class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
 
         setupToolbar()
         observeViewModel()
-        btn_edit_profile.setOnClickListener { this.onClickEditProfile() }
-        btn_edit_password.setOnClickListener { this.onClickEditPassword() }
-        btn_about.setOnClickListener { this.onCLickAbout() }
-        btn_logout.setOnClickListener { this.onClickLogout() }
+        mLayout.btnEditProfile.setOnClickListener { this.onClickEditProfile() }
+        mLayout.btnEditPassword.setOnClickListener { this.onClickEditPassword() }
+        mLayout.btnAbout.setOnClickListener { this.onCLickAbout() }
+        mLayout.btnLogout.setOnClickListener { this.onClickLogout() }
     }
 
     override fun onResume() {
@@ -49,7 +54,7 @@ class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
 
     private fun setupToolbar(){
         (requireActivity() as MainActivity).apply {
-            setSupportActionBar(toolbar_profile)
+            setSupportActionBar(this@ProfileFragment.mLayout.toolbarProfile)
             supportActionBar?.setDisplayShowTitleEnabled(false)
         }
     }
@@ -78,40 +83,40 @@ class ProfileFragment: BaseFragment<ProfileViewModel>(), ProfileActionListener {
     }
 
     private fun setupView(data: User){
-        layout_profile.visible()
-        tv_name.text = data.name
-        tv_email.text = data.email
-        tv_height_weight.text = "Height: ${data.height}cm | Weight: ${data.weight}kg"
-        iv_profile.setImageUrl(data.photo)
-        iv_profile.setOnClickListener { this.onClickImage(data.photo) }
+        mLayout.layoutProfile.visible()
+        mLayout.tvName.text = data.name
+        mLayout.tvEmail.text = data.email
+        mLayout.tvHeightWeight.text = "Height: ${data.height}cm | Weight: ${data.weight}kg"
+        mLayout.ivProfile.setImageUrl(data.photo)
+        mLayout.ivProfile.setOnClickListener { this.onClickImage(data.photo) }
         setupEditPassword(data.providerName)
     }
 
     private fun setupEditPassword(providerId: String){
         when (providerId){
             Const.PROVIDER_FIREBASE -> { }
-            Const.PROVIDER_GOOGLE -> { btn_edit_password.gone() }
-            Const.PROVIDER_PASSWORD -> { btn_edit_password.visible() }
+            Const.PROVIDER_GOOGLE -> { mLayout.btnEditPassword.gone() }
+            Const.PROVIDER_PASSWORD -> { mLayout.btnEditPassword.visible() }
         }
     }
 
     private fun setupProgressProfile(isLoading: Boolean){
         if (isLoading){
-            pb_profile.visible()
-            layout_profile.invisible()
+            mLayout.pbProfile.visible()
+            mLayout.layoutProfile.invisible()
         }else{
-            pb_profile.gone()
-            layout_profile.visible()
+            mLayout.pbProfile.gone()
+            mLayout.layoutProfile.visible()
         }
     }
 
     private fun setupProgressLogout(isLoading: Boolean){
         if (isLoading){
-            pb_btn_logout.visible()
-            btn_logout.gone()
+            mLayout.pbBtnLogout.visible()
+            mLayout.btnLogout.gone()
         }else{
-            pb_btn_logout.gone()
-            btn_logout.visible()
+            mLayout.pbBtnLogout.gone()
+            mLayout.btnLogout.visible()
         }
     }
 

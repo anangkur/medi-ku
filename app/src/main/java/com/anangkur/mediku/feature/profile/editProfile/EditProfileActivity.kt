@@ -11,14 +11,13 @@ import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.auth.User
+import com.anangkur.mediku.databinding.ActivityEditProfileBinding
 import com.anangkur.mediku.util.*
 import com.esafirm.imagepicker.features.ImagePicker
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.layout_toolbar_back.*
 import java.io.File
 
-class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActionListener {
+class EditProfileActivity: BaseActivity<ActivityEditProfileBinding, EditProfileViewModel>(), EditProfileActionListener {
 
     companion object{
         fun startActivity(context: Context){
@@ -26,12 +25,10 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_edit_profile
     override val mViewModel: EditProfileViewModel
         get() = obtainViewModel(EditProfileViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar
+        get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_edit_profile)
 
@@ -40,12 +37,16 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
 
         setupTextWatcher()
         observeViewModel()
-        btn_save.setOnClickListener { this.onClickSave(
-            et_name.text.toString(),
-            et_height.text.toString(),
-            et_weight.text.toString()
+        mLayout.btnSave.setOnClickListener { this.onClickSave(
+            mLayout.etName.text.toString(),
+            mLayout.etHeight.text.toString(),
+            mLayout.etWeight.text.toString()
         ) }
-        btn_edit_photo.setOnClickListener { this.onCLickImage() }
+        mLayout.btnEditPhoto.setOnClickListener { this.onCLickImage() }
+    }
+
+    override fun setupView(): ActivityEditProfileBinding {
+        return ActivityEditProfileBinding.inflate(layoutInflater)
     }
 
     override fun onResume() {
@@ -61,9 +62,9 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
             handleImageCropperResult(data, resultCode, object: CompressImageListener{
                 override fun progress(isLoading: Boolean) {
                     if (isLoading){
-                        pb_image_profile.visible()
+                        mLayout.pbImageProfile.visible()
                     }else{
-                        pb_image_profile.gone()
+                        mLayout.pbImageProfile.gone()
                     }
                 }
                 override fun success(data: File) {
@@ -109,74 +110,79 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
     }
 
     private fun setupView(data: User){
-        layout_profile.visible()
+        mLayout.layoutProfile.visible()
         mViewModel.user = data
-        et_name.setText(data.name)
-        et_height.setText(data.height.toString())
-        et_weight.setText(data.weight.toString())
-        iv_profile.setImageUrl(data.photo)
+        mLayout.etName.setText(data.name)
+        mLayout.etHeight.setText(data.height.toString())
+        mLayout.etWeight.setText(data.weight.toString())
+        mLayout.ivProfile.setImageUrl(data.photo)
     }
 
     private fun setupLoadingProfile(isLoading: Boolean){
         if (isLoading){
-            layout_profile.gone()
-        }else{ }
+            mLayout.evEditProfile.visible()
+            mLayout.evEditProfile.showProgress()
+            mLayout.layoutProfile.gone()
+        }else{
+            mLayout.evEditProfile.gone()
+            mLayout.layoutProfile.visible()
+        }
     }
 
     private fun setupLoadingEditProfile(isLoading: Boolean){
         if (isLoading){
-            btn_save.showProgress()
+            mLayout.btnSave.showProgress()
         }else{
-            btn_save.hideProgress()
+            mLayout.btnSave.hideProgress()
         }
     }
 
     private fun setupLoadingUploadImage(isLoading: Boolean){
         if (isLoading){
-            pb_image_profile.visible()
+            mLayout.pbImageProfile.visible()
         }else{
-            pb_image_profile.gone()
+            mLayout.pbImageProfile.gone()
         }
     }
 
     private fun setupImage(image: Uri){
-        iv_profile.setImageUrl(image.toString())
+        mLayout.ivProfile.setImageUrl(image.toString())
     }
 
     private fun setupTextWatcher(){
-        et_name.addTextChangedListener(object: TextWatcher{
+        mLayout.etName.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 when {
                     s.toString().validateName() -> {
-                        til_name.isErrorEnabled = false
+                        mLayout.tilName.isErrorEnabled = false
                     }
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        et_height.addTextChangedListener(object: TextWatcher{
+        mLayout.etHeight.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable) {
                 when {
                     s.length > 1 && s.startsWith("0") -> {
                         s.delete(0,1)
                     }
-                    s.isNullOrEmpty() -> {
-                        et_height.setText("0")
+                    s.isEmpty() -> {
+                        mLayout.etHeight.setText("0")
                     }
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        et_weight.addTextChangedListener(object: TextWatcher{
+        mLayout.etWeight.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable) {
                 when {
                     s.length > 1 && s.startsWith("0") -> {
                         s.delete(0,1)
                     }
-                    s.isNullOrEmpty() -> {
-                        et_weight.setText("0")
+                    s.isEmpty() -> {
+                        mLayout.etWeight.setText("0")
                     }
                 }
             }
@@ -188,8 +194,8 @@ class EditProfileActivity: BaseActivity<EditProfileViewModel>(), EditProfileActi
     override fun onClickSave(name: String, height: String, weight: String) {
         when {
             !name.validateName() -> {
-                til_name.isErrorEnabled = true
-                til_name.error = getString(R.string.error_name_empty)
+                mLayout.tilName.isErrorEnabled = true
+                mLayout.tilName.error = getString(R.string.error_name_empty)
             }
             else -> {
                 mViewModel.editProfile(mViewModel.user!!.apply {

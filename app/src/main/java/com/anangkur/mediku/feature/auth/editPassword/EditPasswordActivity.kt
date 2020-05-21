@@ -9,12 +9,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.databinding.ActivityEditPasswordBinding
 import com.anangkur.mediku.feature.auth.signIn.SignInActivity
 import com.anangkur.mediku.util.*
-import kotlinx.android.synthetic.main.activity_edit_password.*
-import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
-class EditPasswordActivity: BaseActivity<EditPasswordViewModel>(), EditPasswordActionListener {
+class EditPasswordActivity: BaseActivity<ActivityEditPasswordBinding, EditPasswordViewModel>(), EditPasswordActionListener {
 
     companion object{
         fun startActivity(context: Context){
@@ -22,12 +21,10 @@ class EditPasswordActivity: BaseActivity<EditPasswordViewModel>(), EditPasswordA
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_edit_password
     override val mViewModel: EditPasswordViewModel
         get() = obtainViewModel(EditPasswordViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar
+        get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_edit_profile)
 
@@ -36,11 +33,15 @@ class EditPasswordActivity: BaseActivity<EditPasswordViewModel>(), EditPasswordA
 
         setupTextWatcher()
         observeViewModel()
-        btn_save.setOnClickListener { this.onClickSave(
-            oldPassword = et_password_old.text.toString(),
-            confirmPassword = et_password_confirm.text.toString(),
-            newPassword = et_password_new.text.toString()
+        mLayout.btnSave.setOnClickListener { this.onClickSave(
+            oldPassword = mLayout.etPasswordOld.text.toString(),
+            confirmPassword = mLayout.etPasswordConfirm.text.toString(),
+            newPassword = mLayout.etPasswordNew.text.toString()
         ) }
+    }
+
+    override fun setupView(): ActivityEditPasswordBinding {
+        return ActivityEditPasswordBinding.inflate(layoutInflater)
     }
 
     private fun observeViewModel(){
@@ -64,37 +65,37 @@ class EditPasswordActivity: BaseActivity<EditPasswordViewModel>(), EditPasswordA
 
     private fun setupLoading(isLoading: Boolean){
         if (isLoading){
-            btn_save.showProgress()
+            mLayout.btnSave.showProgress()
         }else{
-            btn_save.hideProgress()
+            mLayout.btnSave.hideProgress()
         }
     }
 
     private fun validateInput(oldPassword: String?, newPassword: String?, confirmPassword: String?){
         when {
             oldPassword.isNullOrEmpty() -> {
-                til_password_old.isErrorEnabled = true
-                til_password_old.error = getString(R.string.error_old_password_empty)
+                mLayout.tilPasswordOld.isErrorEnabled = true
+                mLayout.tilPasswordOld.error = getString(R.string.error_old_password_empty)
             }
             !oldPassword.validatePassword() -> {
-                til_password_old.isErrorEnabled = true
-                til_password_old.error = getString(R.string.error_password_not_valid)
+                mLayout.tilPasswordOld.isErrorEnabled = true
+                mLayout.tilPasswordOld.error = getString(R.string.error_password_not_valid)
             }
             newPassword.isNullOrEmpty() -> {
-                til_password_new.isErrorEnabled = true
-                til_password_new.error = getString(R.string.error_new_password_empty)
+                mLayout.tilPasswordNew.isErrorEnabled = true
+                mLayout.tilPasswordNew.error = getString(R.string.error_new_password_empty)
             }
             !newPassword.validatePassword() -> {
-                til_password_new.isErrorEnabled = true
-                til_password_new.error = getString(R.string.error_password_not_valid)
+                mLayout.tilPasswordNew.isErrorEnabled = true
+                mLayout.tilPasswordNew.error = getString(R.string.error_password_not_valid)
             }
             confirmPassword.isNullOrEmpty() -> {
-                til_password_confirm.isErrorEnabled = true
-                til_password_confirm.error = getString(R.string.error_confirm_password_empty)
+                mLayout.tilPasswordConfirm.isErrorEnabled = true
+                mLayout.tilPasswordConfirm.error = getString(R.string.error_confirm_password_empty)
             }
             !confirmPassword.validatePasswordConfirm(newPassword) -> {
-                til_password_confirm.isErrorEnabled = true
-                til_password_confirm.error = getString(R.string.error_password_confirm_not_valid)
+                mLayout.tilPasswordConfirm.isErrorEnabled = true
+                mLayout.tilPasswordConfirm.error = getString(R.string.error_password_confirm_not_valid)
             }
             else -> {
                 mViewModel.reAuthenticate(oldPassword, newPassword)
@@ -103,33 +104,33 @@ class EditPasswordActivity: BaseActivity<EditPasswordViewModel>(), EditPasswordA
     }
 
     private fun setupTextWatcher(){
-        et_password_old.addTextChangedListener(object: TextWatcher{
+        mLayout.etPasswordOld.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 when {
                     !s.isNullOrEmpty() || s.toString().validatePassword() -> {
-                        til_password_old.isErrorEnabled = false
+                        mLayout.tilPasswordOld.isErrorEnabled = false
                     }
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        et_password_new.addTextChangedListener(object: TextWatcher{
+        mLayout.etPasswordNew.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 when {
                     !s.isNullOrEmpty() || s.toString().validatePassword() -> {
-                        til_password_new.isErrorEnabled = false
+                        mLayout.tilPasswordNew.isErrorEnabled = false
                     }
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        et_password_confirm.addTextChangedListener(object: TextWatcher{
+        mLayout.etPasswordConfirm.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 when {
-                    !s.isNullOrEmpty() || s.toString().validatePasswordConfirm(et_password_new.text.toString()) -> {
-                        til_password_confirm.isErrorEnabled = false
+                    !s.isNullOrEmpty() || s.toString().validatePasswordConfirm(mLayout.etPasswordNew.text.toString()) -> {
+                        mLayout.tilPasswordConfirm.isErrorEnabled = false
                     }
                 }
             }

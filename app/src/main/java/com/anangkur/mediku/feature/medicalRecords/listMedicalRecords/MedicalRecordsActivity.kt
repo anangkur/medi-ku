@@ -9,17 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.databinding.ActivityMedicalRecordsBinding
 import com.anangkur.mediku.feature.covid.covid19.CovidActivity
 import com.anangkur.mediku.feature.medicalRecords.addMedicalRecord.AddMedicalRecordActivity
 import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity
 import com.anangkur.mediku.util.obtainViewModel
 import com.anangkur.mediku.util.setupRecyclerViewLinear
 import com.anangkur.mediku.util.showSnackbarLong
-import kotlinx.android.synthetic.main.activity_medical_records.*
-import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
-
-class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRecordsActionListener {
+class MedicalRecordsActivity: BaseActivity<ActivityMedicalRecordsBinding, MedicalRecordsViewModel>(), MedicalRecordsActionListener {
 
     companion object{
         fun startActivity(context: Context){
@@ -27,12 +25,10 @@ class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRe
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_medical_records
     override val mViewModel: MedicalRecordsViewModel
         get() = obtainViewModel(MedicalRecordsViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar
+        get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.label_medical_record)
 
@@ -43,11 +39,15 @@ class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRe
 
         setupAdapter()
         observeViewModel()
-        swipe_home.setOnRefreshListener {
+        mLayout.swipeHome.setOnRefreshListener {
             mAdapter.resetRecyclerData()
             mViewModel.getMedicalRecord()
         }
-        btn_add_medical_report.setOnClickListener { this.onClickAddMedicalRecord() }
+        mLayout.btnAddMedicalReport.setOnClickListener { this.onClickAddMedicalRecord() }
+    }
+
+    override fun setupView(): ActivityMedicalRecordsBinding {
+        return ActivityMedicalRecordsBinding.inflate(layoutInflater)
     }
 
     override fun onResume() {
@@ -58,7 +58,7 @@ class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRe
 
     private fun setupAdapter(){
         mAdapter = MedicalRecordsAdapter(this)
-        recycler_home.apply {
+        mLayout.recyclerHome.apply {
             adapter = mAdapter
             setupRecyclerViewLinear(this@MedicalRecordsActivity, RecyclerView.VERTICAL)
         }
@@ -67,7 +67,7 @@ class MedicalRecordsActivity: BaseActivity<MedicalRecordsViewModel>(), MedicalRe
     private fun observeViewModel(){
         mViewModel.apply {
             progressGetMedicalRecord.observe(this@MedicalRecordsActivity, Observer {
-                swipe_home.isRefreshing = it
+                mLayout.swipeHome.isRefreshing = it
             })
             successGetMedicalRecord.observe(this@MedicalRecordsActivity, Observer {
                 mAdapter.setRecyclerData(it)

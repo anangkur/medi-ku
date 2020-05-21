@@ -11,15 +11,14 @@ import com.annimon.stream.Stream
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
-import kotlinx.android.synthetic.main.activity_menstrual_edit.*
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
+import com.anangkur.mediku.databinding.ActivityMenstrualEditBinding
 import com.anangkur.mediku.util.*
-import kotlinx.android.synthetic.main.layout_toolbar_back.*
 
-class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEditActionListener {
+class MenstrualEditActivity: BaseActivity<ActivityMenstrualEditBinding, MenstrualEditViewModel>(), MenstrualEditActionListener {
 
     companion object{
         const val REQ_CODE_EDIT = 100
@@ -34,12 +33,10 @@ class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEd
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_menstrual_edit
     override val mViewModel: MenstrualEditViewModel
         get() = obtainViewModel(MenstrualEditViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar
+        get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_edit_menstrual)
 
@@ -48,13 +45,17 @@ class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEd
 
         getDataIntent()
         observeViewModel()
-        et_last_period.setOnClickListener { this.onClickLastPeriod() }
-        btn_save.setOnClickListener { this.onCLickSave(
-            lastPeriod = et_last_period.text.toString(),
-            periodLong = et_long_period.text.toString(),
-            cycleLong = et_long_cycle.text.toString(),
+        mLayout.etLastPeriod.setOnClickListener { this.onClickLastPeriod() }
+        mLayout.btnSave.setOnClickListener { this.onCLickSave(
+            lastPeriod = mLayout.etLastPeriod.text.toString(),
+            periodLong = mLayout.etLongPeriod.text.toString(),
+            cycleLong = mLayout.etLongCycle.text.toString(),
             isEdit = mViewModel.isEdit)
         }
+    }
+
+    override fun setupView(): ActivityMenstrualEditBinding {
+        return ActivityMenstrualEditBinding.inflate(layoutInflater)
     }
 
     private fun getDataIntent(){
@@ -91,7 +92,7 @@ class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEd
             Stream.of(it).forEach { calendar ->
                 mViewModel.selectedCalendar = calendar
                 val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(calendar.time)
-                et_last_period.setText(dateShow)
+                mLayout.etLastPeriod.setText(dateShow)
             }
         })
             .pickerType(CalendarView.ONE_DAY_PICKER)
@@ -112,13 +113,13 @@ class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEd
 
     private fun validateInput(lastPeriod: String?, periodLong: String?, cycleLong: String?, isEdit: Boolean){
         when {
-            lastPeriod.isNullOrEmpty() -> { til_last_period.setErrorMessage(getString(R.string.error_last_period_empty)) }
-            periodLong.isNullOrEmpty() -> { til_long_period.setErrorMessage(getString(R.string.error_period_long_empty)) }
-            cycleLong.isNullOrEmpty() -> { til_long_cycle.setErrorMessage(getString(R.string.error_cycle_long_empty)) }
-            periodLong.toInt() < 1 -> { til_long_period.setErrorMessage(getString(R.string.error_period_long_less_than_1)) }
-            periodLong.toInt() > 12 -> { til_long_period.setErrorMessage(getString(R.string.error_period_long_more_than_12)) }
-            cycleLong.toInt() < 21 -> { til_long_cycle.setErrorMessage(getString(R.string.error_cycle_long_less_than_21)) }
-            cycleLong.toInt() > 100 -> { til_long_cycle.setErrorMessage(getString(R.string.error_cycle_long_more_than_100)) }
+            lastPeriod.isNullOrEmpty() -> { mLayout.tilLastPeriod.setErrorMessage(getString(R.string.error_last_period_empty)) }
+            periodLong.isNullOrEmpty() -> { mLayout.tilLongPeriod.setErrorMessage(getString(R.string.error_period_long_empty)) }
+            cycleLong.isNullOrEmpty() -> { mLayout.tilLongCycle.setErrorMessage(getString(R.string.error_cycle_long_empty)) }
+            periodLong.toInt() < 1 -> { mLayout.tilLongPeriod.setErrorMessage(getString(R.string.error_period_long_less_than_1)) }
+            periodLong.toInt() > 12 -> { mLayout.tilLongPeriod.setErrorMessage(getString(R.string.error_period_long_more_than_12)) }
+            cycleLong.toInt() < 21 -> { mLayout.tilLongCycle.setErrorMessage(getString(R.string.error_cycle_long_less_than_21)) }
+            cycleLong.toInt() > 100 -> { mLayout.tilLongCycle.setErrorMessage(getString(R.string.error_cycle_long_more_than_100)) }
             else -> { mViewModel.addMenstrualPeriod(createMenstrualPeriodResume(
                 selectedCalendar = mViewModel.selectedCalendar,
                 periodLong = periodLong,
@@ -130,16 +131,16 @@ class MenstrualEditActivity: BaseActivity<MenstrualEditViewModel>(), MenstrualEd
     }
 
     private fun setupMenstrualResumeToView(data: MenstrualPeriodResume){
-        et_last_period.setText(data.firstDayPeriod)
-        et_long_cycle.setText(data.longCycle.toString())
-        et_long_period.setText(data.longPeriod.toString())
+        mLayout.etLastPeriod.setText(data.firstDayPeriod)
+        mLayout.etLongCycle.setText(data.longCycle.toString())
+        mLayout.etLongPeriod.setText(data.longPeriod.toString())
     }
 
     private fun setupLoading(isLoading: Boolean){
         if (isLoading){
-            btn_save.showProgress()
+            mLayout.btnSave.showProgress()
         }else{
-            btn_save.hideProgress()
+            mLayout.btnSave.hideProgress()
         }
     }
 }

@@ -1,19 +1,21 @@
 package com.anangkur.mediku.feature.medicalRecords.listMedicalRecords
 
-import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseAdapter
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.databinding.ItemHomeBinding
 import com.anangkur.mediku.util.*
-import kotlinx.android.synthetic.main.item_home.view.*
 
-class MedicalRecordsAdapter(private val listener: MedicalRecordsActionListener): BaseAdapter<MedicalRecord>(){
+class MedicalRecordsAdapter(private val listener: MedicalRecordsActionListener): BaseAdapter<ItemHomeBinding, MedicalRecord>(){
 
-    override val layout: Int
-        get() = R.layout.item_home
+    override fun bindView(parent: ViewGroup): ItemHomeBinding {
+        return ItemHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    }
 
-    override fun bind(data: MedicalRecord, itemView: View, position: Int) {
+    override fun bind(data: MedicalRecord, itemView: ItemHomeBinding, position: Int) {
         val resource = when (data.category){
             Const.CATEGORY_SICK -> {
                 Pair(R.drawable.ic_pills, R.drawable.rect_rounded_4dp_gradient_blue)
@@ -27,17 +29,17 @@ class MedicalRecordsAdapter(private val listener: MedicalRecordsActionListener):
             else -> Pair(0,0)
         }
         if (data.document != null){
-            itemView.iv_document.visible()
-            itemView.iv_document.setImageUrl(data.document)
+            itemView.ivDocument.visible()
+            itemView.ivDocument.setImageUrl(data.document)
         }else{
-            itemView.iv_document.gone()
+            itemView.ivDocument.gone()
         }
-        itemView.iv_item_home.setImageResource(resource.first)
-        itemView.background = ContextCompat.getDrawable(itemView.context, resource.second)
-        itemView.tv_item_home.text = data.category
-        itemView.tv_diagnosis_home.text = data.diagnosis
-        itemView.setOnClickListener { listener.onClickItem(data) }
-        itemView.tv_date_home.text = data.createdAt.formatDate()
+        itemView.ivItemHome.setImageResource(resource.first)
+        itemView.root.background = ContextCompat.getDrawable(itemView.root.context, resource.second)
+        itemView.tvItemHome.text = data.category
+        itemView.tvDiagnosisHome.text = data.diagnosis
+        itemView.root.setOnClickListener { listener.onClickItem(data) }
+        itemView.tvDateHome.text = data.createdAt.formatDate()
     }
 
 }

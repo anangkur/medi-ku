@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/LinearVerticalDefault">
 
-    <include layout="@layout/layout_toolbar_back"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar_back"/>
 
     <androidx.core.widget.NestedScrollView
         style="@style/NestedScrollDefault"
@@ -85,6 +87,12 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.anangkur.mediku.base.BaseErrorView
+        android:id="@+id/evEditProfile"
+        style="@style/RelativeDefault"
+        android:layout_above="@id/btn_save"
+        android:layout_marginTop="?actionBarSize"/>
     <com.anangkur.materialloadingbutton.MaterialLoadingButton
         android:id="@+id/btn_save"
         style="@style/ButtonDefault"

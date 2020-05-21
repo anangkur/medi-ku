@@ -5,16 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 
-abstract class BaseAdapter<DATA>: RecyclerView.Adapter<BaseAdapter<DATA>.BaseViewHolder>() {
-
-    @get:LayoutRes
-    abstract val layout: Int
+abstract class BaseAdapter<VIEW: ViewBinding, DATA>: RecyclerView.Adapter<BaseAdapter<VIEW, DATA>.BaseViewHolder>() {
 
     private val listItem: ArrayList<DATA> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        return BaseViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent, false))
+        return BaseViewHolder(bindView(parent))
     }
     override fun getItemCount(): Int {
         return listItem.size
@@ -40,11 +38,12 @@ abstract class BaseAdapter<DATA>: RecyclerView.Adapter<BaseAdapter<DATA>.BaseVie
         notifyDataSetChanged()
     }
 
-    abstract fun bind(data: DATA, itemView: View, position: Int)
+    abstract fun bindView(parent: ViewGroup): VIEW
+    abstract fun bind(data: DATA, itemView: VIEW, position: Int)
 
-    inner class BaseViewHolder(view: View): RecyclerView.ViewHolder(view){
+    inner class BaseViewHolder(private val viewBinding: VIEW): RecyclerView.ViewHolder(viewBinding.root){
         fun bind(data: DATA, position: Int){
-            bind(data, itemView, position)
+            bind(data, viewBinding, position)
         }
     }
 }

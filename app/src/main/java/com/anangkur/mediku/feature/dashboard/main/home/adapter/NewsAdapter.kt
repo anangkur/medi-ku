@@ -1,24 +1,26 @@
 package com.anangkur.mediku.feature.dashboard.main.home.adapter
 
-import android.view.View
-import com.anangkur.mediku.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.anangkur.mediku.base.BaseAdapter
 import com.anangkur.mediku.data.model.news.Article
+import com.anangkur.mediku.databinding.ItemNewsBinding
 import com.anangkur.mediku.feature.dashboard.main.home.HomeActionListener
 import com.anangkur.mediku.util.Const
 import com.anangkur.mediku.util.setImageUrl
-import kotlinx.android.synthetic.main.item_news.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NewsAdapter(private val listener: HomeActionListener): BaseAdapter<Article>() {
-    override val layout: Int
-        get() = R.layout.item_news
+class NewsAdapter(private val listener: HomeActionListener): BaseAdapter<ItemNewsBinding, Article>() {
 
-    override fun bind(data: Article, itemView: View, position: Int) {
-        itemView.iv_item_regular.setImageUrl(data.urlToImage?:"")
-        itemView.tv_item_regular.text = data.title
-        itemView.setOnClickListener { listener.onClickNews(data) }
+    override fun bindView(parent: ViewGroup): ItemNewsBinding {
+        return ItemNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    }
+
+    override fun bind(data: Article, itemView: ItemNewsBinding, position: Int) {
+        itemView.ivItemRegular.setImageUrl(data.urlToImage?:"")
+        itemView.tvItemRegular.text = data.title
+        itemView.root.setOnClickListener { listener.onClickNews(data) }
         val dateParsed = try {
             SimpleDateFormat(Const.DATE_FORMAT_NEW_COVID19_2, Locale.US).parse(data.publishedAt)
         }catch (e: Exception){
@@ -33,6 +35,6 @@ class NewsAdapter(private val listener: HomeActionListener): BaseAdapter<Article
         }catch (e: Exception){
             ""
         }
-        itemView.tv_date_news.text = dateFormatted
+        itemView.tvDateNews.text = dateFormatted
     }
 }

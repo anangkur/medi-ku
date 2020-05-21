@@ -1,14 +1,16 @@
 package com.anangkur.mediku.feature.dashboard.main.home
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseFragment
 import com.anangkur.mediku.data.model.BaseResult
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.data.model.news.Article
+import com.anangkur.mediku.databinding.FragmentHomeBinding
 import com.anangkur.mediku.feature.covid.covid19.CovidActivity
 import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity
 import com.anangkur.mediku.feature.dashboard.main.home.adapter.MedicalRecordAdapter
@@ -17,27 +19,22 @@ import com.anangkur.mediku.feature.medicalRecords.listMedicalRecords.MedicalReco
 import com.anangkur.mediku.feature.mens.menstrual.MenstrualActivity
 import com.anangkur.mediku.feature.originalNews.OriginalNewsActivity
 import com.anangkur.mediku.util.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.layout_covid19_alert.*
-import kotlinx.android.synthetic.main.layout_medical_records.*
-import kotlinx.android.synthetic.main.layout_menstrual_period.*
-import kotlinx.android.synthetic.main.layout_menu_dashboard.*
-import kotlinx.android.synthetic.main.layout_news.*
-import kotlinx.android.synthetic.main.layout_welcome.*
 
-class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
+class HomeFragment: BaseFragment<FragmentHomeBinding, HomeViewModel>(), HomeActionListener {
 
     companion object{
         fun newInstance() = HomeFragment()
     }
 
-    override val mLayout: Int
-        get() = R.layout.fragment_home
     override val mViewModel: HomeViewModel
         get() = obtainViewModel(HomeViewModel::class.java)
 
     private lateinit var medicalRecordAdapter: MedicalRecordAdapter
     private lateinit var newsAdapter: NewsAdapter
+
+    override fun setupView(container: ViewGroup?): FragmentHomeBinding {
+        return FragmentHomeBinding.inflate(LayoutInflater.from(requireContext()), container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,20 +42,20 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
         setupMedicalRecordAdapter()
         setupNewsAdapter()
         observeViewModel()
-        swipe_home.setOnRefreshListener {
+        mLayout.swipeHome.setOnRefreshListener {
             mViewModel.getUserProfile()
             mViewModel.getNews()
             mViewModel.getMedicalRecord()
-            swipe_home.isRefreshing = false
+            mLayout.swipeHome.isRefreshing = false
         }
 
-        card_covid.setOnClickListener { this.onClickCovid19() }
-        layout_menstrual_period.setOnClickListener { this.onClickMenstrualPeriod() }
+        mLayout.cardCovid.cardCovid.setOnClickListener { this.onClickCovid19() }
+        mLayout.layoutMenstrualPeriod.layoutMenstrualPeriod.setOnClickListener { this.onClickMenstrualPeriod() }
 
-        menu_covid_check.setOnClickListener { this.onClickCovid19Check() }
-        menu_covid_stat.setOnClickListener { this.onClickCovid19() }
-        menu_medical_records.setOnClickListener { this.onClickMedicalRecords() }
-        menu_menstrual_period.setOnClickListener { this.onClickMenstrualPeriod() }
+        mLayout.includeLayoutMenuDashboard.menuCovidCheck.setOnClickListener { this.onClickCovid19Check() }
+        mLayout.includeLayoutMenuDashboard.menuCovidStat.setOnClickListener { this.onClickCovid19() }
+        mLayout.includeLayoutMenuDashboard.menuMedicalRecords.setOnClickListener { this.onClickMedicalRecords() }
+        mLayout.includeLayoutMenuDashboard.menuMenstrualPeriod.setOnClickListener { this.onClickMenstrualPeriod() }
     }
 
     override fun onResume() {
@@ -83,7 +80,7 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
 
             })
             successGetProfile.observe(this@HomeFragment, Observer {
-                tv_name.text = it.name
+                mLayout.includeLayoutWelcome.tvName.text = it.name
             })
             errorGetProfile.observe(this@HomeFragment, Observer {
                 requireActivity().showSnackbarLong(it)
@@ -110,7 +107,7 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
 
     private fun setupMedicalRecordAdapter(){
         medicalRecordAdapter = MedicalRecordAdapter(this)
-        recycler_medical_record.apply {
+        mLayout.includeLayoutMedicalRecords.recyclerMedicalRecord.apply {
             adapter = medicalRecordAdapter
             setupRecyclerViewLinear(requireContext(), RecyclerView.HORIZONTAL)
         }
@@ -118,7 +115,7 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
 
     private fun setupNewsAdapter(){
         newsAdapter = NewsAdapter(this)
-        recycler_news.apply {
+        mLayout.includeLayoutNews.recyclerNews.apply {
             adapter = newsAdapter
             setupRecyclerViewLinear(requireContext(), RecyclerView.HORIZONTAL)
         }
@@ -126,46 +123,46 @@ class HomeFragment: BaseFragment<HomeViewModel>(), HomeActionListener {
 
     private fun setupLoadingMedicalRecord(isLoading: Boolean){
         if (isLoading){
-            recycler_medical_record.gone()
-            tv_error_medical_record.gone()
-            pb_medical_record.visible()
+            mLayout.includeLayoutMedicalRecords.recyclerMedicalRecord.gone()
+            mLayout.includeLayoutMedicalRecords.tvErrorMedicalRecord.gone()
+            mLayout.includeLayoutMedicalRecords.pbMedicalRecord.visible()
         }else{
-            pb_medical_record.gone()
+            mLayout.includeLayoutMedicalRecords.pbMedicalRecord.gone()
         }
     }
 
     private fun setupLoadingLatestNews(isLoading: Boolean){
         if ((isLoading)){
-            recycler_news.gone()
-            tv_error_latest_news.gone()
-            pb_latest_news.visible()
+            mLayout.includeLayoutNews.recyclerNews.gone()
+            mLayout.includeLayoutNews.tvErrorLatestNews.gone()
+            mLayout.includeLayoutNews.pbLatestNews.visible()
         }else{
-            pb_latest_news.gone()
+            mLayout.includeLayoutNews.pbLatestNews.gone()
         }
     }
 
     private fun setupErrorLatestNews(errorMessage: String){
-        recycler_news.gone()
-        tv_error_latest_news.visible()
-        tv_error_latest_news.text = errorMessage
+        mLayout.includeLayoutNews.recyclerNews.gone()
+        mLayout.includeLayoutNews.tvErrorLatestNews.visible()
+        mLayout.includeLayoutNews.tvErrorLatestNews.text = errorMessage
     }
 
     private fun setupShowLatestNews(data: List<Article>){
-        recycler_news.visible()
-        tv_error_latest_news.gone()
+        mLayout.includeLayoutNews.recyclerNews.visible()
+        mLayout.includeLayoutNews.tvErrorLatestNews.gone()
         newsAdapter.setRecyclerData(data)
     }
 
     private fun setupShowMedicalRecord(data: List<MedicalRecord>){
-        recycler_medical_record.visible()
-        tv_error_medical_record.gone()
+        mLayout.includeLayoutMedicalRecords.recyclerMedicalRecord.visible()
+        mLayout.includeLayoutMedicalRecords.tvErrorMedicalRecord.gone()
         medicalRecordAdapter.setRecyclerData(data)
     }
 
     private fun setupErrorMedicalRecord(errorMessage: String){
-        recycler_medical_record.gone()
-        tv_error_medical_record.visible()
-        tv_error_medical_record.text = errorMessage
+        mLayout.includeLayoutMedicalRecords.recyclerMedicalRecord.gone()
+        mLayout.includeLayoutMedicalRecords.tvErrorMedicalRecord.visible()
+        mLayout.includeLayoutMedicalRecords.tvErrorMedicalRecord.text = errorMessage
     }
 
     override fun onClickCovid19() {

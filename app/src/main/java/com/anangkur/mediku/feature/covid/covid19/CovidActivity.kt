@@ -10,15 +10,14 @@ import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.BaseResult
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
+import com.anangkur.mediku.databinding.ActivityCovidBinding
 import com.anangkur.mediku.feature.covid.covid19.adapter.CovidHorizontalAdapter
 import com.anangkur.mediku.feature.covid.covid19.adapter.CovidVerticalAdapter
 import com.anangkur.mediku.util.*
-import kotlinx.android.synthetic.main.activity_covid.*
-import kotlinx.android.synthetic.main.layout_toolbar_back.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CovidActivity : BaseActivity<CovidViewModel>() {
+class CovidActivity : BaseActivity<ActivityCovidBinding, CovidViewModel>() {
 
     companion object{
         fun startActivity(context: Context){
@@ -26,12 +25,10 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_covid
     override val mViewModel: CovidViewModel
         get() = obtainViewModel(CovidViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar
+        get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_covid_19)
 
@@ -47,10 +44,14 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
         setupTopCountryAdapter()
         observeViewModel()
         mViewModel.getCovid19Data()
-        swipe_covid.setOnRefreshListener {
+        mLayout.swipeCovid.setOnRefreshListener {
             mViewModel.getCovid19Data()
-            swipe_covid.isRefreshing = false
+            mLayout.swipeCovid.isRefreshing = false
         }
+    }
+
+    override fun setupView(): ActivityCovidBinding {
+        return ActivityCovidBinding.inflate(layoutInflater)
     }
 
     private fun observeViewModel(){
@@ -67,7 +68,7 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
                     BaseResult.Status.SUCCESS -> {
                         setupLoadingGeneral(false)
                         setupShownDate(it.data?.get(0)?.date)
-                        tv_data_shown.visible()
+                        mLayout.tvDataShown.visible()
                         setupDataOtherCountryToView(it.data!!.subList(1, it.data.size))
                         getCovid19DataOnYourCountry(country.convertCoutryCodeIsoToCountryName())
                         getCovid19DataTopCountry()
@@ -109,7 +110,7 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
 
     private fun setupOtherCountryAdapter(){
         otherCountryAdapter = CovidVerticalAdapter()
-        recycler_other_country.apply {
+        mLayout.recyclerOtherCountry.apply {
             adapter = otherCountryAdapter
             setupRecyclerViewLinear(this@CovidActivity, RecyclerView.VERTICAL)
         }
@@ -117,7 +118,7 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
 
     private fun setupYourCountryAdapter(){
         yourCountryAdapter = CovidHorizontalAdapter()
-        recycler_your_country.apply {
+        mLayout.recyclerYourCountry.apply {
             adapter = yourCountryAdapter
             setupRecyclerViewLinear(this@CovidActivity, RecyclerView.HORIZONTAL)
         }
@@ -125,7 +126,7 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
 
     private fun setupTopCountryAdapter(){
         topCountryAdapter = CovidHorizontalAdapter()
-        recycler_top_country.apply {
+        mLayout.recyclerTopCountry.apply {
             adapter = topCountryAdapter
             setupRecyclerViewLinear(this@CovidActivity, RecyclerView.HORIZONTAL)
         }
@@ -134,37 +135,37 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
     private fun setupDataOtherCountryToView(listCovid19Data: List<NewCovid19Summary>){
         otherCountryAdapter.setRecyclerData(listCovid19Data)
         val statCovid = mViewModel.getStatCovid(listCovid19Data)
-        tv_stat_confirmed.text = statCovid.first.formatThousandNumber()
-        tv_stat_death.text = statCovid.second.formatThousandNumber()
-        tv_stat_recover.text = statCovid.third.formatThousandNumber()
+        mLayout.tvStatConfirmed.text = statCovid.first.formatThousandNumber()
+        mLayout.tvStatDeath.text = statCovid.second.formatThousandNumber()
+        mLayout.tvStatRecover.text = statCovid.third.formatThousandNumber()
     }
 
     private fun setupLoadingGeneral(isLoading: Boolean){
         if (isLoading){
-            pb_stat_confirmed.visible()
-            pb_stat_death.visible()
-            pb_stat_recover.visible()
-            pb_layout_content.visible()
-            tv_data_shown.gone()
-            layout_content.gone()
-            tv_label_stat_confirmed.gone()
-            tv_label_stat_death.gone()
-            tv_label_stat_recover.gone()
-            tv_stat_confirmed.gone()
-            tv_stat_death.gone()
-            tv_stat_recover.gone()
+            mLayout.pbStatConfirmed.visible()
+            mLayout.pbStatDeath.visible()
+            mLayout.pbStatRecover.visible()
+            mLayout.pbLayoutContent.visible()
+            mLayout.tvDataShown.gone()
+            mLayout.layoutContent.gone()
+            mLayout.tvLabelStatConfirmed.gone()
+            mLayout.tvLabelStatDeath.gone()
+            mLayout.tvLabelStatRecover.gone()
+            mLayout.tvStatConfirmed.gone()
+            mLayout.tvStatDeath.gone()
+            mLayout.tvStatRecover.gone()
         }else{
-            pb_stat_confirmed.gone()
-            pb_stat_death.gone()
-            pb_stat_recover.gone()
-            pb_layout_content.gone()
-            layout_content.visible()
-            tv_label_stat_confirmed.visible()
-            tv_label_stat_death.visible()
-            tv_label_stat_recover.visible()
-            tv_stat_confirmed.visible()
-            tv_stat_death.visible()
-            tv_stat_recover.visible()
+            mLayout.pbStatConfirmed.gone()
+            mLayout.pbStatDeath.gone()
+            mLayout.pbStatRecover.gone()
+            mLayout.pbLayoutContent.gone()
+            mLayout.layoutContent.visible()
+            mLayout.tvLabelStatConfirmed.visible()
+            mLayout.tvLabelStatDeath.visible()
+            mLayout.tvLabelStatRecover.visible()
+            mLayout.tvStatConfirmed.visible()
+            mLayout.tvStatDeath.visible()
+            mLayout.tvStatRecover.visible()
         }
     }
 
@@ -181,31 +182,31 @@ class CovidActivity : BaseActivity<CovidViewModel>() {
             }
         }
         val dateFormatted = try {
-            SimpleDateFormat(Const.DATE_FORMAT_SHOWN_COVID19, Locale.US).format(dateParsed)
+            SimpleDateFormat(Const.DATE_FORMAT_SHOWN_COVID19, Locale.US).format(dateParsed?:date)
         }catch (e: Exception){
             e.printStackTrace()
             date
         }
-        tv_data_shown.text = getString(R.string.label_data_shown, dateFormatted)
+        mLayout.tvDataShown.text = getString(R.string.label_data_shown, dateFormatted)
     }
 
     private fun setupLoadingYourCountry(isLoading: Boolean){
         if (isLoading){
-            pb_layout_content.visible()
-            layout_content.gone()
+            mLayout.pbLayoutContent.visible()
+            mLayout.layoutContent.gone()
         }else{
-            pb_layout_content.gone()
-            layout_content.visible()
+            mLayout.pbLayoutContent.gone()
+            mLayout.layoutContent.visible()
         }
     }
 
     private fun setupLoadingTopCountry(isLoading: Boolean){
         if (isLoading){
-            pb_layout_content.visible()
-            layout_content.gone()
+            mLayout.pbLayoutContent.visible()
+            mLayout.layoutContent.gone()
         }else{
-            pb_layout_content.gone()
-            layout_content.visible()
+            mLayout.pbLayoutContent.gone()
+            mLayout.layoutContent.visible()
         }
     }
 }

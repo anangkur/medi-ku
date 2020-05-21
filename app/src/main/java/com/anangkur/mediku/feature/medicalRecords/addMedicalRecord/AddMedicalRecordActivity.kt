@@ -14,6 +14,7 @@ import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.base.BaseSpinnerListener
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.databinding.ActivityAddMedicalRecordBinding
 import com.anangkur.mediku.feature.medicalRecords.detailMedicalRecord.DetailMedicalRecordActivity.Companion.EXTRA_DETAIL_MEDICAL_RECORD
 import com.anangkur.mediku.util.*
 import com.annimon.stream.Stream
@@ -22,13 +23,11 @@ import com.applandeo.materialcalendarview.builders.DatePickerBuilder
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
 import com.esafirm.imagepicker.features.ImagePicker
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.activity_add_medical_record.*
-import kotlinx.android.synthetic.main.layout_toolbar_back.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMedicalActionListener {
+class   AddMedicalRecordActivity: BaseActivity<ActivityAddMedicalRecordBinding, AddMedicalRecordViewModel>(), AddMedicalActionListener {
 
     companion object{
         const val REQ_EDIT = 100
@@ -42,12 +41,10 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_add_medical_record
     override val mViewModel: AddMedicalRecordViewModel
         get() = obtainViewModel(AddMedicalRecordViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar
+        get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_add_medical_record)
 
@@ -58,19 +55,23 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
         setupSpinner(mViewModel.createCategoryList())
         getDataFromIntent()
         setupDataToView(mViewModel.medicalRecord)
-        btn_save.setOnClickListener {
+        mLayout.btnSave.setOnClickListener {
             this.onClickSave(
                 category = mViewModel.selectedCategory?:"",
-                heartRate = et_heart_rate.text.toString(),
-                bodyTemperature = et_temperature.text.toString(),
-                bloodPressure = et_blood_pressure.text.toString(),
-                diagnose = et_diagnose.text.toString(),
-                date = et_date.text.toString()
+                heartRate = mLayout.etHeartRate.text.toString(),
+                bodyTemperature = mLayout.etTemperature.text.toString(),
+                bloodPressure = mLayout.etBloodPressure.text.toString(),
+                diagnose = mLayout.etDiagnose.text.toString(),
+                date = mLayout.etDate.text.toString()
             )
         }
-        btn_select_category.setOnClickListener { this.onClickCategory() }
-        btn_upload_document.setOnClickListener { this.onClickImage() }
-        et_date.setOnClickListener { this.onClickDate() }
+        mLayout.btnSelectCategory.setOnClickListener { this.onClickCategory() }
+        mLayout.btnUploadDocument.setOnClickListener { this.onClickImage() }
+        mLayout.etDate.setOnClickListener { this.onClickDate() }
+    }
+
+    override fun setupView(): ActivityAddMedicalRecordBinding {
+        return ActivityAddMedicalRecordBinding.inflate(layoutInflater)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -125,39 +126,39 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
     private fun setupDataToView(data: MedicalRecord?){
         if (data != null){
             val date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).parse(data.createdAt)
-            val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(date)
-            et_date.setText(dateShow)
+            val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(date!!)
+            mLayout.etDate.setText(dateShow)
             setupImage(data.document)
-            spinner_category.setSelection(mViewModel.createCategoryList().indexOf(data.category))
-            et_diagnose.setText(data.diagnosis)
-            et_blood_pressure.setText(data.bloodPressure.toString())
-            et_temperature.setText(data.bodyTemperature.toString())
-            et_heart_rate.setText(data.heartRate.toString())
+            mLayout.spinnerCategory.setSelection(mViewModel.createCategoryList().indexOf(data.category))
+            mLayout.etDiagnose.setText(data.diagnosis)
+            mLayout.etBloodPressure.setText(data.bloodPressure.toString())
+            mLayout.etTemperature.setText(data.bodyTemperature.toString())
+            mLayout.etHeartRate.setText(data.heartRate.toString())
         }
     }
 
     private fun setupProgressAddMedicalRecord(isLoading: Boolean){
         if (isLoading){
-            btn_save.showProgress()
+            mLayout.btnSave.showProgress()
         }else{
-            btn_save.hideProgress()
+            mLayout.btnSave.hideProgress()
         }
     }
 
     private fun setupProgressUploadDocument(isLoading: Boolean){
         if (isLoading){
-            pb_document.visible()
-            iv_camera.gone()
+            mLayout.pbDocument.visible()
+            mLayout.ivCamera.gone()
         }else{
-            pb_document.gone()
-            iv_camera.visible()
+            mLayout.pbDocument.gone()
+            mLayout.ivCamera.visible()
         }
     }
 
     private fun setupDocument(data: Uri){
         mViewModel.document = data.toString()
-        iv_document.setImageUrl(data.toString())
-        iv_camera.gone()
+        mLayout.ivDocument.setImageUrl(data.toString())
+        mLayout.ivCamera.gone()
     }
 
     override fun onClickSave(
@@ -172,7 +173,7 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
     }
 
     override fun onClickCategory() {
-        spinner_category.performClick()
+        mLayout.spinnerCategory.performClick()
     }
 
     override fun onClickImage() {
@@ -195,7 +196,7 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
             Stream.of(it).forEach { calendar ->
                 val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(calendar.time)
                 val datePost = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).format(calendar.time)
-                et_date.setText(dateShow)
+                mLayout.etDate.setText(dateShow)
                 mViewModel.selectedDate = datePost
             }
         })
@@ -221,19 +222,19 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
     ){
         when {
             diagnose.isNullOrEmpty() -> {
-                til_diagnose.setErrorMessage(getString(R.string.error_diagnose_empty))
+                mLayout.tilDiagnose.setErrorMessage(getString(R.string.error_diagnose_empty))
             }
             bloodPressure.isNullOrEmpty() -> {
-                til_blood_pressure.setErrorMessage(getString(R.string.error_blood_pressure_empty))
+                mLayout.tilBloodPressure.setErrorMessage(getString(R.string.error_blood_pressure_empty))
             }
             bodyTemperature.isNullOrEmpty() -> {
-                til_temperature.setErrorMessage(getString(R.string.error_body_temperature_empty))
+                mLayout.tilTemperature.setErrorMessage(getString(R.string.error_body_temperature_empty))
             }
             heartRate.isNullOrEmpty() -> {
-                til_heart_rate.setErrorMessage(getString(R.string.error_heart_rate_empty))
+                mLayout.tilHeartRate.setErrorMessage(getString(R.string.error_heart_rate_empty))
             }
             date.isNullOrEmpty() -> {
-                til_date.setErrorMessage(getString(R.string.error_date_empty))
+                mLayout.tilDate.setErrorMessage(getString(R.string.error_date_empty))
             }
             else -> {
                 mViewModel.addMedicalRecord(MedicalRecord(
@@ -252,7 +253,7 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
     }
 
     private fun setupSpinner(data: List<String>){
-        spinner_category.setupSpinner(data, object: BaseSpinnerListener{
+        mLayout.spinnerCategory.setupSpinner(data, object: BaseSpinnerListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 setupCategoryView(parent?.selectedItem.toString())
             }
@@ -273,17 +274,17 @@ class AddMedicalRecordActivity: BaseActivity<AddMedicalRecordViewModel>(), AddMe
             }
             else -> Pair(0,0)
         }
-        iv_category.setImageResource(resource.first)
-        btn_select_category.background = ContextCompat.getDrawable(this, resource.second)
-        tv_category.text = category
+        mLayout.ivCategory.setImageResource(resource.first)
+        mLayout.btnSelectCategory.background = ContextCompat.getDrawable(this, resource.second)
+        mLayout.tvCategory.text = category
     }
 
     private fun setupImage(imageUrl: String?){
         if (imageUrl != null){
-            iv_document.setImageUrl(imageUrl)
-            iv_camera.gone()
+            mLayout.ivDocument.setImageUrl(imageUrl)
+            mLayout.ivCamera.gone()
         }else{
-            iv_camera.visible()
+            mLayout.ivCamera.visible()
         }
     }
 

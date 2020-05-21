@@ -8,16 +8,15 @@ import androidx.core.content.ContextCompat
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
 import com.anangkur.mediku.data.model.medical.MedicalRecord
+import com.anangkur.mediku.databinding.ActivityDetailMedicalRecordBinding
 import com.anangkur.mediku.feature.medicalRecords.addMedicalRecord.AddMedicalRecordActivity
 import com.anangkur.mediku.feature.medicalRecords.addMedicalRecord.AddMedicalRecordActivity.Companion.REQ_EDIT
 import com.anangkur.mediku.feature.medicalRecords.addMedicalRecord.AddMedicalRecordActivity.Companion.RES_EDIT
 import com.anangkur.mediku.util.*
-import kotlinx.android.synthetic.main.activity_detail_medical_record.*
-import kotlinx.android.synthetic.main.layout_toolbar_back.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(), DetailMedicalRecordActionListener {
+class DetailMedicalRecordActivity: BaseActivity<ActivityDetailMedicalRecordBinding, DetailMedicalRecordViewModel>(), DetailMedicalRecordActionListener {
 
     companion object{
         const val EXTRA_DETAIL_MEDICAL_RECORD = "EXTRA_DETAIL_MEDICAL_RECORD"
@@ -27,12 +26,10 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_detail_medical_record
     override val mViewModel: DetailMedicalRecordViewModel
         get() = obtainViewModel(DetailMedicalRecordViewModel::class.java)
     override val mToolbar: Toolbar?
-        get() = toolbar
+        get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_detail_medical_record)
 
@@ -41,7 +38,11 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
 
         getDataFromIntent()
         setupDataToView(mViewModel.detailMedicalRecord)
-        btn_edit.setOnClickListener { this.onClickEdit(mViewModel.detailMedicalRecord) }
+        mLayout.btnEdit.setOnClickListener { this.onClickEdit(mViewModel.detailMedicalRecord) }
+    }
+
+    override fun setupView(): ActivityDetailMedicalRecordBinding {
+        return ActivityDetailMedicalRecordBinding.inflate(layoutInflater)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -66,13 +67,13 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
     private fun setupDataToView(data: MedicalRecord){
         val date = SimpleDateFormat(Const.DEFAULT_DATE_FORMAT, Locale.US).parse(data.createdAt)
         val dateShow = SimpleDateFormat(Const.DATE_ENGLISH_YYYY_MM_DD, Locale.US).format(date)
-        tv_date.text = dateShow
+        mLayout.tvDate.text = dateShow
         setupCategoryView(data.category)
         setupImage(data.document)
-        tv_diagnose.text = data.diagnosis
-        tv_blood_pressure.text = "${data.bloodPressure} mmHg"
-        tv_body_temperature.text = "${data.bodyTemperature} Celcius"
-        tv_heart_rate.text = "${data.heartRate} Bpm"
+        mLayout.tvDiagnose.text = data.diagnosis
+        mLayout.tvBloodPressure.text = "${data.bloodPressure} mmHg"
+        mLayout.tvBodyTemperature.text = "${data.bodyTemperature} Celcius"
+        mLayout.tvHeartRate.text = "${data.heartRate} Bpm"
     }
 
     private fun setupCategoryView(category: String){
@@ -88,18 +89,18 @@ class DetailMedicalRecordActivity: BaseActivity<DetailMedicalRecordViewModel>(),
             }
             else -> Pair(0,0)
         }
-        iv_category.setImageResource(resource.first)
-        btn_select_category.background = ContextCompat.getDrawable(this, resource.second)
-        tv_category.text = category
+        mLayout.ivCategory.setImageResource(resource.first)
+        mLayout.btnSelectCategory.background = ContextCompat.getDrawable(this, resource.second)
+        mLayout.tvCategory.text = category
     }
 
     private fun setupImage(imageUrl: String?){
         if (imageUrl != null){
-            btn_upload_document.visible()
-            iv_document.setImageUrl(imageUrl)
-            btn_upload_document.setOnClickListener { this.onCLickImage(imageUrl) }
+            mLayout.btnUploadDocument.visible()
+            mLayout.ivDocument.setImageUrl(imageUrl)
+            mLayout.btnUploadDocument.setOnClickListener { this.onCLickImage(imageUrl) }
         }else{
-            btn_upload_document.gone()
+            mLayout.btnUploadDocument.gone()
         }
     }
 

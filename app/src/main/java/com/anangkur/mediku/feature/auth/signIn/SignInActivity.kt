@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.databinding.ActivitySignInBinding
 import com.anangkur.mediku.feature.auth.forgotPassword.ForgotPasswordActivity
 import com.anangkur.mediku.feature.dashboard.main.MainActivity
 import com.anangkur.mediku.feature.auth.signUp.SignUpActivity
@@ -17,10 +18,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import kotlinx.android.synthetic.main.activity_sign_in.*
 
 
-class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
+class SignInActivity: BaseActivity<ActivitySignInBinding, SignInViewModel>(), SignInActionListener {
 
     companion object{
         const val RC_SIGN_IN = 9001
@@ -34,8 +34,6 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_sign_in
     override val mViewModel: SignInViewModel
         get() = obtainViewModel(SignInViewModel::class.java)
     override val mToolbar: Toolbar?
@@ -49,9 +47,13 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
         super.onCreate(savedInstanceState)
 
         setupGoogleSignIn()
-        setupView()
+        setupView(mLayout)
         setupTextWatcher()
         observeViewModel()
+    }
+
+    override fun setupView(): ActivitySignInBinding {
+        return ActivitySignInBinding.inflate(layoutInflater)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -88,28 +90,28 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
         }
     }
 
-    private fun setupView(){
-        btn_signin.setOnClickListener { this.onClickSignIn(et_email.text.toString(), et_password.text.toString()) }
-        btn_forgot_password.setOnClickListener { this.onClickForgot() }
-        btn_register.setOnClickListener { this.onClickSignUp() }
-        btn_signin_google.setOnClickListener { this.onClickGoogle() }
+    private fun setupView(mLayout: ActivitySignInBinding){
+        mLayout.btnSignin.setOnClickListener { this.onClickSignIn(mLayout.etEmail.text.toString(), mLayout.etPassword.text.toString()) }
+        mLayout.btnForgotPassword.setOnClickListener { this.onClickForgot() }
+        mLayout.btnRegister.setOnClickListener { this.onClickSignUp() }
+        mLayout.btnSigninGoogle.setOnClickListener { this.onClickGoogle() }
     }
 
     private fun setupLoading(isLoading: Boolean){
         if (isLoading){
-            btn_signin.showProgress()
+            mLayout.btnSignin.showProgress()
         }else{
-            btn_signin.hideProgress()
+            mLayout.btnSignin.hideProgress()
         }
     }
 
     private fun setupLoadingGoogle(isLoading: Boolean){
         if (isLoading){
-            pb_btn_signin_google.visible()
-            btn_signin_google.gone()
+            mLayout.pbBtnSigninGoogle.visible()
+            mLayout.btnSigninGoogle.gone()
         }else{
-            pb_btn_signin_google.gone()
-            btn_signin_google.visible()
+            mLayout.pbBtnSigninGoogle.gone()
+            mLayout.btnSigninGoogle.visible()
         }
     }
 
@@ -133,46 +135,46 @@ class SignInActivity: BaseActivity<SignInViewModel>(), SignInActionListener {
     private fun validateInput(email: String?, password: String?){
         when {
             email.isNullOrEmpty() -> {
-                til_email.isErrorEnabled = true
-                til_email.error = getString(R.string.error_email_empty)
+                mLayout.tilEmail.isErrorEnabled = true
+                mLayout.tilEmail.error = getString(R.string.error_email_empty)
             }
             !email.validateEmail() -> {
-                til_email.isErrorEnabled = true
-                til_email.error = getString(R.string.error_email_not_valid)
+                mLayout.tilEmail.isErrorEnabled = true
+                mLayout.tilEmail.error = getString(R.string.error_email_not_valid)
             }
             password.isNullOrEmpty() -> {
-                til_password.isErrorEnabled = true
-                til_password.error = getString(R.string.error_password_empty)
+                mLayout.tilPassword.isErrorEnabled = true
+                mLayout.tilPassword.error = getString(R.string.error_password_empty)
             }
             !password.validatePassword() -> {
-                til_password.isErrorEnabled = true
-                til_password.error = getString(R.string.error_password_not_valid)
+                mLayout.tilPassword.isErrorEnabled = true
+                mLayout.tilPassword.error = getString(R.string.error_password_not_valid)
             }
             else -> {
-                til_email.isErrorEnabled = false
-                til_password.isErrorEnabled = false
+                mLayout.tilEmail.isErrorEnabled = false
+                mLayout.tilPassword.isErrorEnabled = false
                 mViewModel.firebaseSignIn(email, password)
             }
         }
     }
 
     private fun setupTextWatcher(){
-        et_email.addTextChangedListener(object: TextWatcher{
+        mLayout.etEmail.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 when {
                     !s.isNullOrEmpty() || s.toString().validateEmail() -> {
-                        til_email.isErrorEnabled = false
+                        mLayout.tilEmail.isErrorEnabled = false
                     }
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        et_password.addTextChangedListener(object: TextWatcher{
+        mLayout.etPassword.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 when {
                     !s.isNullOrEmpty() || s.toString().validatePassword() -> {
-                        til_password.isErrorEnabled = false
+                        mLayout.tilPassword.isErrorEnabled = false
                     }
                 }
             }

@@ -5,20 +5,17 @@ import android.os.Handler
 import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
-import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.databinding.ActivitySplashBinding
 import com.anangkur.mediku.feature.auth.signIn.SignInActivity
 import com.anangkur.mediku.feature.dashboard.main.MainActivity
 import com.anangkur.mediku.util.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
-import kotlinx.android.synthetic.main.activity_splash.*
 
+class SplashActivity: BaseActivity<ActivitySplashBinding, SplashViewModel>() {
 
-class SplashActivity: BaseActivity<SplashViewModel>() {
-    override val mLayout: Int
-        get() = R.layout.activity_splash
     override val mViewModel: SplashViewModel
         get() = obtainViewModel(SplashViewModel::class.java)
     override val mToolbar: Toolbar?
@@ -33,6 +30,10 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
         mViewModel.saveCountry(getUserCountry(this)?:"id")
         getTokenFirebase()
         mViewModel.checkLogin()
+    }
+
+    override fun setupView(): ActivitySplashBinding {
+        return ActivitySplashBinding.inflate(layoutInflater)
     }
 
     private fun openActivity(isLoggedIn: Boolean){
@@ -64,9 +65,9 @@ class SplashActivity: BaseActivity<SplashViewModel>() {
 
     private fun setupLoading(isLoading: Boolean){
         if (isLoading){
-            pb_splash.visible()
+            mLayout.pbSplash.visible()
         }else{
-            pb_splash.gone()
+            mLayout.pbSplash.gone()
         }
     }
 

@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/LinearVerticalDefault">
 
-    <include layout="@layout/layout_toolbar_back"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar_back"/>
 
     <RelativeLayout
         style="@style/RelativeDefault">
@@ -113,7 +115,7 @@
                         android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <CheckBox
-                    android:id="@+id/cb_long_period"
+                    android:id="@+id/cb_long_cycle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimens_10dp"

@@ -10,14 +10,14 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.databinding.ActivityMainBinding
 import com.anangkur.mediku.feature.medicalRecords.addMedicalRecord.AddMedicalRecordActivity
 import com.anangkur.mediku.feature.dashboard.main.home.HomeFragment
 import com.anangkur.mediku.feature.dashboard.main.profile.ProfileFragment
 import com.anangkur.mediku.util.ForceUpdateChecker
 import com.anangkur.mediku.util.obtainViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity: BaseActivity<ViewModel>(), MainActionListener, ForceUpdateChecker.OnUpdateNeededListener {
+class MainActivity: BaseActivity<ActivityMainBinding, ViewModel>(), MainActionListener, ForceUpdateChecker.OnUpdateNeededListener {
 
     companion object{
         fun startActivity(context: Context){
@@ -30,8 +30,6 @@ class MainActivity: BaseActivity<ViewModel>(), MainActionListener, ForceUpdateCh
         }
     }
 
-    override val mLayout: Int
-        get() = R.layout.activity_main
     override val mViewModel: ViewModel
         get() = obtainViewModel(MainViewModel::class.java)
     override val mToolbar: Toolbar?
@@ -46,9 +44,13 @@ class MainActivity: BaseActivity<ViewModel>(), MainActionListener, ForceUpdateCh
 
         showHomeFragment()
 
-        fab_add.setOnClickListener { this.onClickAdd() }
-        layout_btn_home.setOnClickListener { this.onClickHome() }
-        layout_btn_profile.setOnClickListener { this.onClickProfile() }
+        mLayout.fabAdd.setOnClickListener { this.onClickAdd() }
+        mLayout.layoutBtnHome.setOnClickListener { this.onClickHome() }
+        mLayout.layoutBtnProfile.setOnClickListener { this.onClickProfile() }
+    }
+
+    override fun setupView(): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
     }
 
     private fun showHomeFragment(){
@@ -83,11 +85,11 @@ class MainActivity: BaseActivity<ViewModel>(), MainActionListener, ForceUpdateCh
         val dialog: AlertDialog = AlertDialog.Builder(this)
             .setTitle(getString(R.string.message_new_version_available))
             .setMessage(getString(R.string.message_please_update))
-            .setPositiveButton(getString(R.string.btn_update)) { dialog, which ->
+            .setPositiveButton(getString(R.string.btn_update)) { dialog, _ ->
                 dialog.dismiss()
                 redirectStore(updateUrl)
             }
-            .setNegativeButton(getString(R.string.btn_no_thanks)) { dialog, which ->
+            .setNegativeButton(getString(R.string.btn_no_thanks)) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
@@ -101,16 +103,16 @@ class MainActivity: BaseActivity<ViewModel>(), MainActionListener, ForceUpdateCh
     }
 
     private fun setupHomeMenuEnable(){
-        btn_home.setTextColor(ContextCompat.getColor(this, R.color.blue3))
-        iv_btn_home.setImageResource(R.drawable.ic_dashboard_active)
-        btn_profile.setTextColor(ContextCompat.getColor(this, R.color.grayDisable))
-        iv_btn_profile.setImageResource(R.drawable.ic_profile_inactive)
+        mLayout.btnHome.setTextColor(ContextCompat.getColor(this, R.color.blue3))
+        mLayout.ivBtnHome.setImageResource(R.drawable.ic_dashboard_active)
+        mLayout.btnProfile.setTextColor(ContextCompat.getColor(this, R.color.grayDisable))
+        mLayout.ivBtnProfile.setImageResource(R.drawable.ic_profile_inactive)
     }
 
     private fun setupProfileMenuEnable(){
-        btn_profile.setTextColor(ContextCompat.getColor(this, R.color.brown))
-        iv_btn_profile.setImageResource(R.drawable.ic_profile_active)
-        btn_home.setTextColor(ContextCompat.getColor(this, R.color.grayDisable))
-        iv_btn_home.setImageResource(R.drawable.ic_dashboard_inactive)
+        mLayout.btnProfile.setTextColor(ContextCompat.getColor(this, R.color.brown))
+        mLayout.ivBtnProfile.setImageResource(R.drawable.ic_profile_active)
+        mLayout.btnHome.setTextColor(ContextCompat.getColor(this, R.color.grayDisable))
+        mLayout.ivBtnHome.setImageResource(R.drawable.ic_dashboard_inactive)
     }
 }
