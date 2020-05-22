@@ -12,11 +12,11 @@ import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.data.model.news.Article
-import com.anangkur.mediku.data.remote.mapper.ArticleMapper
-import com.anangkur.mediku.data.remote.mapper.MedicalRecordMapper
-import com.anangkur.mediku.data.remote.mapper.UserMapper
+import com.anangkur.mediku.data.remote.mapper.*
 import com.anangkur.mediku.data.remote.model.auth.UserRemoteModel
 import com.anangkur.mediku.data.remote.model.medical.MedicalRecordRemoteModel
+import com.anangkur.mediku.data.remote.model.menstrual.MenstrualPeriodMonthlyRemoteModel
+import com.anangkur.mediku.data.remote.model.menstrual.MenstrualPeriodResumeRemoteModel
 import com.anangkur.mediku.data.remote.service.NewCovid19ApiService
 import com.anangkur.mediku.data.remote.service.NewsApiService
 import com.anangkur.mediku.util.Const
@@ -35,6 +35,8 @@ class RemoteRepository(
     private val articleMapper: ArticleMapper,
     private val userMapper: UserMapper,
     private val medicalRecordMapper: MedicalRecordMapper,
+    private val menstrualPeriodMonthlyMapper: MenstrualPeriodMonthlyMapper,
+    private val menstrualPeriodResumeMapper: MenstrualPeriodResumeMapper,
     val firebaseAuth: FirebaseAuth,
     val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage,
@@ -47,6 +49,8 @@ class RemoteRepository(
             ArticleMapper.getInstance(),
             UserMapper.getInstance(),
             MedicalRecordMapper.getInstance(),
+            MenstrualPeriodMonthlyMapper.getInstance(),
+            MenstrualPeriodResumeMapper.getInstance(),
             FirebaseAuth.getInstance(),
             Firebase.firestore,
             FirebaseStorage.getInstance(),
@@ -301,9 +305,7 @@ class RemoteRepository(
                     val listData = ArrayList<MedicalRecord>()
                     for (querySnapshot in result){
                         val data = querySnapshot.toObject<MedicalRecordRemoteModel>()
-                        if (data != null){
-                            listData.add(medicalRecordMapper.mapFromRemote(data))
-                        }
+                        listData.add(medicalRecordMapper.mapFromRemote(data))
                     }
                     if (listData.isEmpty()){
                         listener.onFailed("You don't have any medical record.")
@@ -392,10 +394,10 @@ class RemoteRepository(
                 .collection(year)
                 .get()
                 .addOnSuccessListener {result ->
-                    val menstrualPeriodMonthly = MenstrualPeriodMonthly()
+                    val menstrualPeriodMonthly = MenstrualPeriodMonthlyRemoteModel()
                     if (!result.isEmpty){
                         for (querySnapshot in result){
-                            val data = querySnapshot?.toObject<MenstrualPeriodResume>()
+                            val data = querySnapshot?.toObject<MenstrualPeriodResumeRemoteModel>()
                             when (querySnapshot.id){
                                 Const.KEY_JAN -> { menstrualPeriodMonthly.jan = data }
                                 Const.KEY_FEB -> { menstrualPeriodMonthly.feb = data }
@@ -413,7 +415,7 @@ class RemoteRepository(
                         }
                     }
                     listener.onLoading(false)
-                    listener.onSuccess(menstrualPeriodMonthly)
+                    listener.onSuccess(menstrualPeriodMonthlyMapper.mapFromRemote(menstrualPeriodMonthly))
                 }
                 .addOnFailureListener {exception ->
                     exception.printStackTrace()
@@ -435,7 +437,7 @@ class RemoteRepository(
                 .document(user?.uid?:"")
                 .collection(menstrualPeriodResume.year)
                 .document(menstrualPeriodResume.month)
-                .set(menstrualPeriodResume)
+                .set(menstrualPeriodResumeMapper.mapToRemote(menstrualPeriodResume)!!)
                 .addOnSuccessListener {
                     listener.onLoading(false)
                     listener.onSuccess(menstrualPeriodResume)

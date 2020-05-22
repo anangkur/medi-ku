@@ -1,6 +1,10 @@
-package com.anangkur.mediku.data.model.menstrual
+package com.anangkur.mediku.feature.model.menstrual
 
-data class MenstrualPeriodResume(
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class MenstrualPeriodResumeIntent(
     val year: String = "",
     val month: String = "",
     val firstDayPeriod: String = "",
@@ -12,4 +16,4 @@ data class MenstrualPeriodResume(
     val longCycle: Int = 0,
     val longPeriod: Int = 0,
     val isEdit: Boolean = false
-)
+): Parcelable

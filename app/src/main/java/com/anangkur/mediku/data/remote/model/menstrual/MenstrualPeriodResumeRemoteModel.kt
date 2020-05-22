@@ -1,6 +1,6 @@
-package com.anangkur.mediku.data.model.menstrual
+package com.anangkur.mediku.data.remote.model.menstrual
 
-data class MenstrualPeriodResume(
+data class MenstrualPeriodResumeRemoteModel(
     val year: String = "",
     val month: String = "",
     val firstDayPeriod: String = "",

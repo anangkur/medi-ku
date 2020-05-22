@@ -31,10 +31,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseSpinnerListener
 import com.anangkur.mediku.data.ViewModelFactory
-import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
+import com.anangkur.mediku.feature.model.menstrual.MenstrualPeriodResumeIntent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
@@ -56,7 +56,6 @@ import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
-import kotlin.collections.ArrayList
 
 fun Activity.openBrowser(url: String) {
     val webPage = Uri.parse(url)
@@ -560,7 +559,7 @@ fun createMenstrualPeriodResume(
     maxCycleLong: String,
     minCycleLong: String,
     isEdit: Boolean
-): MenstrualPeriodResume {
+): MenstrualPeriodResumeIntent {
 
     val cycleLong: Int = (maxCycleLong.toInt() + minCycleLong.toInt()) / 2
 
@@ -583,7 +582,7 @@ fun createMenstrualPeriodResume(
     selectedCalendar?.add(Calendar.DAY_OF_MONTH, (lastDayFertile - firstDayFertile))
     val lastDayFertileString = dateFormat.format(selectedCalendar?.time?: getTime())
 
-    return MenstrualPeriodResume(
+    return MenstrualPeriodResumeIntent(
         year = year,
         month = month,
         firstDayFertile = firstDayFertileString,

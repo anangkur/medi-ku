@@ -10,9 +10,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
-import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
-import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.databinding.ActivityMenstrualBinding
+import com.anangkur.mediku.feature.mapper.MenstrualPeriodMonthlyMapper
+import com.anangkur.mediku.feature.mapper.MenstrualPeriodResumeMapper
+import com.anangkur.mediku.feature.model.menstrual.MenstrualPeriodMonthlyIntent
+import com.anangkur.mediku.feature.model.menstrual.MenstrualPeriodResumeIntent
 import com.anangkur.mediku.feature.view.mens.menstrualEdit.MenstrualEditActivity
 import com.anangkur.mediku.util.*
 import com.applandeo.materialcalendarview.EventDay
@@ -34,6 +36,8 @@ class MenstrualActivity: BaseActivity<ActivityMenstrualBinding, MenstrualViewMod
         get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_menstrual_calendar)
+
+    private val menstrualPeriodMonthlyMapper = MenstrualPeriodMonthlyMapper.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,7 +124,7 @@ class MenstrualActivity: BaseActivity<ActivityMenstrualBinding, MenstrualViewMod
         }
     }
 
-    private fun setupMenstrualMonthly(data: MenstrualPeriodMonthly){
+    private fun setupMenstrualMonthly(data: MenstrualPeriodMonthlyIntent){
         mViewModel.activeYearData = data
         when (SimpleDateFormat("MMMM", Locale.US).format(mLayout.calendarMenstrual.currentPageDate.time)) {
             Const.KEY_JAN -> showDataCalendar(mViewModel.activeYearData?.jan, mViewModel.activeYearData?.feb, null)
@@ -138,7 +142,7 @@ class MenstrualActivity: BaseActivity<ActivityMenstrualBinding, MenstrualViewMod
         }
     }
 
-    private fun showDataCalendar(current: MenstrualPeriodResume?, next: MenstrualPeriodResume?, previous: MenstrualPeriodResume?){
+    private fun showDataCalendar(current: MenstrualPeriodResumeIntent?, next: MenstrualPeriodResumeIntent?, previous: MenstrualPeriodResumeIntent?){
         if (current != null){
             val calendarMenstrual = ArrayList<EventDay>()
             calendarMenstrual.addAll(showMenstrualDataCalendar(current))
@@ -155,7 +159,7 @@ class MenstrualActivity: BaseActivity<ActivityMenstrualBinding, MenstrualViewMod
         }
     }
 
-    private fun showMenstrualDataCalendar(data: MenstrualPeriodResume): ArrayList<EventDay> {
+    private fun showMenstrualDataCalendar(data: MenstrualPeriodResumeIntent): ArrayList<EventDay> {
         val listEvent = ArrayList<EventDay>()
         val firstMenstrualCalendar = Calendar.getInstance()
         val lastMenstrualCalendar = Calendar.getInstance()
@@ -172,7 +176,7 @@ class MenstrualActivity: BaseActivity<ActivityMenstrualBinding, MenstrualViewMod
         return listEvent
     }
 
-    private fun showFertileDataCalendar(data: MenstrualPeriodResume): ArrayList<EventDay> {
+    private fun showFertileDataCalendar(data: MenstrualPeriodResumeIntent): ArrayList<EventDay> {
         val listEvent = ArrayList<EventDay>()
         val firstFertileCalendar = Calendar.getInstance()
         val lastFertileCalendar = Calendar.getInstance()

@@ -4,8 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.Repository
-import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
+import com.anangkur.mediku.feature.mapper.MenstrualPeriodResumeMapper
+import com.anangkur.mediku.feature.model.menstrual.MenstrualPeriodMonthlyIntent
+import com.anangkur.mediku.feature.model.menstrual.MenstrualPeriodResumeIntent
 import com.anangkur.mediku.util.Const
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
@@ -16,9 +18,11 @@ import java.util.*
 
 class MenstrualViewModel(private val repository: Repository): ViewModel() {
 
+    private val menstrualPeriodResumeMapper = MenstrualPeriodResumeMapper.getInstance()
+
     var activeYear = ""
 
-    var activeYearData: MenstrualPeriodMonthly? = null
+    var activeYearData: MenstrualPeriodMonthlyIntent? = null
 
     var maxCycleLong = 0
     var minCycleLong = 0
@@ -26,7 +30,7 @@ class MenstrualViewModel(private val repository: Repository): ViewModel() {
     var activeMonth = 0
 
     val progressGetMenstrualRecord = MutableLiveData<Boolean>()
-    val successGetMenstrualRecord = MutableLiveData<MenstrualPeriodMonthly>()
+    val successGetMenstrualRecord = MutableLiveData<MenstrualPeriodMonthlyIntent>()
     val errorGetMenstrualRecord = MutableLiveData<String>()
     fun getMenstrualPeriod(year: String){
         CoroutineScope(Dispatchers.IO).launch {
@@ -42,11 +46,11 @@ class MenstrualViewModel(private val repository: Repository): ViewModel() {
                     .collection(activeYear)
                     .get()
                     .addOnSuccessListener {result ->
-                        val menstrualPeriodMonthly = MenstrualPeriodMonthly()
+                        val menstrualPeriodMonthly = MenstrualPeriodMonthlyIntent()
                         if (!result.isEmpty){
                             for (querySnapshot in result){
 
-                                val data = querySnapshot?.toObject<MenstrualPeriodResume>()
+                                val data = querySnapshot?.toObject<MenstrualPeriodResumeIntent>()
 
                                 if (data != null){
                                     if (maxCycleLong == 0 && minCycleLong == 0){
@@ -95,18 +99,18 @@ class MenstrualViewModel(private val repository: Repository): ViewModel() {
     }
 
     val progressAddMenstrualRecord = MutableLiveData<Boolean>()
-    val successAddMenstrualRecord = MutableLiveData<MenstrualPeriodResume>()
+    val successAddMenstrualRecord = MutableLiveData<MenstrualPeriodResumeIntent>()
     val errorAddMenstrualRecord = MutableLiveData<String>()
-    fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResume, date: Date){
+    fun addMenstrualPeriod(menstrualPeriodResume: MenstrualPeriodResumeIntent, date: Date){
         val month = SimpleDateFormat("MMMM", Locale.US).format(date)
         addMenstrualResumeDataMonth(month, menstrualPeriodResume)
         CoroutineScope(Dispatchers.IO).launch {
-            repository.addMenstrualPeriod(menstrualPeriodResume, object: BaseFirebaseListener<MenstrualPeriodResume>{
+            repository.addMenstrualPeriod(menstrualPeriodResumeMapper.mapFromIntent(menstrualPeriodResume)!!, object: BaseFirebaseListener<MenstrualPeriodResume>{
                 override fun onLoading(isLoading: Boolean) {
                     progressAddMenstrualRecord.postValue(isLoading)
                 }
                 override fun onSuccess(data: MenstrualPeriodResume) {
-                    successAddMenstrualRecord.postValue(data)
+                    successAddMenstrualRecord.postValue(menstrualPeriodResumeMapper.mapToIntent(data))
                 }
                 override fun onFailed(errorMessage: String) {
                     errorAddMenstrualRecord.postValue(errorMessage)
@@ -115,7 +119,7 @@ class MenstrualViewModel(private val repository: Repository): ViewModel() {
         }
     }
 
-    fun getMenstrualResumeDataCurrentMonth(month: String): MenstrualPeriodResume? {
+    fun getMenstrualResumeDataCurrentMonth(month: String): MenstrualPeriodResumeIntent? {
         return when (month){
             Const.KEY_JAN -> activeYearData?.jan
             Const.KEY_FEB -> activeYearData?.feb
@@ -133,7 +137,7 @@ class MenstrualViewModel(private val repository: Repository): ViewModel() {
         }
     }
 
-    private fun addMenstrualResumeDataMonth(month: String, data: MenstrualPeriodResume) {
+    private fun addMenstrualResumeDataMonth(month: String, data: MenstrualPeriodResumeIntent) {
         when (month){
             Const.KEY_JAN -> activeYearData?.jan = data
             Const.KEY_FEB -> activeYearData?.feb = data

@@ -14,8 +14,9 @@ import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.lifecycle.Observer
-import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
 import com.anangkur.mediku.databinding.ActivityMenstrualEditBinding
+import com.anangkur.mediku.feature.mapper.MenstrualPeriodResumeMapper
+import com.anangkur.mediku.feature.model.menstrual.MenstrualPeriodResumeIntent
 import com.anangkur.mediku.util.*
 
 class MenstrualEditActivity: BaseActivity<ActivityMenstrualEditBinding, MenstrualEditViewModel>(), MenstrualEditActionListener {
@@ -27,7 +28,7 @@ class MenstrualEditActivity: BaseActivity<ActivityMenstrualEditBinding, Menstrua
         fun startActivity(activity: AppCompatActivity, context: Context){
             activity.startActivityForResult(Intent(context, MenstrualEditActivity::class.java), REQ_CODE_EDIT)
         }
-        fun startActivity(activity: AppCompatActivity, context: Context, data: MenstrualPeriodResume?){
+        fun startActivity(activity: AppCompatActivity, context: Context, data: MenstrualPeriodResumeIntent?){
             activity.startActivityForResult(Intent(context, MenstrualEditActivity::class.java)
                 .putExtra(EXTRA_MENSTRUAL_RESUME, data), REQ_CODE_EDIT)
         }
@@ -39,6 +40,8 @@ class MenstrualEditActivity: BaseActivity<ActivityMenstrualEditBinding, Menstrua
         get() = mLayout.toolbar.toolbar
     override val mTitleToolbar: String?
         get() = getString(R.string.toolbar_edit_menstrual)
+
+    private val menstrualPeriodResumeMapper = MenstrualPeriodResumeMapper.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,7 +133,7 @@ class MenstrualEditActivity: BaseActivity<ActivityMenstrualEditBinding, Menstrua
         }
     }
 
-    private fun setupMenstrualResumeToView(data: MenstrualPeriodResume){
+    private fun setupMenstrualResumeToView(data: MenstrualPeriodResumeIntent){
         mLayout.etLastPeriod.setText(data.firstDayPeriod)
         mLayout.etLongCycle.setText(data.longCycle.toString())
         mLayout.etLongPeriod.setText(data.longPeriod.toString())
