@@ -28,17 +28,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import coil.Coil
+import coil.api.load
+import coil.request.GetRequest
+import coil.request.LoadRequest
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseSpinnerListener
 import com.anangkur.mediku.data.ViewModelFactory
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19Country
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
+import com.anangkur.mediku.data.remote.mapper.NewCovid19SummaryMapper
+import com.anangkur.mediku.data.remote.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.feature.model.menstrual.MenstrualPeriodResumeIntent
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.esafirm.imagepicker.features.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
@@ -77,37 +78,22 @@ fun Context.showToastShort(message: String){
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-fun String.convertToBitmap(context: Context): Bitmap? {
-    var bitmap: Bitmap? = null
-    Glide.with(context)
-        .asBitmap()
-        .load(this)
-        .into(object : CustomTarget<Bitmap>(){
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                bitmap = resource
-            }
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
-    return bitmap
-}
-
 fun ImageView.setImageUrl(url: String){
-    Log.d("SET_IMAGE_URL", url)
-    Glide.with(this)
-        .load(url)
-        .apply(RequestOptions().error(R.color.gray))
-        .apply(RequestOptions().placeholder(createCircularProgressDrawable(this.context)))
-        .into(this)
+    val request = GetRequest.Builder(this.context).data(url).build()
+    val imageLoader = Coil.imageLoader(this.context)
+    CoroutineScope(Dispatchers.IO).launch {
+        val drawable = imageLoader.execute(request)
+        withContext(Dispatchers.Main){
+            this@setImageUrl.setImageDrawable(drawable.drawable)
+        }
+    }
 }
 
-fun ImageView.setImageUrlDarkBg(url: String){
-    Log.d("SET_IMAGE_URL", url)
-    Glide.with(this)
-        .load(url)
-        .apply(RequestOptions().error(R.color.gray))
-        .apply(RequestOptions().placeholder(createCircularProgressDrawableLight(this.context)))
-        .apply(RequestOptions().centerCrop())
-        .into(this)
+suspend fun Context.loadImage(url: String): Drawable? {
+    val request = GetRequest.Builder(this).data(url).build()
+    val imageLoader = Coil.imageLoader(this)
+    val result = imageLoader.execute(request)
+    return result.drawable
 }
 
 fun hideSoftKeyboard(activity: Activity) {
@@ -434,37 +420,37 @@ fun String.formatDate(): String{
     val generalFormatAlternate = SimpleDateFormat(Const.DATE_FORMAT_NEW_COVID19_2, Locale.US)
 
     val year = try {
-        yearFormat.format(generalFormat.parse(this))
+        yearFormat.format(generalFormat.parse(this)!!)
     }catch (e: Exception){
         try {
-            yearFormat.format(generalFormatAlternate.parse(this))
+            yearFormat.format(generalFormatAlternate.parse(this)!!)
         }catch (e: Exception){
             "1990"
         }
     }
     val month = try {
-        monthFormat.format(generalFormat.parse(this))
+        monthFormat.format(generalFormat.parse(this)!!)
     }catch (e: Exception){
         try {
-            monthFormat.format(generalFormatAlternate.parse(this))
+            monthFormat.format(generalFormatAlternate.parse(this)!!)
         }catch (e: Exception){
             "01"
         }
     }
     val day = try {
-        dayFormat.format(generalFormat.parse(this))
+        dayFormat.format(generalFormat.parse(this)!!)
     }catch (e: Exception){
         try {
-            dayFormat.format(generalFormatAlternate.parse(this))
+            dayFormat.format(generalFormatAlternate.parse(this)!!)
         }catch (e: Exception){
             "01"
         }
     }
     val time = try {
-        timeFormat.format(generalFormat.parse(this))
+        timeFormat.format(generalFormat.parse(this)!!)
     }catch (e: Exception){
         try {
-            timeFormat.format(generalFormatAlternate.parse(this))
+            timeFormat.format(generalFormatAlternate.parse(this)!!)
         }catch (e: Exception){
             "00:00"
         }
@@ -480,14 +466,14 @@ fun String.formatDate(): String{
         timeReturn = if (monthNow == month) {
             when {
                 dayNow == day -> "Today"
-                Integer.parseInt(dayNow) - Integer.parseInt(day!!) == 1 -> "Yesterday"
+                Integer.parseInt(dayNow) - Integer.parseInt(day) == 1 -> "Yesterday"
                 else -> {
                     val monthFormatDisplay = SimpleDateFormat(Const.DAY_NAME_DATE_MONTH_NAME, Locale.US)
                     try {
-                        monthFormatDisplay.format(generalFormat.parse(this)) + " " + time
+                        monthFormatDisplay.format(generalFormat.parse(this)!!) + " " + time
                     }catch (e: Exception){
                         try {
-                            monthFormatDisplay.format(generalFormatAlternate.parse(this)) + " " + time
+                            monthFormatDisplay.format(generalFormatAlternate.parse(this)!!) + " " + time
                         }catch (e: Exception){
                             ""
                         }
@@ -497,10 +483,10 @@ fun String.formatDate(): String{
         } else {
             val monthFormatDisplay = SimpleDateFormat(Const.DAY_NAME_DATE_MONTH_NAME, Locale.US)
             try {
-                monthFormatDisplay.format(generalFormat.parse(this)) + " " + time
+                monthFormatDisplay.format(generalFormat.parse(this)!!) + " " + time
             }catch (e: Exception){
                 try {
-                    monthFormatDisplay.format(generalFormatAlternate.parse(this)) + " " + time
+                    monthFormatDisplay.format(generalFormatAlternate.parse(this)!!) + " " + time
                 }catch (e: Exception){
                     ""
                 }
@@ -509,10 +495,10 @@ fun String.formatDate(): String{
     } else {
         val yearFormatDisplay = SimpleDateFormat(Const.DAY_FULL_WITH_DATE_LOCALE, Locale.US)
         timeReturn = try {
-            yearFormatDisplay.format(generalFormat.parse(this)) + " " + time
+            yearFormatDisplay.format(generalFormat.parse(this)!!) + " " + time
         }catch (e: Exception){
             try {
-                yearFormatDisplay.format(generalFormatAlternate.parse(this)) + " " + time
+                yearFormatDisplay.format(generalFormatAlternate.parse(this)!!) + " " + time
             }catch (e: Exception){
                 ""
             }
@@ -534,7 +520,7 @@ fun Context.showPreviewImage(url: String){
     nagDialog.show()
 }
 
-fun List<NewCovid19DataCountry>.createCompleteData(): List<NewCovid19DataCountry>{
+fun List<NewCovid19Country>.createCompleteData(): List<NewCovid19Country>{
     val listNewCovid19DataCountry = this
     listNewCovid19DataCountry.forEach { newCovid19DataCountry ->
         newCovid19DataCountry.apply {
@@ -544,13 +530,13 @@ fun List<NewCovid19DataCountry>.createCompleteData(): List<NewCovid19DataCountry
     return listNewCovid19DataCountry
 }
 
-fun NewCovid19SummaryResponse.createCompleteData(): List<NewCovid19Summary>{
-    val listNewCovid19Summary = this.countries
+fun NewCovid19SummaryResponse.createCompleteData(mapper: NewCovid19SummaryMapper): List<NewCovid19Summary> {
     val date = this.date
-    listNewCovid19Summary?.forEach {newCovid19Summary ->
-        newCovid19Summary.date = date
+    return this.countries!!.let { list ->
+        list.map {
+            mapper.mapFromRemote(it).apply { this.date = date }
+        }
     }
-    return listNewCovid19Summary?: listOf()
 }
 
 fun createMenstrualPeriodResume(

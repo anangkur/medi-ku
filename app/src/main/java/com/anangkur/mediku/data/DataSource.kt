@@ -8,9 +8,8 @@ import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19Country
 import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.data.model.news.Article
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
@@ -69,8 +68,8 @@ interface DataSource {
     fun getNewCovid19SummaryByCountry(country: String): LiveData<List<NewCovid19Summary>> { throw Exception() }
 
     // NewCovid19DataCountry
-    suspend fun insertDataCountry(data: List<NewCovid19DataCountry>) {}
-    fun getNewCovid19CountryByCountry(country: String): LiveData<List<NewCovid19DataCountry>> { throw Exception() }
+    suspend fun insertDataCountry(data: List<NewCovid19Country>) {}
+    fun getNewCovid19CountryByCountry(country: String): LiveData<List<NewCovid19Country>> { throw Exception() }
 
     /**
      * Retrofit
@@ -79,6 +78,6 @@ interface DataSource {
     suspend fun getTopHeadlinesNews(apiKey: String?, country: String?, category: String?, sources: String?, q: String?): BaseResult<List<Article>?> { throw Exception() }
 
     // NewCovid19Summary
-    suspend fun getSummary(): BaseResult<NewCovid19SummaryResponse> { throw Exception() }
-    suspend fun getDataCovid19ByCountry(country: String, status: String): BaseResult<List<NewCovid19DataCountry>> { throw Exception() }
+    suspend fun getSummary(): BaseResult<List<NewCovid19Summary>> { throw Exception() }
+    suspend fun getDataCovid19ByCountry(country: String, status: String): BaseResult<List<NewCovid19Country>> { throw Exception() }
 }

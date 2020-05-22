@@ -10,11 +10,6 @@ class MedikuApp : Application() {
     override fun onCreate() {
         super.onCreate()
         val firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
-//        val remoteConfigDefaults: MutableMap<String, Any> = HashMap()
-//        remoteConfigDefaults[ForceUpdateChecker.KEY_UPDATE_REQUIRED] = false
-//        remoteConfigDefaults[ForceUpdateChecker.KEY_CURRENT_VERSION] = "1.1"
-//        remoteConfigDefaults[ForceUpdateChecker.KEY_UPDATE_URL] = "https://play.google.com/store/apps/details?id=com.anangkur.mediku"
-//        firebaseRemoteConfig.setDefaults(remoteConfigDefaults)
         firebaseRemoteConfig.fetch(60) // fetch every minutes
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

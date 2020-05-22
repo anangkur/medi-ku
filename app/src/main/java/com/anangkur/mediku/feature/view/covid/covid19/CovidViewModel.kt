@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.anangkur.mediku.data.Repository
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
+import com.anangkur.mediku.feature.model.newCovid19.NewCovid19SummaryIntent
 
 class CovidViewModel(private val repository: Repository): ViewModel(){
 
@@ -18,7 +18,7 @@ class CovidViewModel(private val repository: Repository): ViewModel(){
         triggerGetCovid19Data.postValue(true)
     }
 
-    fun getStatCovid(listCovid19Data: List<NewCovid19Summary>): Triple<Int, Int, Int>{
+    fun getStatCovid(listCovid19Data: List<NewCovid19SummaryIntent>): Triple<Int, Int, Int>{
         var confirmed = 0
         var death = 0
         var recovered = 0

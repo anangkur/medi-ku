@@ -4,20 +4,20 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseAdapter
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.databinding.ItemCovidBinding
+import com.anangkur.mediku.feature.model.newCovid19.NewCovid19SummaryIntent
 import com.anangkur.mediku.util.formatThousandNumber
 import com.anangkur.mediku.util.getCountryCode
 import com.anangkur.mediku.util.setImageUrl
 
-class CovidVerticalAdapter: BaseAdapter<ItemCovidBinding, NewCovid19Summary>() {
+class CovidVerticalAdapter: BaseAdapter<ItemCovidBinding, NewCovid19SummaryIntent>() {
 
     override fun bindView(parent: ViewGroup): ItemCovidBinding {
         return ItemCovidBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     }
 
-    override fun bind(data: NewCovid19Summary, itemView: ItemCovidBinding, position: Int) {
-        itemView.ivCountry.setImageUrl(itemView.root.context.getString(R.string.urlImageCountryFlag, data.country?.getCountryCode()))
+    override fun bind(data: NewCovid19SummaryIntent, itemView: ItemCovidBinding, position: Int) {
+        itemView.ivCountry.setImageUrl(itemView.root.context.getString(R.string.urlImageCountryFlag, data.country.getCountryCode()))
         itemView.tvCountry.text = data.country
         itemView.tvConfirmed.text = data.totalConfirmed?.formatThousandNumber()
         itemView.tvDeath.text = data.totalDeaths?.formatThousandNumber()

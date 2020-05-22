@@ -97,7 +97,7 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
     fun getNewCovid19Summary() = resultLiveData(
         databaseQuery = { localRepository.getNewCovid19SummaryAll() },
         networkCall = { remoteRepository.getSummary() },
-        saveCallResult = { localRepository.insertDataSummary(it.createCompleteData()) }
+        saveCallResult = { localRepository.insertDataSummary(it) }
     )
 
     fun getNewCovid19SummaryTopCountry() = resultLiveData(

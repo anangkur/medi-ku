@@ -5,31 +5,31 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.anangkur.mediku.data.local.model.newCovid19.NewCovid19CountryLocalModel
+import com.anangkur.mediku.data.local.model.newCovid19.NewCovid19SummaryLocalModel
 import com.anangkur.mediku.data.local.model.news.ArticleLocalModel
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 
 @Dao
 interface AppDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDataSummary(data: List<NewCovid19Summary>)
+    suspend fun insertDataSummary(data: List<NewCovid19SummaryLocalModel>)
 
-    @Query("SELECT * FROM newcovid19summary")
-    fun getNewCovid19SummaryAll(): LiveData<List<NewCovid19Summary>>
+    @Query("SELECT * FROM newcovid19summarylocalmodel")
+    fun getNewCovid19SummaryAll(): LiveData<List<NewCovid19SummaryLocalModel>>
 
-    @Query("SELECT * FROM newcovid19summary ORDER BY TotalConfirmed DESC LIMIT 10")
-    fun getNewCovid19SummaryTopCountry(): LiveData<List<NewCovid19Summary>>
+    @Query("SELECT * FROM newcovid19summarylocalmodel ORDER BY TotalConfirmed DESC LIMIT 10")
+    fun getNewCovid19SummaryTopCountry(): LiveData<List<NewCovid19SummaryLocalModel>>
 
-    @Query("SELECT * FROM newcovid19summary WHERE Country = :country LIMIT 1")
-    fun getNewCovid19SummaryByCountry(country: String): LiveData<List<NewCovid19Summary>>
+    @Query("SELECT * FROM newcovid19summarylocalmodel WHERE Country = :country LIMIT 1")
+    fun getNewCovid19SummaryByCountry(country: String): LiveData<List<NewCovid19SummaryLocalModel>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDataCountry(data: List<NewCovid19DataCountry>)
+    suspend fun insertDataCountry(data: List<NewCovid19CountryLocalModel>)
 
-    @Query("SELECT * FROM newcovid19datacountry WHERE Country = :country ORDER BY Date ASC")
-    fun getNewCovid19CountryByCountry(country: String): LiveData<List<NewCovid19DataCountry>>
+    @Query("SELECT * FROM newcovid19countrylocalmodel WHERE Country = :country ORDER BY Date ASC")
+    fun getNewCovid19CountryByCountry(country: String): LiveData<List<NewCovid19CountryLocalModel>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

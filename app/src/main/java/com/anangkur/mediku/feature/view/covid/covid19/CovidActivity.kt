@@ -8,9 +8,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseActivity
+import com.anangkur.mediku.base.BaseErrorView
 import com.anangkur.mediku.data.model.BaseResult
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.databinding.ActivityCovidBinding
+import com.anangkur.mediku.feature.mapper.NewCovid19SummaryMapper
+import com.anangkur.mediku.feature.model.newCovid19.NewCovid19SummaryIntent
 import com.anangkur.mediku.feature.view.covid.covid19.adapter.CovidHorizontalAdapter
 import com.anangkur.mediku.feature.view.covid.covid19.adapter.CovidVerticalAdapter
 import com.anangkur.mediku.util.*
@@ -36,6 +38,8 @@ class CovidActivity : BaseActivity<ActivityCovidBinding, CovidViewModel>() {
     private lateinit var yourCountryAdapter: CovidHorizontalAdapter
     private lateinit var topCountryAdapter: CovidHorizontalAdapter
 
+    private val newCovid19SummaryMapper = NewCovid19SummaryMapper.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,21 +63,27 @@ class CovidActivity : BaseActivity<ActivityCovidBinding, CovidViewModel>() {
             covidLiveData.observe(this@CovidActivity, Observer {
                 when (it.status){
                     BaseResult.Status.LOADING -> {
-                        setupLoadingGeneral(true)
+                        mLayout.swipeCovid.gone()
+                        mLayout.evCovid.visible()
+                        mLayout.evCovid.showProgress()
                     }
                     BaseResult.Status.ERROR -> {
-                        setupLoadingGeneral(false)
-                        showSnackbarLong(it.message?:"")
+                        mLayout.evCovid.showError(it.message ?: getString(R.string.error_default), getString(R.string.btn_retry), BaseErrorView.ERROR_GENERAL)
+                        mLayout.evCovid.setRetryClickListener { getCovid19Data() }
                     }
                     BaseResult.Status.SUCCESS -> {
-                        setupLoadingGeneral(false)
                         if (!it.data.isNullOrEmpty()){
+                            mLayout.tvDataShown.visible()
+                            mLayout.swipeCovid.visible()
+                            mLayout.evCovid.gone()
                             setupShownDate(it.data[0].date)
+                            setupDataOtherCountryToView(it.data.subList(1, it.data.size).map { data -> newCovid19SummaryMapper.mapToIntent(data) })
+                            getCovid19DataTopCountry()
+                            getCovid19DataOnYourCountry(country.convertCoutryCodeIsoToCountryName())
+                        }else{
+                            mLayout.swipeCovid.gone()
+                            mLayout.evCovid.visible()
                         }
-                        mLayout.tvDataShown.visible()
-                        setupDataOtherCountryToView(it.data!!.subList(1, it.data.size))
-                        getCovid19DataOnYourCountry(country.convertCoutryCodeIsoToCountryName())
-                        getCovid19DataTopCountry()
                     }
                 }
             })
@@ -84,7 +94,7 @@ class CovidActivity : BaseActivity<ActivityCovidBinding, CovidViewModel>() {
                     }
                     BaseResult.Status.SUCCESS -> {
                         setupLoadingYourCountry(false)
-                        yourCountryAdapter.setRecyclerData(it.data!!)
+                        yourCountryAdapter.setRecyclerData(it.data!!.map { data -> newCovid19SummaryMapper.mapToIntent(data) })
                     }
                     BaseResult.Status.ERROR -> {
                         setupLoadingYourCountry(false)
@@ -99,7 +109,7 @@ class CovidActivity : BaseActivity<ActivityCovidBinding, CovidViewModel>() {
                     }
                     BaseResult.Status.SUCCESS -> {
                         setupLoadingTopCountry(false)
-                        topCountryAdapter.setRecyclerData(it.data!!)
+                        topCountryAdapter.setRecyclerData(it.data!!.map { data -> newCovid19SummaryMapper.mapToIntent(data) })
                     }
                     BaseResult.Status.ERROR -> {
                         setupLoadingTopCountry(false)
@@ -134,7 +144,7 @@ class CovidActivity : BaseActivity<ActivityCovidBinding, CovidViewModel>() {
         }
     }
 
-    private fun setupDataOtherCountryToView(listCovid19Data: List<NewCovid19Summary>){
+    private fun setupDataOtherCountryToView(listCovid19Data: List<NewCovid19SummaryIntent>){
         otherCountryAdapter.setRecyclerData(listCovid19Data)
         val statCovid = mViewModel.getStatCovid(listCovid19Data)
         mLayout.tvStatConfirmed.text = statCovid.first.formatThousandNumber()

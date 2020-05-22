@@ -4,18 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.anangkur.mediku.data.local.model.newCovid19.NewCovid19CountryLocalModel
+import com.anangkur.mediku.data.local.model.newCovid19.NewCovid19SummaryLocalModel
 import com.anangkur.mediku.data.local.model.news.ArticleLocalModel
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.util.Const
 
 @Database(
     entities = [
-        NewCovid19Summary::class,
-        NewCovid19DataCountry::class,
+        NewCovid19SummaryLocalModel::class,
+        NewCovid19CountryLocalModel::class,
         ArticleLocalModel::class
     ],
-    version = 6
+    version = 8
 )
 abstract class AppDatabase: RoomDatabase(){
 

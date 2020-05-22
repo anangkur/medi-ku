@@ -1,7 +1,7 @@
 package com.anangkur.mediku.data.remote.service
 
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19Country
+import com.anangkur.mediku.data.remote.model.newCovid19.NewCovid19SummaryResponse
 import com.anangkur.mediku.util.Const
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,7 +21,7 @@ interface NewCovid19ApiService {
     suspend fun getDataCovid19ByCountry(
         @Path("country") country: String,
         @Path("status") status: String
-    ): Response<List<NewCovid19DataCountry>>
+    ): Response<List<NewCovid19Country>>
 
     companion object Factory{
         val getCovid19ApiService: NewCovid19ApiService by lazy {

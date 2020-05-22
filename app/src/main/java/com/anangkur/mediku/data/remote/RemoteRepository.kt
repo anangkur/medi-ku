@@ -9,8 +9,8 @@ import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19Country
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.model.news.Article
 import com.anangkur.mediku.data.remote.mapper.*
 import com.anangkur.mediku.data.remote.model.auth.UserRemoteModel
@@ -20,6 +20,7 @@ import com.anangkur.mediku.data.remote.model.menstrual.MenstrualPeriodResumeRemo
 import com.anangkur.mediku.data.remote.service.NewCovid19ApiService
 import com.anangkur.mediku.data.remote.service.NewsApiService
 import com.anangkur.mediku.util.Const
+import com.anangkur.mediku.util.createCompleteData
 import com.anangkur.mediku.util.getCurrentTimeStamp
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.*
@@ -37,6 +38,7 @@ class RemoteRepository(
     private val medicalRecordMapper: MedicalRecordMapper,
     private val menstrualPeriodMonthlyMapper: MenstrualPeriodMonthlyMapper,
     private val menstrualPeriodResumeMapper: MenstrualPeriodResumeMapper,
+    private val newCovid19SummaryMapper: NewCovid19SummaryMapper,
     val firebaseAuth: FirebaseAuth,
     val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage,
@@ -51,6 +53,7 @@ class RemoteRepository(
             MedicalRecordMapper.getInstance(),
             MenstrualPeriodMonthlyMapper.getInstance(),
             MenstrualPeriodResumeMapper.getInstance(),
+            NewCovid19SummaryMapper.getInstance(),
             FirebaseAuth.getInstance(),
             Firebase.firestore,
             FirebaseStorage.getInstance(),
@@ -556,11 +559,16 @@ class RemoteRepository(
     override suspend fun getDataCovid19ByCountry(
         country: String,
         status: String
-    ): BaseResult<List<NewCovid19DataCountry>> {
+    ): BaseResult<List<NewCovid19Country>> {
         return getResult { newCovid19ApiService.getDataCovid19ByCountry(country, status) }
     }
 
-    override suspend fun getSummary(): BaseResult<NewCovid19SummaryResponse> {
-        return getResult { newCovid19ApiService.getSummary() }
+    override suspend fun getSummary(): BaseResult<List<NewCovid19Summary>> {
+        val response = getResult { newCovid19ApiService.getSummary() }
+        return if (response.status == BaseResult.Status.SUCCESS){
+            BaseResult.success(response.data!!.createCompleteData(newCovid19SummaryMapper))
+        }else{
+            BaseResult.error(response.message?:"")
+        }
     }
 }

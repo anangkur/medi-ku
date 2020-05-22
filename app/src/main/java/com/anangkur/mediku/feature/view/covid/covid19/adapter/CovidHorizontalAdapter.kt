@@ -4,19 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.anangkur.mediku.R
 import com.anangkur.mediku.base.BaseAdapter
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.databinding.ItemCovidHorizontalBinding
+import com.anangkur.mediku.feature.model.newCovid19.NewCovid19SummaryIntent
 import com.anangkur.mediku.util.formatThousandNumber
 import com.anangkur.mediku.util.getCountryCode
 import com.anangkur.mediku.util.setImageUrl
 
-class CovidHorizontalAdapter: BaseAdapter<ItemCovidHorizontalBinding, NewCovid19Summary>() {
+class CovidHorizontalAdapter: BaseAdapter<ItemCovidHorizontalBinding, NewCovid19SummaryIntent>() {
 
     override fun bindView(parent: ViewGroup): ItemCovidHorizontalBinding {
         return ItemCovidHorizontalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     }
 
-    override fun bind(data: NewCovid19Summary, itemView: ItemCovidHorizontalBinding, position: Int) {
+    override fun bind(data: NewCovid19SummaryIntent, itemView: ItemCovidHorizontalBinding, position: Int) {
         itemView.ivCountry.setImageUrl(itemView.root.context.getString(R.string.urlImageCountryFlag, data.country.getCountryCode()))
         itemView.tvCountry.text = data.country
         itemView.tvConfirmed.text = data.totalConfirmed?.formatThousandNumber()

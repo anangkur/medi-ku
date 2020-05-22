@@ -1,6 +1,6 @@
-package com.anangkur.mediku.data.model.newCovid19
+package com.anangkur.mediku.feature.model.newCovid19
 
-data class NewCovid19Summary(
+data class NewCovid19SummaryIntent(
     val country: String = "",
     val newConfirmed: Int? = 0,
     val newDeaths: Int? = 0,
