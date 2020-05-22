@@ -1,4 +1,4 @@
-package com.anangkur.mediku.data.model
+package com.anangkur.mediku.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
