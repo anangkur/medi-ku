@@ -3,9 +3,6 @@ package com.anangkur.mediku.feature.notification
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.Log
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -30,16 +27,6 @@ class MessagingService: FirebaseMessagingService() {
         val image = remoteMessage.notification?.imageUrl
 
         var bitmap: Bitmap? = null
-
-        if (image.toString().isNullOrEmpty()) {
-            Glide.with(this)
-                .asBitmap()
-                .load(image)
-                .into(object : CustomTarget<Bitmap>(){
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) { bitmap = resource }
-                    override fun onLoadCleared(placeholder: Drawable?) {}
-                })
-        }
 
         NotificationHelper(this).createNotification(title, message, id.toInt(), bitmap, type)
     }

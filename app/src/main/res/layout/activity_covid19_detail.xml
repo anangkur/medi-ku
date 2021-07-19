@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/LinearVerticalDefault">
 
-    <include layout="@layout/layout_toolbar_back"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar_back"/>
 
     <androidx.core.widget.NestedScrollView
         style="@style/NestedScrollDefault">

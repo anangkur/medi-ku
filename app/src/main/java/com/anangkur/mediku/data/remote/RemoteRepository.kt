@@ -6,31 +6,60 @@ import com.anangkur.mediku.base.BaseFirebaseListener
 import com.anangkur.mediku.data.DataSource
 import com.anangkur.mediku.data.model.BaseResult
 import com.anangkur.mediku.data.model.auth.User
-import com.anangkur.mediku.data.model.covid19.Covid19ApiResponse
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19DataCountry
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19SummaryResponse
-import com.anangkur.mediku.data.model.news.GetNewsResponse
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19Country
+import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
+import com.anangkur.mediku.data.model.news.Article
+import com.anangkur.mediku.data.remote.mapper.*
+import com.anangkur.mediku.data.remote.model.auth.UserRemoteModel
+import com.anangkur.mediku.data.remote.model.medical.MedicalRecordRemoteModel
+import com.anangkur.mediku.data.remote.model.menstrual.MenstrualPeriodMonthlyRemoteModel
+import com.anangkur.mediku.data.remote.model.menstrual.MenstrualPeriodResumeRemoteModel
+import com.anangkur.mediku.data.remote.service.NewCovid19ApiService
+import com.anangkur.mediku.data.remote.service.NewsApiService
 import com.anangkur.mediku.util.Const
+import com.anangkur.mediku.util.createCompleteData
 import com.anangkur.mediku.util.getCurrentTimeStamp
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import java.util.*
 import kotlin.collections.ArrayList
 
 class RemoteRepository(
+    private val articleMapper: ArticleMapper,
+    private val userMapper: UserMapper,
+    private val medicalRecordMapper: MedicalRecordMapper,
+    private val menstrualPeriodMonthlyMapper: MenstrualPeriodMonthlyMapper,
+    private val menstrualPeriodResumeMapper: MenstrualPeriodResumeMapper,
+    private val newCovid19SummaryMapper: NewCovid19SummaryMapper,
     val firebaseAuth: FirebaseAuth,
     val firestore: FirebaseFirestore,
-    val storage: FirebaseStorage,
-    private val covid19ApiService: Covid19ApiService,
+    private val storage: FirebaseStorage,
     private val newCovid19ApiService: NewCovid19ApiService
 ): DataSource, BaseDataSource() {
+
+    companion object{
+        private var INSTANCE: RemoteRepository? = null
+        fun getInstance() = INSTANCE ?: RemoteRepository(
+            ArticleMapper.getInstance(),
+            UserMapper.getInstance(),
+            MedicalRecordMapper.getInstance(),
+            MenstrualPeriodMonthlyMapper.getInstance(),
+            MenstrualPeriodResumeMapper.getInstance(),
+            NewCovid19SummaryMapper.getInstance(),
+            FirebaseAuth.getInstance(),
+            Firebase.firestore,
+            FirebaseStorage.getInstance(),
+            NewCovid19ApiService.getCovid19ApiService
+        )
+    }
 
     override suspend fun getUser(user: FirebaseUser, listener: BaseFirebaseListener<User?>) {
         try {
@@ -39,9 +68,10 @@ class RemoteRepository(
                 .document(user.uid)
                 .get()
                 .addOnSuccessListener {
-                    val userFirestore = it.toObject<User>()
+                    listener.onLoading(false)
+                    val userFirestore = it.toObject<UserRemoteModel>()
                     if (userFirestore != null && it.contains("firebaseToken")){
-                        listener.onSuccess(userFirestore)
+                        listener.onSuccess(userMapper.mapFromRemote(userFirestore))
                     }else{
                         listener.onSuccess(null)
                     }
@@ -66,9 +96,10 @@ class RemoteRepository(
                 .document(user.uid)
                 .get()
                 .addOnSuccessListener {
-                    val userFirestore = it.toObject<User>()
+                    listener.onLoading(false)
+                    val userFirestore = it.toObject<UserRemoteModel>()
                     if (userFirestore != null && it.contains("firebaseToken")){
-                        listener.onSuccess(userFirestore)
+                        listener.onSuccess(userMapper.mapFromRemote(userFirestore))
                     }else{
                         listener.onSuccess(null)
                     }
@@ -88,7 +119,7 @@ class RemoteRepository(
     override suspend fun createUser(user: FirebaseUser, firebaseToken: String, listener: BaseFirebaseListener<User>) {
         try {
             listener.onLoading(true)
-            val userMap = User(
+            val userMap = UserRemoteModel(
                 userId = user.uid,
                 email = user.email?:"",
                 name = user.displayName?:"",
@@ -101,9 +132,9 @@ class RemoteRepository(
             firestore.collection(Const.COLLECTION_USER)
                 .document(userMap.userId)
                 .set(userMap)
-                .addOnSuccessListener { result ->
+                .addOnSuccessListener {
                     listener.onLoading(false)
-                    listener.onSuccess(userMap)
+                    listener.onSuccess(userMapper.mapFromRemote(userMap))
                 }
                 .addOnFailureListener { exception ->
                     exception.printStackTrace()
@@ -213,6 +244,7 @@ class RemoteRepository(
             listener.onLoading(true)
             val user = firebaseAuth.currentUser
             user?.updatePassword(newPassword)?.addOnCompleteListener {task ->
+                listener.onLoading(false)
                 if (task.isSuccessful){
                     listener.onSuccess(true)
                 }else{
@@ -275,10 +307,8 @@ class RemoteRepository(
                     listener.onLoading(false)
                     val listData = ArrayList<MedicalRecord>()
                     for (querySnapshot in result){
-                        val data = querySnapshot.toObject<MedicalRecord>()
-                        if (data != null){
-                            listData.add(data)
-                        }
+                        val data = querySnapshot.toObject<MedicalRecordRemoteModel>()
+                        listData.add(medicalRecordMapper.mapFromRemote(data))
                     }
                     if (listData.isEmpty()){
                         listener.onFailed("You don't have any medical record.")
@@ -306,7 +336,7 @@ class RemoteRepository(
                 .document(user?.uid?:"")
                 .collection(Const.COLLECTION_MEDICAL_RECORD)
                 .document(medicalRecord.createdAt)
-                .set(medicalRecord)
+                .set(medicalRecordMapper.mapToRemote(medicalRecord))
                 .addOnSuccessListener {
                     listener.onLoading(false)
                     listener.onSuccess(medicalRecord)
@@ -367,10 +397,10 @@ class RemoteRepository(
                 .collection(year)
                 .get()
                 .addOnSuccessListener {result ->
-                    val menstrualPeriodMonthly = MenstrualPeriodMonthly()
+                    val menstrualPeriodMonthly = MenstrualPeriodMonthlyRemoteModel()
                     if (!result.isEmpty){
                         for (querySnapshot in result){
-                            val data = querySnapshot?.toObject<MenstrualPeriodResume>()
+                            val data = querySnapshot?.toObject<MenstrualPeriodResumeRemoteModel>()
                             when (querySnapshot.id){
                                 Const.KEY_JAN -> { menstrualPeriodMonthly.jan = data }
                                 Const.KEY_FEB -> { menstrualPeriodMonthly.feb = data }
@@ -388,7 +418,7 @@ class RemoteRepository(
                         }
                     }
                     listener.onLoading(false)
-                    listener.onSuccess(menstrualPeriodMonthly)
+                    listener.onSuccess(menstrualPeriodMonthlyMapper.mapFromRemote(menstrualPeriodMonthly))
                 }
                 .addOnFailureListener {exception ->
                     exception.printStackTrace()
@@ -410,7 +440,7 @@ class RemoteRepository(
                 .document(user?.uid?:"")
                 .collection(menstrualPeriodResume.year)
                 .document(menstrualPeriodResume.month)
-                .set(menstrualPeriodResume)
+                .set(menstrualPeriodResumeMapper.mapToRemote(menstrualPeriodResume)!!)
                 .addOnSuccessListener {
                     listener.onLoading(false)
                     listener.onSuccess(menstrualPeriodResume)
@@ -434,8 +464,8 @@ class RemoteRepository(
             firestore
                 .collection(Const.COLLECTION_USER)
                 .document(userFirebase?.uid?:"")
-                .set(user)
-                .addOnSuccessListener { result ->
+                .set(userMapper.mapToRemote(user))
+                .addOnSuccessListener {
                     listener.onLoading(false)
                     listener.onSuccess(user)
                 }
@@ -509,8 +539,8 @@ class RemoteRepository(
         category: String?,
         sources: String?,
         q: String?
-    ): BaseResult<GetNewsResponse> {
-        return getResult {
+    ): BaseResult<List<Article>?> {
+        val baseResult = getResult {
             NewsApiService.getApiService.getTopHeadlinesNews(
                 apiKey,
                 country,
@@ -519,34 +549,26 @@ class RemoteRepository(
                 q
             )
         }
-    }
-
-    /**
-     * covid 19
-     */
-    override suspend fun getCovid19StatData(): BaseResult<Covid19ApiResponse> {
-        return getResult { covid19ApiService.getCovid19StatData() }
+        return if (baseResult.status == BaseResult.Status.SUCCESS){
+            BaseResult.success(baseResult.data?.articles?.map { articleMapper.mapFromRemote(it) })
+        }else{
+            BaseResult.error(baseResult.message?:"")
+        }
     }
 
     override suspend fun getDataCovid19ByCountry(
         country: String,
         status: String
-    ): BaseResult<List<NewCovid19DataCountry>> {
+    ): BaseResult<List<NewCovid19Country>> {
         return getResult { newCovid19ApiService.getDataCovid19ByCountry(country, status) }
     }
 
-    override suspend fun getSummary(): BaseResult<NewCovid19SummaryResponse> {
-        return getResult { newCovid19ApiService.getSummary() }
-    }
-
-    companion object{
-        private var INSTANCE: RemoteRepository? = null
-        fun getInstance(
-            firebaseAuth: FirebaseAuth,
-            firestore: FirebaseFirestore,
-            storage: FirebaseStorage,
-            covid19ApiService: Covid19ApiService,
-            newCovid19ApiService: NewCovid19ApiService
-        ) = INSTANCE ?: RemoteRepository(firebaseAuth, firestore, storage, covid19ApiService, newCovid19ApiService)
+    override suspend fun getSummary(): BaseResult<List<NewCovid19Summary>> {
+        val response = getResult { newCovid19ApiService.getSummary() }
+        return if (response.status == BaseResult.Status.SUCCESS){
+            BaseResult.success(response.data!!.createCompleteData(newCovid19SummaryMapper))
+        }else{
+            BaseResult.error(response.message?:"")
+        }
     }
 }

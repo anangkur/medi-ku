@@ -5,23 +5,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 
-abstract class BaseEndlessScrollAdapter<DATA>: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseEndlessScrollAdapter<ITEM: ViewBinding, LOADING: ViewBinding, DATA>: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    @get:LayoutRes
-    abstract val layoutItem: Int
+    abstract val layoutItem: ITEM
 
-    @get:LayoutRes
-    abstract val layoutProgress: Int
+    abstract val layoutProgress: LOADING
 
     private val listItem: ArrayList<DATA> = ArrayList()
     private var showProgress = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == layoutItem){
-            BaseEndlessScrollViewHolder(LayoutInflater.from(parent.context).inflate(layoutItem, parent, false))
+        return if (viewType == 1){
+            BaseEndlessScrollViewHolder(layoutItem)
         }else{
-            ProgressViewHolder(LayoutInflater.from(parent.context).inflate(layoutProgress, parent, false))
+            ProgressViewHolder(layoutProgress)
         }
     }
     override fun getItemCount(): Int {
@@ -29,18 +28,18 @@ abstract class BaseEndlessScrollAdapter<DATA>: RecyclerView.Adapter<RecyclerView
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is BaseEndlessScrollAdapter<*>.BaseEndlessScrollViewHolder){
+        if (holder is BaseEndlessScrollAdapter<*, *, *>.BaseEndlessScrollViewHolder){
             holder.bind(position)
-        }else if (holder is BaseEndlessScrollAdapter<*>.ProgressViewHolder){
+        }else if (holder is BaseEndlessScrollAdapter<*, *, *>.ProgressViewHolder){
             holder.bind(showProgress)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return if (position == listItem.size){
-            layoutProgress
+            0
         }else{
-            layoutItem
+            1
         }
     }
 
@@ -64,18 +63,18 @@ abstract class BaseEndlessScrollAdapter<DATA>: RecyclerView.Adapter<RecyclerView
         }
     }
 
-    abstract fun bindItem(data: DATA, itemView: View, position: Int)
-    abstract fun bindProgress(showProgress: Boolean, itemView: View)
+    abstract fun bindItem(data: DATA, itemView: ITEM, position: Int)
+    abstract fun bindProgress(showProgress: Boolean, itemView: LOADING)
 
-    inner class BaseEndlessScrollViewHolder(view: View): RecyclerView.ViewHolder(view){
+    inner class BaseEndlessScrollViewHolder(private val viewBinding: ITEM): RecyclerView.ViewHolder(viewBinding.root){
         fun bind(position: Int){
-            bindItem(listItem[position], itemView, position)
+            bindItem(listItem[position], viewBinding, position)
         }
     }
 
-    inner class ProgressViewHolder(view: View): RecyclerView.ViewHolder(view){
+    inner class ProgressViewHolder(private val viewBinding: LOADING): RecyclerView.ViewHolder(viewBinding.root){
         fun bind(showProgress: Boolean){
-            bindProgress(showProgress, itemView)
+            bindProgress(showProgress, viewBinding)
         }
     }
 }

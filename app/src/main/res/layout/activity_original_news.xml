@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/LinearVerticalDefault">
-    <include layout="@layout/layout_toolbar_back"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar_back"/>
     <WebView
         android:id="@+id/wv_original_news"
         style="@style/RelativeDefault"

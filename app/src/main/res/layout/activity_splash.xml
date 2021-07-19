@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ConstraintDefault"
-    tools:context=".feature.splash.SplashActivity">
+    tools:context=".feature.view.splash.SplashActivity">
 
     <ImageView
         android:id="@+id/iv_splash"
@@ -42,7 +42,7 @@
         android:id="@+id/pb_splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias="0.9"
+        app:layout_constraintVertical_bias="0.8"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tv_splash_2"
         app:layout_constraintBottom_toBottomOf="parent"

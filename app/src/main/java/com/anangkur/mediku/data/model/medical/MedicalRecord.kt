@@ -1,9 +1,5 @@
 package com.anangkur.mediku.data.model.medical
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
 data class MedicalRecord(
     val category: String = "",
     val diagnosis: String = "",
@@ -13,4 +9,4 @@ data class MedicalRecord(
     val createdAt: String = "",
     val updateAt: String = "",
     val document: String? = null
-): Parcelable
+)

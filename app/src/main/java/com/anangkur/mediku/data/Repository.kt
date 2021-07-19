@@ -8,14 +8,11 @@ import com.anangkur.mediku.data.model.auth.User
 import com.anangkur.mediku.data.model.medical.MedicalRecord
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodMonthly
 import com.anangkur.mediku.data.model.menstrual.MenstrualPeriodResume
-import com.anangkur.mediku.data.model.newCovid19.NewCovid19Summary
 import com.anangkur.mediku.data.remote.RemoteRepository
 import com.anangkur.mediku.util.Const
 import com.anangkur.mediku.util.createCompleteData
-import com.anangkur.mediku.util.extractAllData
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
-import java.util.*
 
 class Repository(val remoteRepository: RemoteRepository, private val localRepository: LocalRepository) {
 
@@ -95,37 +92,12 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
     }
 
     /**
-     * covid 19 data
-     */
-    fun getCovid19StatData(date: String) = resultLiveData(
-        databaseQuery = { localRepository.getAllDataByDate(date) },
-        networkCall = { remoteRepository.getCovid19StatData() },
-        saveCallResult = { localRepository.insertData(it.extractAllData()) }
-    )
-
-    fun getAllDataByDate(date: String) = resultLiveData(
-        databaseQuery = { localRepository.getAllDataByDate(date) }
-    )
-
-    fun getAllDataByCountry(country: String) = resultLiveData(
-        databaseQuery = { localRepository.getAllDataByCountry(country) }
-    )
-
-    fun getTopDataByDate(date: String) = resultLiveData(
-        databaseQuery = { localRepository.getTopDataByDate(date) }
-    )
-
-    fun getDataByCountryAndDate(country: String, date: String) = resultLiveData(
-        databaseQuery = { localRepository.getDataByCountryAndDate(country, date) }
-    )
-
-    /**
      * Covid 19 new Data
      */
     fun getNewCovid19Summary() = resultLiveData(
         databaseQuery = { localRepository.getNewCovid19SummaryAll() },
         networkCall = { remoteRepository.getSummary() },
-        saveCallResult = { localRepository.insertDataSummary(it.createCompleteData()) }
+        saveCallResult = { localRepository.insertDataSummary(it) }
     )
 
     fun getNewCovid19SummaryTopCountry() = resultLiveData(
@@ -156,12 +128,12 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
             null)
         },
         saveCallResult = {
-            localRepository.insertDataNews(it.articles.map {article ->
-                article.copy(
-                    id = "${article.publishedAt}_${article.title}",
-                    category = Const.NEWS_HEALTH
-                )
-            })
+            it?.let { localRepository.insertDataNews(it.map {article ->
+                article.apply {
+                    this.id = "${article.publishedAt}_${article.title}"
+                    this.category = Const.NEWS_HEALTH
+                }
+            }) }
         }
     )
 
@@ -175,12 +147,13 @@ class Repository(val remoteRepository: RemoteRepository, private val localReposi
             null)
         },
         saveCallResult = {
-            localRepository.insertDataNews(it.articles.map {article ->
-                article.copy(
-                    id = "${article.publishedAt}_${article.title}",
-                    category = Const.NEWS_HEALTH,
-                    country = country)
-            })
+            it?.let { localRepository.insertDataNews(it.map {article ->
+                article.apply {
+                    this.id = "${article.publishedAt}_${article.title}"
+                    this.category = Const.NEWS_HEALTH
+                    this.country = country
+                }
+            }) }
         }
     )
 
