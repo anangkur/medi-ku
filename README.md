@@ -23,7 +23,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="app/src/main/res/drawable/ic_mediku_512.png" alt="Logo" width="80" height="80">
+    <img src="screenshots/ic_mediku_512.png" alt="Logo" width="80" height="80">
   </a>
   <h3 align="center">Medi Ku</h3>
 
@@ -54,10 +54,10 @@
 
 <table>
   <tr>
-    <td><img src="app/src/main/res/screenshots/mediku_splash.png" alt="Splash"></td>
-    <td><img src="app/src/main/res/screenshots/mediku_signin.png" alt="Movie"></td>
-    <td><img src="app/src/main/res/screenshots/mediku_signup.png" alt="TV"></td>
-    <td><img src="app/src/main/res/screenshots/mediku_forgot_pass.png" alt="TV"></td>
+    <td><img src="screenshots/mediku_splash.png" alt="Splash"></td>
+    <td><img src="screenshots/mediku_signin.png" alt="Movie"></td>
+    <td><img src="screenshots/mediku_signup.png" alt="TV"></td>
+    <td><img src="screenshots/mediku_forgot_pass.png" alt="TV"></td>
   </tr>
   <tr>
     <td align="center">Splash</td>
@@ -66,10 +66,10 @@
     <td align="center">Forgot Password</td>
   </tr>
   <tr>
-    <td><img src="app/src/main/res/screenshots/mediku_home.png" alt="Detail"></td>
-    <td><img src="app/src/main/res/screenshots/mediku_medical_record.png" alt="Search"></td>
-    <td><img src="app/src/main/res/screenshots/mediku_medical_record_detail.png" alt="Favorite"></td>
-    <td><img src="app/src/main/res/screenshots/mediku_add_medical_record.png" alt="Favorite"></td>
+    <td><img src="screenshots/mediku_home.png" alt="Detail"></td>
+    <td><img src="screenshots/mediku_medical_record.png" alt="Search"></td>
+    <td><img src="screenshots/mediku_medical_record_detail.png" alt="Favorite"></td>
+    <td><img src="screenshots/mediku_add_medical_record.png" alt="Favorite"></td>
   </tr>
   <tr>
     <td align="center">Home</td>
@@ -78,9 +78,9 @@
     <td align="center">Add Medical Record</td>
   </tr>
   <tr>
-    <td><img src="app/src/main/res/screenshots/mediku_menstrual_period.png" alt="Detail"></td>
-    <td><img src="app/src/main/res/screenshots/mediku_profile.png" alt="Search"></td>
-    <td><img src="app/src/main/res/screenshots/mediku_edit_profile.png" alt="Favorite"></td>
+    <td><img src="screenshots/mediku_menstrual_period.png" alt="Detail"></td>
+    <td><img src="screenshots/mediku_profile.png" alt="Search"></td>
+    <td><img src="screenshots/mediku_edit_profile.png" alt="Favorite"></td>
   </tr>
   <tr>
     <td align="center">Menstrual Period</td>
