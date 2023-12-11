@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.anangkur.mediku">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,7 +16,8 @@
         android:roundIcon="@drawable/ic_mediku_512"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
         <activity android:name="com.anangkur.mediku.feature.view.about.AboutActivity" />
         <activity android:name="com.anangkur.mediku.feature.view.mens.menstrualEdit.MenstrualEditActivity" />
         <activity android:name="com.anangkur.mediku.feature.view.mens.menstrual.MenstrualActivity" />
@@ -32,7 +34,9 @@
         <activity android:name="com.anangkur.mediku.feature.view.profile.userProfile.ProfileActivity" />
         <activity android:name="com.anangkur.mediku.feature.view.auth.signUp.SignUpActivity" />
         <activity android:name="com.anangkur.mediku.feature.view.auth.signIn.SignInActivity" />
-        <activity android:name="com.anangkur.mediku.feature.view.splash.SplashActivity">
+        <activity
+            android:name="com.anangkur.mediku.feature.view.splash.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,7 +50,8 @@
         <service
             android:name="com.anangkur.mediku.feature.notification.MessagingService"
             android:permission="com.google.android.c2dm.permission.SEND"
-            android:stopWithTask="false">
+            android:stopWithTask="false"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
