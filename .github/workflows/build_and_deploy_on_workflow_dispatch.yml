@@ -30,9 +30,7 @@ jobs:
             {
               "debug": {
                 "build_type": "Debug"
-              }
-            },
-            {
+              },
               "release": {
                 "build_type": "Release"
               }
