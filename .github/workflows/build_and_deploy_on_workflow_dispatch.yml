@@ -36,6 +36,12 @@ jobs:
               }
             }
           export_to: env
+      - name: build
+        run: ./gradlew assemble${{env.build_type}}
       - name: deploy
-        run: |
-          ./gradlew assemble${{env.build_type}}
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID}}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: testers
+          file: -F "file=@$(find app/build/outputs/apk/${{env.build_type}} \( -name '*.apk' -or -name '*.aab' \))"
