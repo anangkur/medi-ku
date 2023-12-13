@@ -114,7 +114,3 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:$googleAuthVersion"
     implementation "com.google.android.material:material:$materialVersion"
 }
-
-task printVersionName {
-    println project.ext.version_name
-}

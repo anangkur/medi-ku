@@ -38,17 +38,15 @@ jobs:
           export_to: env
       - name: build
         run: ./gradlew assemble${{env.build_type}}
-      - name: Retrieve Version
-        run: |
-          echo "::set-output name=VERSION_NAME::$(${{github.workspace}}/gradlew -q printVersionName)"
-        id: android_version
-      - name: Get version
-        run: |
-          echo "version_name=${{steps.android_version.outputs.VERSION_NAME}}" >> $GITHUB_ENV
+      - name: Expose version name
+        uses: michpohl/android-expose-version-name-action@v1.0.0
+        with:
+          expose-version-name: 'true'
+          expose-version-code: 'false'
       - name: deploy
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{secrets.FIREBASE_APP_ID}}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
-          file: app/build/outputs/apk/${{env.build_type}}/mediku-${{env.version_name}}.apk
+          file: app/build/outputs/apk/${{env.build_type}}/mediku-${{env.ANDROID_VERSION_NAME}}.apk
