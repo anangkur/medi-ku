@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.3.61'
+    ext.kotlin_version = '1.6.0'
     repositories {
         google()
         jcenter()
@@ -28,7 +28,7 @@ ext {
     appCompatVersion = '1.1.0'
     constraintLayoutVersion = "1.1.3"
 
-    roomVersion = '2.2.5'
+    roomVersion = '2.4.0'
     archLifecycleVersion = '2.2.0'
     archLifecycleTestingVersion = '2.1.0'
     liveDataVersion = '2.3.0-alpha01'

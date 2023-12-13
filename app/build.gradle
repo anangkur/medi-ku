@@ -10,9 +10,9 @@ android {
     defaultConfig {
         applicationId "com.anangkur.mediku"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 30
-        versionName "v3.0"
+        targetSdkVersion 33
+        versionCode 32
+        versionName "v3.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
