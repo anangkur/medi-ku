@@ -38,10 +38,13 @@ jobs:
           export_to: env
       - name: build
         run: ./gradlew assemble${{env.build_type}}
+      - name: Get version
+        run: |
+          echo "version_name=${{steps.android_version.outputs.VERSION_NAME}}" >> $GITHUB_ENV
       - name: deploy
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{secrets.FIREBASE_APP_ID}}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
-          file: -F "file=@$(find app/build/outputs/apk/${{env.build_type}} \( -name '*.apk' -or -name '*.aab' \))"
+          file: app/build/outputs/apk/${{env.build_type}}/mediku-${{env.version_name}}.apk
