@@ -38,4 +38,4 @@ jobs:
           export_to: env
       - name: deploy
         run: |
-          ./gradlew bundle${{env.build_type}}
+          ./gradlew assemble${{env.build_type}}
