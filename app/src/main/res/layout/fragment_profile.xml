@@ -17,8 +17,7 @@
 
     <androidx.core.widget.NestedScrollView
         style="@style/NestedScrollDefault"
-        android:layout_marginTop="?actionBarSize"
-        android:layout_above="@id/btn_logout">
+        android:layout_marginTop="?actionBarSize">
         <LinearLayout
             style="@style/LinearVerticalWrap"
             android:visibility="visible">
